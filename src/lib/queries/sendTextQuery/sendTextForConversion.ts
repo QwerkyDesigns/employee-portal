@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { client } from "./client";
+import { client } from "../../../client/client";
 
 const TextSendRoutes = {
   sendTextForConversion: {
@@ -8,12 +8,12 @@ const TextSendRoutes = {
   },
 };
 
-export const useTextSender = () => {
+export const useTextSender = ({text: string}) => {
   const [error, setError] = useState<Error | null>(null);
 
   const { data: imageData, status } = useQuery(
     "SendText",
-    () => client.get<ImageData>(TextSendRoutes.sendTextForConversion.sendText),
+    () => client.post<ImageData>(TextSendRoutes.sendTextForConversion.sendText),
     { onError: (error: Error) => setError(error) }
   );
 
@@ -23,3 +23,6 @@ export const useTextSender = () => {
     status,
   };
 };
+
+
+

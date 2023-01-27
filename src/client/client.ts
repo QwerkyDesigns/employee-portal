@@ -43,7 +43,7 @@ class Client {
       method: "DELETE",
     });
   }
-
+  
   private join(url: string) {
     return path.join("api", url);
   }
