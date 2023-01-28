@@ -1,6 +1,6 @@
+import { client } from "@/lib/client/client";
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { client } from "../../../client/client";
 
 const TextSendRoutes = {
   sendTextForConversion: {
