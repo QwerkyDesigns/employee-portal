@@ -1,9 +1,9 @@
-
 import { StatusCodes } from "@/lib/enums/StatusCodes";
 import { S3 } from "aws-sdk";
 import { ManagedUpload } from "aws-sdk/clients/s3";
 import S3DownloadError from "../errors/application-errors/S3DownloadError";
 import S3UploadError from "../errors/application-errors/S3UploadError";
+import { HeaderKeys } from "../utils/constants";
 
 // TODO: Get these evn vars via the environment object
 const s3Options = {
@@ -12,7 +12,7 @@ const s3Options = {
     region: process.env.AWS_REGION,
 }; // TODO: configure from env
 
-type CoreFile = { name: string; data: Buffer; contentType: string };
+export type CoreFile = { name: string; data: any; contentType: string };
 
 class S3CoreRepository {
     private s3: S3;
@@ -23,15 +23,39 @@ class S3CoreRepository {
         this.bucketName = bucketName;
     }
 
+    async createPresignedUrlForViewing(key: string): Promise<string> {
+        const params = {
+            Bucket: this.bucketName,
+            Key: key,
+            Expires: 3600,
+        };
+
+        return await this.s3.getSignedUrlPromise("getObject", params);
+    }
+
+    async createPresignedUrlForPosting(key: string): Promise<S3.PresignedPost> {
+        const params: S3.PresignedPost.Params = {
+            Bucket: this.bucketName,
+            Expires: 3600,
+            Fields: {
+                key: key,
+                [HeaderKeys.ContentType]: "image/png", // TODO: this will need to be more than just png
+            },
+        };
+        const url = this.s3.createPresignedPost(params);
+        return Promise.resolve(url);
+    }
+
     // prefix would be imageSetId
     async writeFile(
         file: CoreFile,
         uploadOptions: S3.ManagedUpload.ManagedUploadOptions,
         prefix: string
-    ) {
+    ): Promise<ImageLocationDetails> {
+        const key = `${prefix}/${file.name}`;
         const params = {
             Bucket: this.bucketName,
-            Key: `${prefix}/${file.name}`,
+            Key: key,
             Body: file.data,
             ContentType: file.contentType,
         };
@@ -42,17 +66,21 @@ class S3CoreRepository {
         };
 
         await this.s3.upload(params, uploadOptions, callback).promise();
+        const presignedUrlForViewing = await this.createPresignedUrlForViewing(key);
+
+        return { name: file.name, presignedUrl: presignedUrlForViewing };
     }
 
     async writeFiles(
         files: CoreFile[],
         uploadOptions: S3.ManagedUpload.ManagedUploadOptions,
         prefix: string
-    ) {
+    ): Promise<ImageLocationDetails[]> {
         const uploadPromises = files.map(async (file) => {
-            await this.writeFile(file, uploadOptions, prefix);
+            return await this.writeFile(file, uploadOptions, prefix);
         });
-        await Promise.all(uploadPromises);
+        const imageLocationDetails = await Promise.all(uploadPromises);
+        return imageLocationDetails;
     }
 
     async listFiles(prefix?: string): Promise<S3.ObjectList> {
@@ -68,7 +96,7 @@ class S3CoreRepository {
         }
     }
 
-    async getAllFiles( prefix?: string): Promise<Buffer[]> {
+    async getAllFiles(prefix?: string): Promise<Buffer[]> {
         let key = prefix ?? "";
         try {
             const fileObjects = await this.listFiles(prefix);
@@ -112,14 +140,15 @@ class S3CoreRepository {
         await this.s3.deleteObject({ Bucket: srcBucket, Key: srcKey }).promise();
     }
 }
-interface S3GetObjectRequest {
+
+export type ImageLocationDetails = {
+    presignedUrl: string;
+    name: string;
+};
+
+export type S3GetObjectRequest = {
     Bucket: string;
     Key: string;
-}
-
-interface S3GetObjectResponse {
-    Body: any;
-    ContentType: string;
-}
+};
 
 export default S3CoreRepository;

@@ -19,6 +19,7 @@ export type DalleResponse = {
 
 class DalleRepository {
     private openAIApi: OpenAIApi;
+    s3Repository: InitialTransfersRepository;
 
     constructor() {
         this.openAIApi = new OpenAIApi(configuration);

@@ -21,8 +21,7 @@ class GetNewImagesController extends AuthenticatedBaseController {
         });
     }
 
-    // this action is triggered when the
-    // /api/user/[id] route is sent a get request
+ 
     async get(_request: NextApiRequest, res: NextApiResponse) {
         let { n, size, prompt } = getBody<ImageRequest>(_request);
 

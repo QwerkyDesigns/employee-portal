@@ -1,5 +1,6 @@
 import styles from "@/styles/header.module.css";
 import { Container } from "@mantine/core";
+import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 
 // The approach used in this component shows how to build a sign in and sign out
@@ -7,6 +8,17 @@ import { useSession } from "next-auth/react";
 
 import { AuthenticatedHeader } from "./AuthenticatedHeader";
 import { UnAuthenticatedHeader } from "./UnAuthenticatedHeader";
+
+const fakeSession: Session = {
+  user: {
+    image: "abc",
+    email: "paul.g@gmail.com",
+    name: "Paul The Destroyer"
+  },
+  expires: null!
+
+}
+
 
 // rendering, and avoids any flash incorrect content on initial page load.
 export default function Header() {
@@ -25,11 +37,11 @@ export default function Header() {
         }`}
       >
         <Container fluid>
-          {session ? (
-            <AuthenticatedHeader session={session} />
-          ) : (
-            <UnAuthenticatedHeader />
-          )}
+          {/* {session ? ( */}
+            <AuthenticatedHeader session={fakeSession} />
+          {/* // ) : ( */}
+          {/* //   <UnAuthenticatedHeader /> */}
+          {/* // )} */}
         </Container>
       </div>
     </header>

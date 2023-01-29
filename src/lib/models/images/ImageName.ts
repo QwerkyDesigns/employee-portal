@@ -1,5 +1,4 @@
-import { ImageOrigin } from "../enums/ImageOrigin";
-
+import { ImageOrigin } from "@/lib/enums/ImageOrigin";
 
 export class ImageName {
     private imageSetId: string;
