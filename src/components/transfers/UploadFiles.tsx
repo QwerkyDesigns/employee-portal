@@ -1,39 +1,40 @@
-import { Button, Group, Text, useMantineTheme } from "@mantine/core";
+import { Group, Text, useMantineTheme } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons";
 import { Dropzone, DropzoneProps, FileWithPath, MIME_TYPES } from "@mantine/dropzone";
-import { useState } from "react";
 import client from "@/lib/client/frontendAxiosClient";
 import { SetState } from "@/types/sharedTypes";
 import { GetPresignedPostResponse } from "@/lib/controllers/GetPresignedPostController";
 import { HeaderKeys } from "@/lib/utils/constants";
+import { useState } from "react";
 
 export type PngImageDropzoneProps = Partial<DropzoneProps> & {
     setUploadedImages: SetState<string[]>;
+    setLoading: SetState<boolean>;
 };
-
-export function PngImageDropzone({ setUploadedImages, ...props }: PngImageDropzoneProps) {
+const timer = 'timer'
+export function PngImageDropzone({ setUploadedImages, setLoading, ...props }: PngImageDropzoneProps) {
     const theme = useMantineTheme();
+    const [count, setCount] = useState<number>(0);
 
-    const [files, setFiles] = useState<FileWithPath[]>([]);
-
-    const handleFileSave = async (e: any) => {
-        e.preventDefault();
-
+    const handleFileSave = async (files: FileWithPath[]) => {
+        console.time(timer);
+        setLoading(true);
+        setCount(0);
         const filteredFiles = files.filter((x: File) => x);
         if (filteredFiles.length === 0) return;
-
         const recentlyUploadedUrls: string[] = [];
         for (let i = 0; i < filteredFiles.length; i++) {
             let currentFile = filteredFiles[i];
             let { path: _, ...rest } = currentFile;
 
+            console.info("starting presigned");
             const result = await client.post<{ fileName: string }, GetPresignedPostResponse>(
                 "/api/create/presigned-posts",
                 {
                     fileName: currentFile.name,
                 }
             );
-            console.log(result);
+            console.info("finished presigned: " + result);
 
             const data: { [key: string]: File | string } = {
                 ...result.presignedUrlForUploading.fields,
@@ -47,43 +48,34 @@ export function PngImageDropzone({ setUploadedImages, ...props }: PngImageDropzo
                 formData.append(name, data[name]);
             }
 
+            console.info("starting upload");
             await client.post<FormData, null>(result.presignedUrlForUploading.url, formData, {
                 headers: {
                     [HeaderKeys.ContentType]: currentFile.type,
                 },
             });
+            console.info("finished upload");
 
             recentlyUploadedUrls.push(result.presignedForViewing);
+            console.info("incrementing count");
+
+            setCount(() => count + 1);
         }
-        console.log(recentlyUploadedUrls);
+        console.info("completing the upload and setting image urls");
         setUploadedImages(recentlyUploadedUrls);
-    };
-
-    const FiveMB = 3 * 1024 ** 2;
-
-    const onDrop = (files: FileWithPath[]) => {
-        setFiles(files);
-    };
-
-    const handleRemoveFile = (e: any, f: FileWithPath) => {
-        e.preventDefault();
-
-        const filteredFiles = files.filter((fi) => fi.path !== f.path);
-        setFiles(filteredFiles);
-    };
-
-    const handleFilesClear = (e: any) => {
-        e.preventDefault();
-        setFiles([]);
+        setLoading(false);
     };
 
     return (
         <>
+            <span>{count}</span>
             <Dropzone
-                onDrop={onDrop}
+                onDrop={handleFileSave}
                 onReject={(files) => console.log("rejected files", files)}
-                maxSize={FiveMB}
-                accept={[MIME_TYPES.png]}
+                maxSize={5000000} // 5mb
+                accept={[MIME_TYPES.png]} // TODO
+                maxFiles={4}
+                multiple
                 {...props}
             >
                 <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: "none" }}>
@@ -111,23 +103,6 @@ export function PngImageDropzone({ setUploadedImages, ...props }: PngImageDropzo
                     </div>
                 </Group>
             </Dropzone>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-                <Text variant="text" size="xl">
-                    Images to upload
-                </Text>
-                {files.map((f, i) => {
-                    return (
-                        <div key={i} style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                            <span>{f.name}</span>
-                            <Button onClick={(e) => handleRemoveFile(e, f)}>Remove</Button>
-                        </div>
-                    );
-                })}
-            </div>
-            <div style={{ display: "flex", flexDirection: "row" }}>
-                <Button onClick={handleFileSave}>Save selected images</Button>
-                <Button onClick={handleFilesClear}>Clear All files</Button>
-            </div>
         </>
     );
 }

@@ -89,10 +89,26 @@ class S3CoreRepository {
             Prefix: prefix ?? "",
         };
         try {
+            console.info(params);
             const response = await this.s3.listObjects(params).promise();
+            console.info(response);
             return response.Contents ?? [];
         } catch (err) {
             throw new S3DownloadError("Failed to list all objects", StatusCodes.ServerError);
+        }
+    }
+
+    async getSignedUrlsForAllFiles(prefix?: string): Promise<string[]> {
+        let key = prefix ?? "";
+        try {
+            console.info("lets list them");
+            const fileObjects = await this.listFiles(prefix);
+            const keys = fileObjects.map((obj) => obj.Key).filter((k) => k !== undefined) as string[];
+            console.info("keys: " + keys);
+            const urls = await Promise.all(keys.map((k) => this.createPresignedUrlForViewing(k)));
+            return urls;
+        } catch (err) {
+            throw new S3DownloadError(`Error retrieving presigned urls`, StatusCodes.ServerError);
         }
     }
 
@@ -109,7 +125,7 @@ class S3CoreRepository {
             const downloadedFiles = await Promise.all(downloadPromise);
             return downloadedFiles.map((file) => file.Body as Buffer);
         } catch (err) {
-            throw new S3DownloadError(`Error retreivig file: ${key}`, StatusCodes.ServerError);
+            throw new S3DownloadError(`Error retrieving file: ${key}`, StatusCodes.ServerError);
         }
     }
 

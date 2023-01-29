@@ -18,9 +18,11 @@ export class InitialTransfersRepository extends S3CoreRepository {
     private uploadOptions: S3.ManagedUpload.ManagedUploadOptions = {
         queueSize: 10,
     };
+
     public async RetrieveAllTransfers(imageOrigin?: ImageOrigin) {
-        const files = await this.getAllFiles(imageOrigin ?? "");
-        return files;
+        console.info(imageOrigin);
+        const viewingUrls = await this.getSignedUrlsForAllFiles(imageOrigin?.toString().toLowerCase() ?? "");
+        return viewingUrls;
     }
 
     public async SaveDalleUrlsToS3(urls: string[], metaData: ImageBatchMetaData, tags: S3.Tag[] = []) {
