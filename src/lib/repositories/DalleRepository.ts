@@ -3,7 +3,7 @@ import { EnvironmentVariable } from "@/lib/environment/EnvironmentVariable";
 import { ImageBatchMetaData } from "@/types/ImageBatchmetaData";
 import { Configuration, OpenAIApi } from "openai";
 import { ImageSize } from "../enums/ImageSizes";
-import InitialTransfersRepository from "./TransfersRepository";
+import UnCategorizedImagesStore from "../stores/UncategorizedImagesStore";
 
 const env = new Environment();
 const openApiKey = env.GetStringEnvironmentVarialble(EnvironmentVariable.OpenAiApiKey);
@@ -19,11 +19,11 @@ export type DalleResponse = {
 
 class DalleRepository {
     private openAIApi: OpenAIApi;
-    s3Repository: InitialTransfersRepository;
+    s3Repository: UnCategorizedImagesStore;
 
     constructor() {
         this.openAIApi = new OpenAIApi(configuration);
-        this.s3Repository = new InitialTransfersRepository();
+        this.s3Repository = new UnCategorizedImagesStore();
     }
 
     public async RequestNewImageSet(prompt: string, n: number, size: ImageSize): Promise<DalleResponse> {

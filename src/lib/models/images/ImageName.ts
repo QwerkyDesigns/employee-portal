@@ -27,6 +27,10 @@ export class ImageName {
     }
 
     private _formName(): string {
-        return `${this.imageSetId}-${this.imageIndex}.png`;
+        return `${this.imageSetId}_${this.imageIndex}.png`;
+    }
+
+    public static retrieveFileNameWithoutImageIndex(imageName: string) {
+        return imageName.split("_")[0];
     }
 }

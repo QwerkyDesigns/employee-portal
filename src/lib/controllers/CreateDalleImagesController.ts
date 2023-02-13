@@ -1,15 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getBody, getQuery } from "nextjs-backend-helpers";
+import { getBody } from "nextjs-backend-helpers";
 import { StatusCodes } from "../enums/StatusCodes";
 import { AuthenticatedBaseController } from "./BaseController";
-import { ImageRequest } from "@/types/sharedTypes";
 import ArgumentError from "../errors/bad-request/ArgumentError";
 import RepositoryOpenAi from "../repositories/DalleRepository";
-import InitialTransfersRepository from "../repositories/TransfersRepository";
+import { ImageSize } from "../enums/ImageSizes";
+import UnCategorizedImagesStore from "../stores/UncategorizedImagesStore";
 
-class GetNewImagesController extends AuthenticatedBaseController {
+class CreateDalleImagesController extends AuthenticatedBaseController {
     private RepositoryOpenAAI = new RepositoryOpenAi();
-    private s3Repository = new InitialTransfersRepository();
+    private s3Repository = new UnCategorizedImagesStore();
 
     constructor() {
         super();
@@ -21,9 +21,8 @@ class GetNewImagesController extends AuthenticatedBaseController {
         });
     }
 
- 
-    async get(_request: NextApiRequest, res: NextApiResponse) {
-        let { n, size, prompt } = getBody<ImageRequest>(_request);
+    async post(req: NextApiRequest, res: NextApiResponse) {
+        let { n, size, prompt } = getBody<CreateDalleImagesRequest>(req);
 
         if (n < 1 || n > 10) {
             throw new ArgumentError("You may only request up to 10 images");
@@ -34,14 +33,25 @@ class GetNewImagesController extends AuthenticatedBaseController {
         }
 
         const response = await this.RepositoryOpenAAI.RequestNewImageSet(prompt, n, size);
-        const thing = await this.s3Repository.SaveDalleUrlsToS3(response.urls, response.metaData)
 
+        console.log(response);
 
-
+        const imageLocationdetails = await this.s3Repository.SaveDalleUrlsToS3(response.urls, response.metaData);
+        console.log(imageLocationdetails);
         return res.json({
-            data: images,
+            details: imageLocationdetails,
         });
     }
 }
 
-export default GetNewImagesController;
+export type CreateDalleImagesRequest = {
+    n: number;
+    size: ImageSize;
+    prompt: string;
+};
+
+export type CreateDalleImagesResponse = {
+    details: ImageLocationDetails[];
+};
+
+export default CreateDalleImagesController;

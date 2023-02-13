@@ -1,9 +1,9 @@
 import { StatusCodes } from "@/lib/enums/StatusCodes";
+import S3DownloadError from "@/lib/errors/application-errors/S3DownloadError";
+import S3UploadError from "@/lib/errors/application-errors/S3UploadError";
+import { HeaderKeys } from "@/lib/utils/constants";
 import { S3 } from "aws-sdk";
 import { ManagedUpload } from "aws-sdk/clients/s3";
-import S3DownloadError from "../errors/application-errors/S3DownloadError";
-import S3UploadError from "../errors/application-errors/S3UploadError";
-import { HeaderKeys } from "../utils/constants";
 
 // TODO: Get these evn vars via the environment object
 const s3Options = {
@@ -13,8 +13,12 @@ const s3Options = {
 }; // TODO: configure from env
 
 export type CoreFile = { name: string; data: any; contentType: string };
+export type ImageLocationDetails = {
+    presignedUrl: string;
+    name: string;
+};
 
-class S3CoreRepository {
+class S3Core {
     private s3: S3;
     private bucketName: string;
 
@@ -40,6 +44,7 @@ class S3CoreRepository {
             Fields: {
                 key: key,
                 [HeaderKeys.ContentType]: "image/png", // TODO: this will need to be more than just png
+                [HeaderKeys.CacheControl]: "max-age=31536000",
             },
         };
         const url = this.s3.createPresignedPost(params);
@@ -58,6 +63,9 @@ class S3CoreRepository {
             Key: key,
             Body: file.data,
             ContentType: file.contentType,
+            ResponseHeaderOverrides: {
+                [HeaderKeys.CacheControl]: "max-age=31536000",
+            },
         };
 
         const callback = (err: Error, data: ManagedUpload.SendData) => {
@@ -89,24 +97,30 @@ class S3CoreRepository {
             Prefix: prefix ?? "",
         };
         try {
-            console.info(params);
             const response = await this.s3.listObjects(params).promise();
-            console.info(response);
             return response.Contents ?? [];
         } catch (err) {
             throw new S3DownloadError("Failed to list all objects", StatusCodes.ServerError);
         }
     }
 
-    async getSignedUrlsForAllFiles(prefix?: string): Promise<string[]> {
+    async getSignedUrlsForAllFiles(prefix?: string): Promise<PresignedUrlWithMeta[]> {
         let key = prefix ?? "";
         try {
-            console.info("lets list them");
             const fileObjects = await this.listFiles(prefix);
             const keys = fileObjects.map((obj) => obj.Key).filter((k) => k !== undefined) as string[];
-            console.info("keys: " + keys);
-            const urls = await Promise.all(keys.map((k) => this.createPresignedUrlForViewing(k)));
-            return urls;
+            const data = keys.map((k) => {
+                const url = this.createPresignedUrlForViewing(k);
+                return { key: k, url };
+            });
+
+            const presignedUrlWithMeta = await Promise.all(
+                data.map(async ({ key, url }) => {
+                    const resolvedUrl = await url;
+                    return { key, url: resolvedUrl };
+                })
+            );
+            return presignedUrlWithMeta;
         } catch (err) {
             throw new S3DownloadError(`Error retrieving presigned urls`, StatusCodes.ServerError);
         }
@@ -157,9 +171,9 @@ class S3CoreRepository {
     }
 }
 
-export type ImageLocationDetails = {
-    presignedUrl: string;
-    name: string;
+export type PresignedUrlWithMeta = {
+    url: string;
+    key: string;
 };
 
 export type S3GetObjectRequest = {
@@ -167,4 +181,4 @@ export type S3GetObjectRequest = {
     Key: string;
 };
 
-export default S3CoreRepository;
+export default S3Core;

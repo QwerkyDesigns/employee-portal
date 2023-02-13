@@ -13,12 +13,12 @@ export const headerLinks: HeaderLink[] = [
         path: "/create/with-dalle",
     },
     {
-        text: "Upload images",
-        path: "/create/with-upload",
-    },
-    {
         text: "Review Dalle Creations",
         path: "/review/dalle",
+    },
+    {
+        text: "Upload images",
+        path: "/create/with-upload",
     },
     {
         text: "Review uploads",

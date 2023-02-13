@@ -19,36 +19,21 @@ class DataContainers {
 }
 
 class DevDataContainers implements IDataContainer {
-    getBusinessStoreContainer(): string {
-        return this.BusinessStore;
-    }
-    getInitialTransfersContainer(): string {
-        return this.InitialTransfersContainer;
-    }
     public InitialTransfersContainer: string = "qd-uploads-and-transfers-dev";
     public BusinessStore: string = "qd-business-front-data-dev";
+    public ArchivedImagesStore: string = "qd-archived-images-dev";
 }
 
 class StagingDataContainers implements IDataContainer {
-    getBusinessStoreContainer(): string {
-        return this.BusinessStore;
-    }
-    getInitialTransfersContainer(): string {
-        return this.InitialTransfersContainer;
-    }
     public InitialTransfersContainer: string = "qd-uploads-and-transfers-staging";
     public BusinessStore: string = "qd-business-front-data-staging";
+    public ArchivedImagesStore: string = "qd-archived-images-staging";
 }
 
 class ProductionDataContainers implements IDataContainer {
-    getBusinessStoreContainer(): string {
-        return this.BusinessStore;
-    }
-    getInitialTransfersContainer(): string {
-        return this.InitialTransfersContainer;
-    }
     public InitialTransfersContainer: string = "qd-uploads-and-transfers-prod";
     public BusinessStore: string = "qd-business-front-data-prod";
+    public ArchivedImagesStore: string = "qd-archived-images-prod";
 }
 
 export default DataContainers;

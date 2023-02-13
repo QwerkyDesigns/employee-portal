@@ -1,41 +1,46 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getBody, getQuery } from "nextjs-backend-helpers";
+import { getQuery } from "nextjs-backend-helpers";
 import { AuthenticatedBaseController } from "./BaseController";
-import { ImageRequest } from "@/types/sharedTypes";
 import ArgumentError from "../errors/bad-request/ArgumentError";
-import InitialTransfersRepository from "../repositories/TransfersRepository";
 import { ImageOrigin } from "../enums/ImageOrigin";
+import UnCategorizedImagesStore from "../stores/UncategorizedImagesStore";
 
 class GetAllUntransferredController extends AuthenticatedBaseController {
     constructor() {
         super();
     }
 
+    parseImageOrigin = (originQueryParam: string) => {
+        switch (originQueryParam) {
+            case ImageOrigin.Dalle:
+                return ImageOrigin.Dalle;
+            case ImageOrigin.Upload:
+                return ImageOrigin.Upload;
+            default:
+                throw new ArgumentError(
+                    `Query must be provided, one of '${ImageOrigin.Dalle}' or '${ImageOrigin.Upload}'`
+                );
+        }
+    };
+
     async get(req: NextApiRequest, res: NextApiResponse) {
-        const repo = new InitialTransfersRepository();
+        const repo = new UnCategorizedImagesStore();
 
         const { origin } = getQuery<{ origin: string }>(req);
-        console.log(origin);
-
-        let uploadOrigin;
-        if (origin === "dalle") {
-            uploadOrigin = ImageOrigin.Dalle;
-        } else if (origin === "upload") {
-            uploadOrigin = ImageOrigin.Upload;
-        } else {
-            throw new ArgumentError("query must be provided, one of 'dalle' or 'upload'");
-        }
-
-        const allViewingUrls = await repo.RetrieveAllTransfers(uploadOrigin);
+        const imageOrigin = this.parseImageOrigin(origin);
+        const allViewingUrls = await repo.RetrieveAllTransfers(imageOrigin);
         console.log(allViewingUrls)
-        return res.json({
-            allViewingUrls,
-        });
+        return res.json({ imageMetas: allViewingUrls });
     }
 }
 
 export type GetAllUntransferredResponse = {
-    allViewingUrls: string[];
+    imageMetas: UnTransferredImageMeta[];
+};
+
+export type UnTransferredImageMeta = {
+    url: string;
+    key: string;
 };
 
 export default GetAllUntransferredController;
