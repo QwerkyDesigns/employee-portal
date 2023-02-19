@@ -24,10 +24,10 @@ export default function ReviewDalleTransfers() {
                 {imageUrls &&
                     imageUrls.map((meta) => {
                         return (
-                            <>
-                                <PaddedImage key={meta.url} url={meta.url} />;
+                            <div className="flex flex-col justify-center">
+                                <PaddedImage key={meta.url} url={meta.url} />
                                 <ImageOptionButtons meta={meta} />
-                            </>
+                            </div>
                         );
                     })}
             </div>

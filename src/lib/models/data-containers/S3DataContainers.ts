@@ -20,19 +20,19 @@ class DataContainers {
 
 class DevDataContainers implements IDataContainer {
     public InitialTransfersContainer: string = "qd-uploads-and-transfers-dev";
-    public BusinessStore: string = "qd-business-front-data-dev";
+    public BusinessStore: string = "qd-categorized-images-dev";
     public ArchivedImagesStore: string = "qd-archived-images-dev";
 }
 
 class StagingDataContainers implements IDataContainer {
     public InitialTransfersContainer: string = "qd-uploads-and-transfers-staging";
-    public BusinessStore: string = "qd-business-front-data-staging";
+    public BusinessStore: string = "qd-categorized-images-staging";
     public ArchivedImagesStore: string = "qd-archived-images-staging";
 }
 
 class ProductionDataContainers implements IDataContainer {
     public InitialTransfersContainer: string = "qd-uploads-and-transfers-prod";
-    public BusinessStore: string = "qd-business-front-data-prod";
+    public BusinessStore: string = "qd-categorized-images-prod";
     public ArchivedImagesStore: string = "qd-archived-images-prod";
 }
 

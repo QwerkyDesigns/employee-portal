@@ -6,6 +6,7 @@ import ArgumentError from "../errors/bad-request/ArgumentError";
 import RepositoryOpenAi from "../repositories/DalleRepository";
 import { ImageSize } from "../enums/ImageSizes";
 import UnCategorizedImagesStore from "../stores/UncategorizedImagesStore";
+import { ImageLocationDetails } from "../stores/s3Core/S3Core";
 
 class CreateDalleImagesController extends AuthenticatedBaseController {
     private RepositoryOpenAAI = new RepositoryOpenAi();
