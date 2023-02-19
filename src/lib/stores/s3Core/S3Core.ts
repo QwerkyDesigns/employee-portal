@@ -115,7 +115,7 @@ class S3Core {
       const fileObjects = await this.listFiles(prefix);
       const keys = fileObjects
         .map((obj) => obj.Key)
-        .filter((k) => k !== undefined) as string[];
+        .filter((k) => k !== undefined && !key.endsWith("meta.txt")) as string[];
       const data = keys.map((k) => {
         const url = this.createPresignedUrlForViewing(k);
         return { key: k, url };

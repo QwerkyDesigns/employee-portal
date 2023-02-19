@@ -38,7 +38,7 @@ export default function CategorizePage() {
       <>
         {image && (
           <>
-            <PaddedImage url={image} />
+            <PaddedImage url={image} key={} />
           </>
         )}
         <TextInput
@@ -55,7 +55,7 @@ export default function CategorizePage() {
         />
         <Button
           onClick={async () => {
-            if (key && typeof key === 'string' ) {
+            if (key && typeof key === "string") {
               const res = await client.post<
                 CreateImageCategorizationRequest,
                 CreateImageCategorizationResponse

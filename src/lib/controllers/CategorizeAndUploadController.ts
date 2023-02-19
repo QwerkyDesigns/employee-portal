@@ -8,7 +8,6 @@ import PrintifyRepository, {
   PrintifyImageResource,
 } from "../repositories/ShopifyRepository";
 import ArchivedImagesStore from "../stores/ArchivedImagesStore";
-import presignedPosts from "@/pages/api/create/presigned-posts";
 
 class CategorizeAndUploadController extends AuthenticatedBaseController {
   private uncategorizedS3BucketRepository = new UnCategorizedImagesStore();
@@ -29,25 +28,13 @@ class CategorizeAndUploadController extends AuthenticatedBaseController {
     req: NextApiRequest,
     res: NextApiResponse<CreateImageCategorizationResponse>
   ) {
-    // get the image ID from the request (need to send that up)
     var { imageKey, productName } =
       getBody<CreateImageCategorizationRequest>(req);
 
-    console.log("Hitting the controller");
-    console.log(imageKey);
-    console.log(productName);
     var preSignedUrl =
       await this.uncategorizedS3BucketRepository.createPresignedUrlForViewing(
         imageKey
       );
-
-    console.log(preSignedUrl);
-
-    await this.uncategorizedS3BucketRepository.MoveFileFromThisContainerTo(
-      this.archiveStore.bucketName,
-      imageKey
-    );
-
 
     // post a request to printify (need to create a printify repository)
     const response = await this.shopifyRepository.UploadImageToShopify(
@@ -55,13 +42,22 @@ class CategorizeAndUploadController extends AuthenticatedBaseController {
       preSignedUrl
     );
 
-    console.log(response)
+    if (response === null) throw new Error("NULL RESPONSE");
 
-    // delete the image from the old s3 container
-    // await this.uncategorizedS3BucketRepository.deleteFile(imageKey);
+    await this.uncategorizedS3BucketRepository.MoveFileFromThisContainerTo(
+      this.archiveStore.bucketName,
+      imageKey
+    );
 
     return res.json({
-      ...response,
+      id: response.id,
+      file_name: response.file_name,
+      height: response.height,
+      width: response.width,
+      size: response.size,
+      mime_type: response.mime_type,
+      preview_url: response.preview_url,
+      upload_time: response.upload_time,
     });
   }
 }

@@ -10,10 +10,16 @@ interface IAxiosClient {
 export class AxiosClient implements IAxiosClient {
   public client: AxiosInstance;
 
-  constructor(baseUrl?: string) {
+  constructor(baseUrl?: string, headers?: object) {
     this.client = axios.create();
     if (baseUrl) {
       this.client.defaults.baseURL = baseUrl;
+    }
+    if (headers) {
+      this.client.defaults.headers = {
+        ...this.client.defaults.headers,
+        ...headers,
+      };
     }
   }
 

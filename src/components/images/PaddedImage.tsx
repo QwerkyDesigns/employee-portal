@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Image, Loader } from "@mantine/core";
 
-export const PaddedImage = ({ url }: { url: string }) => {
+export const PaddedImage = ({
+  url,
+  s3Key,
+}: {
+  url: string;
+  s3Key?: string;
+}) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const frame: { height: string; width: string; edge: string } = {
@@ -29,6 +35,7 @@ export const PaddedImage = ({ url }: { url: string }) => {
           setLoading(false);
         }}
       />
+      {s3Key && <span>{s3Key}</span>}
       <Loader
         style={{
           border: "1px solid black",
