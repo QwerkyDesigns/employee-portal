@@ -1,12 +1,12 @@
 import Layout from "@/components/Layout";
 import { SliderInput } from "@/components/sliders/slider";
-import client from "@/lib/client/frontendAxiosClient";
+import frontendClient from "@/lib/client/frontendClient";
 import { ImageSize } from "@/lib/enums/ImageSizes";
 import { Button, Container, TextInput } from "@mantine/core";
 import { useState } from "react";
 import { Image, Loader } from "@mantine/core";
-import { ImageLocationDetails } from "@/lib/repositories/storageRepositories/s3Core/S3CoreRepository";
 import { CreateDalleImagesResponse, CreateDalleImagesRequest } from "@/lib/controllers/CreateDalleImagesController";
+import { ImageLocationDetails } from "@/lib/stores/s3Core/S3Core";
 
 export default function CreateWithDallePage() {
     const [text, setText] = useState<string>("");
@@ -37,8 +37,8 @@ export default function CreateWithDallePage() {
                 <Button
                     onClick={async () => {
                         setLoading(true);
-                        const res = await client.post<CreateDalleImagesRequest, CreateDalleImagesResponse>(
-                            "/api/create/dalle",
+                        const res = await frontendClient.post<CreateDalleImagesRequest, CreateDalleImagesResponse>(
+                            "create/dalle",
                             {
                                 n: value,
                                 size: ImageSize.large,

@@ -1,27 +1,34 @@
 export type HeaderLink = {
-    text: string;
-    path: string;
+    label: string;
+    value: string;
 };
 
-export const headerLinks: HeaderLink[] = [
+export const headerLinkGroups: { [key: string]: HeaderLink[] } = {
+    Create: [
+        {
+            label: "Create w/ Dalle",
+            value: "/create/with-dalle",
+        },
+        {
+            label: "Upload images",
+            value: "/create/with-upload",
+        },
+    ],
+    Review: [
+        {
+            label: "Review Dalle Creations",
+            value: "/review/dalle",
+        },
+        {
+            label: "Review uploads",
+            value: "/review/uploads",
+        },
+    ],
+};
+
+export const unGroupedHeaderLinks: HeaderLink[] = [
     {
-        text: "Home",
-        path: "/",
-    },
-    {
-        text: "Create w/ Dalle",
-        path: "/create/with-dalle",
-    },
-    {
-        text: "Review Dalle Creations",
-        path: "/review/dalle",
-    },
-    {
-        text: "Upload images",
-        path: "/create/with-upload",
-    },
-    {
-        text: "Review uploads",
-        path: "/review/uploads",
+        label: "Home",
+        value: "/",
     },
 ];

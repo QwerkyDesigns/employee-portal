@@ -10,17 +10,8 @@ interface IAxiosClient {
 export class AxiosClient implements IAxiosClient {
   public client: AxiosInstance;
 
-  constructor(baseUrl?: string, headers?: object) {
-    this.client = axios.create();
-    if (baseUrl) {
-      this.client.defaults.baseURL = baseUrl;
-    }
-    if (headers) {
-      this.client.defaults.headers = {
-        ...this.client.defaults.headers,
-        ...headers,
-      };
-    }
+  constructor(config?: AxiosRequestConfig) {
+    this.client = axios.create(config);
   }
 
   async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
@@ -75,5 +66,4 @@ export class AxiosClient implements IAxiosClient {
     }
   }
 }
-const client = new AxiosClient();
-export default client;
+export default AxiosClient;
