@@ -2,78 +2,114 @@ import Layout from "@/components/Layout";
 import { SliderInput } from "@/components/sliders/slider";
 import frontendClient from "@/lib/client/frontendClient";
 import { ImageSize } from "@/lib/enums/ImageSizes";
-import { Button, Container, TextInput } from "@mantine/core";
+import { Container, Select, Textarea, TextInput } from "@mantine/core";
 import { useState } from "react";
-import { Image, Loader } from "@mantine/core";
-import { CreateDalleImagesResponse, CreateDalleImagesRequest } from "@/lib/controllers/CreateDalleImagesController";
+import {
+    CreateDalleImagesResponse,
+    CreateDalleImagesRequest,
+} from "@/lib/controllers/CreateDalleImagesController";
 import { ImageLocationDetails } from "@/lib/stores/s3Core/S3Core";
+import { ButtonWithSpinner } from "@/components/buttons/ButtonWithSpinner";
+import { PaddedImage } from "@/components/images/PaddedImage";
+
+export const ArtStyles = [
+    "hyperrealism",
+    "photorealism",
+    "Minimalism",
+    "line art",
+    "retro art",
+    "vintage art",
+    "intricate lettering art",
+    "illuminated letters",
+    "Geometric drawing",
+    "geometric abstract",
+    "Vector artwork",
+    "flat art",
+    "3D illustration",
+    "surrealist art",
+    "psychedelic art",
+    "fractal art",
+    "digital art",
+    "digital neon art",
+];
 
 export default function CreateWithDallePage() {
     const [text, setText] = useState<string>("");
     const [value, setValue] = useState<number>(1);
-    const [recentlyUploadedImages, setRecentlyUploadedImages] = useState<ImageLocationDetails[]>([]);
+    const [recentlyUploadedImages, setRecentlyUploadedImages] = useState<
+        ImageLocationDetails[]
+    >([]);
     const [loading, setLoading] = useState<boolean>(false);
-
+    const [artStyle, setArtStyle] = useState<string>("");
     return (
         <Layout pageName="Create dall-e images">
             <Container>
                 <div style={{ height: "3rem" }} />
-                <div style={{ display: "flex", justifyContent: "center" }}>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "center",
+                    }}
+                >
                     <SliderInput value={value} setValue={setValue} />
+                    <Select
+                        data={ArtStyles.sort()}
+                        onChange={(value) => {
+                            if (value) {
+                                setArtStyle(value);
+                            }
+                        }}
+                    />
                 </div>
-                <TextInput
+                <Textarea
                     style={{ marginTop: "4rem" }}
                     placeholder="A manatee sitting on the beach with a cocktail"
                     label="Provide a moderately specific description of an image you would like to create"
                     withAsterisk
-                    multiple
                     value={text}
+                    minRows={5}
                     onChange={(event) => {
                         event.preventDefault();
                         setText(event.target.value);
                     }}
                 />
                 <div style={{ height: "3rem" }} />
-                <Button
+                <ButtonWithSpinner
+                    loading={loading}
                     onClick={async () => {
                         setLoading(true);
-
-                        
-
-                        const res = await frontendClient.post<CreateDalleImagesRequest, CreateDalleImagesResponse>(
-                            "create/dalle",
-                            {
-                                n: value,
-                                size: ImageSize.large,
-                                prompt: text,
-                            }
-                        );
+                        const res = await frontendClient.post<
+                            CreateDalleImagesRequest,
+                            CreateDalleImagesResponse
+                        >("create/dalle", {
+                            n: value,
+                            size: ImageSize.large,
+                            prompt: (text.trim() + " " + artStyle).trim(),
+                        });
                         setRecentlyUploadedImages(res.details);
                         setLoading(false);
                     }}
                 >
                     Submit to create new images
-                </Button>
+                </ButtonWithSpinner>
                 <div style={{ height: "3rem" }} />
                 {recentlyUploadedImages && (
-                    <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            flexWrap: "wrap",
+                        }}
+                    >
                         {recentlyUploadedImages.map((details, i) => (
-                            <div
+                            <PaddedImage
                                 key={details.presignedUrl}
-                                style={{ margin: "1rem", border: "1px solid black", padding: "0.25rem" }}
-                            >
-                                <Image
-                                    height={250}
-                                    width={250}
-                                    src={details.presignedUrl}
-                                    alt="wow"
-                                    caption={details.name}
-                                />
-                            </div>
+                                url={details.presignedUrl}
+                            />
                         ))}
                     </div>
                 )}
-                {loading && <Loader />}
             </Container>
         </Layout>
     );

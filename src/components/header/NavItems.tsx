@@ -11,7 +11,7 @@ export const NavItems = () => {
             <div />
             {unGroupedHeaderLinks.map((hl, i) => {
                 return (
-                    <Link href={hl.value}>
+                    <Link key={hl.label} href={hl.value}>
                         <Text fw={700} fz="lg">
                             {hl.label}
                         </Text>

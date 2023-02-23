@@ -14,8 +14,8 @@ export const PaddedImage = ({
     const [loading, setLoading] = useState<boolean>(true);
 
     const frame: { height: string; width: string; edge: string } = {
-        height: "100px",
-        width: "100px",
+        height: "200px",
+        width: "200px",
         edge: "0.75rem",
     };
 
