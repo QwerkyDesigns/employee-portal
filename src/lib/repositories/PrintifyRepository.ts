@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import env from "../environment/Environment";
 import { EnvironmentVariable } from "../environment/EnvironmentVariable";
 
 export type PrintifyImageResource = {
@@ -21,7 +22,7 @@ const BASE_URL = "https://api.printify.com/v1";
 const CONFIG: AxiosRequestConfig = {
     headers: {
         "Content-Type": "application/json;charset=utf-8",
-        Authorization: `Bearer ${EnvironmentVariable.PrintifyApiKey}`,
+        Authorization: `Bearer ${env.GetStringEnvironmentVarialble(EnvironmentVariable.PrintifyApiKey)}`,
     },
     baseURL: BASE_URL,
 };
@@ -43,7 +44,6 @@ class PrintifyRepository {
             PrintifyImageUploadRequestPayload,
             PrintifyImageResource
         >("uploads/images.json", payload); // set base url in client, and then fix this call add payload"
-        console.log(response);
         if (response) {
             return response;
         }

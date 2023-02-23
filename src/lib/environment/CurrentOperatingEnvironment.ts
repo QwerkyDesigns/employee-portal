@@ -1,5 +1,5 @@
 import OperatingEnvironmentDoesNotExistError from "../errors/application-errors/OperatingEnvDoesNotExistError";
-import Environment from "./Environment";
+import env from "./Environment";
 import { EnvironmentVariable } from "./EnvironmentVariable";
 
 export enum OperatingEnv {
@@ -9,7 +9,11 @@ export enum OperatingEnv {
 }
 
 class CurrentOperatingEnvironment {
-    public ResovleInEnviron<T>(ifDev?: () => T, ifStaging?: () => T, ifProd?: () => T): T {
+    public ResovleInEnviron<T>(
+        ifDev?: () => T,
+        ifStaging?: () => T,
+        ifProd?: () => T
+    ): T {
         const currentEnv = this.GetCurrentOperatingEnvironment();
         if (ifDev && currentEnv === OperatingEnv.dev) {
             return ifDev();
@@ -22,12 +26,13 @@ class CurrentOperatingEnvironment {
     }
 
     public GetCurrentOperatingEnvironment(): OperatingEnv {
-        const environment = new Environment();
-        const currentOperatingEnvironment = environment.GetStringEnvironmentVarialble(
+        const currentOperatingEnvironment = env.GetStringEnvironmentVarialble(
             EnvironmentVariable.OperatingEnvironment
         );
 
-        var currentEnvEnum = this.MatchCurrentEnvironment(currentOperatingEnvironment);
+        var currentEnvEnum = this.MatchCurrentEnvironment(
+            currentOperatingEnvironment
+        );
         return currentEnvEnum;
     }
 

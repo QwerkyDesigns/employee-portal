@@ -35,10 +35,7 @@ class CreateDalleImagesController extends AuthenticatedBaseController {
 
         const response = await this.RepositoryOpenAAI.RequestNewImageSet(prompt, n, size);
 
-        console.log(response);
-
         const imageLocationdetails = await this.s3Repository.SaveDalleUrlsToS3(response.urls, response.metaData);
-        console.log(imageLocationdetails);
         return res.json({
             details: imageLocationdetails,
         });

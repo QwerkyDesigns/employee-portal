@@ -6,34 +6,40 @@ import {
 import { ImageOrigin } from "@/lib/enums/ImageOrigin";
 import { batch } from "@/lib/utils/batch";
 import { SetState } from "@/types/sharedTypes";
-import { Button } from "@mantine/core";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { ButtonWithSpinner } from "./ButtonWithSpinner";
 
 export const ImageOptionButtons = ({
     meta,
     setImageMetaPages,
     setTotalPages,
+    origin,
 }: {
     meta: UnCategorizedImageMeta;
     setImageMetaPages: SetState<UnCategorizedImageMeta[][]>;
     setTotalPages: SetState<number>;
+    origin: ImageOrigin;
 }) => {
     const router = useRouter();
-
+    const [loading, setLoading] = useState<boolean>(false);
     const archive = async (key: string) => {
-        await frontendClient.post<{}, {}>(`archive/move-to-archive?imageKey=${key}`);
+        setLoading(true);
+        await frontendClient.post<{}, {}>(
+            `archive/move-to-archive?imageKey=${key}`
+        );
 
         const res = await frontendClient.get<GetAllUntransferredResponse>(
-            `review/get-all-untransferred?origin=${ImageOrigin.Upload}`
+            `review/get-all-untransferred?origin=${origin}`
         );
 
         const batches = batch(
-            res.imageMetas.filter((x) => !x.key.endsWith("meta.txt")),
-            5
+            res.imageMetas.filter((x) => !x.key.endsWith("meta.txt"))
         );
 
         setImageMetaPages(batches);
         setTotalPages(batches.length);
+        setLoading(false);
     };
 
     const categorize = (key: string) => {
@@ -41,18 +47,18 @@ export const ImageOptionButtons = ({
     };
     return (
         <div className="flex flex-row justify-evenly">
-            <Button
-                className="text-lg text-text bg-primary m-1"
+            <ButtonWithSpinner
+                loading={loading}
                 onClick={() => categorize(meta.key)}
             >
                 Categorize
-            </Button>
-            <Button
-                className="text-lg text-text bg-primary m-1"
+            </ButtonWithSpinner>
+            <ButtonWithSpinner
+                loading={loading}
                 onClick={() => archive(meta.key)}
             >
                 Archive
-            </Button>
+            </ButtonWithSpinner>
         </div>
     );
 };

@@ -20,7 +20,7 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
     useEffect(() => {
         (async () => {
             const res = await frontendClient.get<GetAllUntransferredResponse>(
-                `review/get-all-untransferred?origin=${ImageOrigin.Upload}`
+                `review/get-all-untransferred?origin=${origin}`
             );
 
             const batches = batch(
@@ -34,7 +34,7 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
     }, []);
 
     return (
-        <Layout pageName="Review: Uploads">
+        <Layout pageName={`Review: ${origin}`}>
             {totalPages === 0 ? (
                 <Text align="center">No uploaded images to review</Text>
             ) : (
@@ -66,6 +66,7 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
                                                 setImageMetaPages
                                             }
                                             setTotalPages={setTotalPages}
+                                            origin={origin}
                                         />
                                     </div>
                                 );

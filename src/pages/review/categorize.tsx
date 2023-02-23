@@ -5,16 +5,17 @@ import { GetSingleImageUrlResponse } from "@/lib/controllers/GetImageByKeyContro
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import queryString from "query-string";
-import { Button, TextInput } from "@mantine/core";
+import {  TextInput } from "@mantine/core";
 import {
     CreateImageCategorizationRequest,
     CreateImageCategorizationResponse,
 } from "@/lib/controllers/CategorizeAndUploadController";
+import { ButtonWithSpinner } from "@/components/buttons/ButtonWithSpinner";
 
 export default function CategorizePage() {
     const router = useRouter();
     const { key } = router.query;
-
+    const [loading, setLoading] = useState<boolean>(false);
     const [image, setImage] = useState<string>();
     const [text, setText] = useState<string>("");
 
@@ -24,7 +25,6 @@ export default function CategorizePage() {
                 url: "review/get-by-image-key",
                 query: { key: key },
             });
-            console.log("URL: " + url);
             const res = await frontendClient.get<GetSingleImageUrlResponse>(
                 url
             );
@@ -55,21 +55,25 @@ export default function CategorizePage() {
                         setText(event.target.value);
                     }}
                 />
-                <Button
+                <ButtonWithSpinner
+                    loading={loading}
                     onClick={async () => {
+                        setLoading(true);
                         if (key && typeof key === "string") {
-                            const res = await frontendClient.post<
+                            var res = await frontendClient.post<
                                 CreateImageCategorizationRequest,
                                 CreateImageCategorizationResponse
                             >("categorize/categorize-and-upload", {
                                 imageKey: key,
                                 productName: text,
                             });
+                            router.push("/review/dalle");
                         }
+                        setLoading(false);
                     }}
                 >
                     Submit to create new images
-                </Button>
+                </ButtonWithSpinner>
             </>
         </Layout>
     );
