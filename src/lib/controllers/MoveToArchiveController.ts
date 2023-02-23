@@ -20,22 +20,15 @@ class MoveToArchiveController extends AuthenticatedBaseController {
         });
     }
 
-    async post(
-        req: NextApiRequest,
-        res: NextApiResponse<MoveToArchiveResponse>
-    ) {
-        const { imageKey } = getQuery<MoveToArchiveRequest>(req);
-        await this.uncategorizedS3BucketRepository.MoveFileFromThisContainerTo(
-            this.archiveStore.bucketName,
-            imageKey
-        );
-
+    async post(req: NextApiRequest, res: NextApiResponse<MoveToArchiveResponse>) {
+        const { imageKeys } = getQuery<MoveToArchiveRequest>(req);
+        await this.uncategorizedS3BucketRepository.MoveFileFromThisContainerTo(this.archiveStore.bucketName, imageKeys);
         return res.json({});
     }
 }
 
 export type MoveToArchiveRequest = {
-    imageKey: string;
+    imageKeys: string;
 };
 
 export type MoveToArchiveResponse = {};

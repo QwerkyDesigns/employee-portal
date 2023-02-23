@@ -5,7 +5,7 @@ import { GetSingleImageUrlResponse } from "@/lib/controllers/GetImageByKeyContro
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import queryString from "query-string";
-import {  TextInput } from "@mantine/core";
+import { TextInput } from "@mantine/core";
 import {
     CreateImageCategorizationRequest,
     CreateImageCategorizationResponse,
@@ -14,34 +14,35 @@ import { ButtonWithSpinner } from "@/components/buttons/ButtonWithSpinner";
 
 export default function CategorizePage() {
     const router = useRouter();
-    const { key } = router.query;
-    const [loading, setLoading] = useState<boolean>(false);
-    const [image, setImage] = useState<string>();
-    const [text, setText] = useState<string>("");
+    const { keys } = router.query;
 
+    const [loading, setLoading] = useState<boolean>(false);
+    const [images, setImages] = useState<string[]>([]);
+    const [text, setText] = useState<string>("");
     useEffect(() => {
         (async () => {
             const url = queryString.stringifyUrl({
                 url: "review/get-by-image-key",
-                query: { key: key },
+                query: { keys: keys },
             });
-            const res = await frontendClient.get<GetSingleImageUrlResponse>(
-                url
-            );
-            const { url: decodedUrl } = queryString.parse(res.url);
-            if (decodedUrl && typeof decodedUrl === "string") {
-                setImage(decodedUrl);
+            const res = await frontendClient.get<GetSingleImageUrlResponse>(url);
+            const { urls: decodedUrls } = queryString.parse(res.urls);
+            if (decodedUrls && typeof decodedUrls === "string") {
+                const urlList = decodedUrls.split(",");
+                setImages(urlList);
             }
         })();
-    }, [key]);
+    }, [keys]);
 
     return (
         <Layout pageName="Categorize: Printify">
             <>
-                {image && (
-                    <>
-                        <PaddedImage url={image} />
-                    </>
+                {images && (
+                    <div className="flex flex-row m-3 justify-center">
+                        {images.map((url) => {
+                            return <PaddedImage key={url} url={url} />;
+                        })}
+                    </div>
                 )}
                 <TextInput
                     style={{ marginTop: "4rem" }}
@@ -58,15 +59,17 @@ export default function CategorizePage() {
                 <ButtonWithSpinner
                     loading={loading}
                     onClick={async () => {
+                        console.log("HIT ME");
                         setLoading(true);
-                        if (key && typeof key === "string") {
-                            var res = await frontendClient.post<
+                        if (keys && typeof keys === "string") {
+                            const res = await frontendClient.post<
                                 CreateImageCategorizationRequest,
                                 CreateImageCategorizationResponse
                             >("categorize/categorize-and-upload", {
-                                imageKey: key,
-                                productName: text,
+                                imageKeys: keys,
+                                productNames: keys.split(",").map((_, i) => text + "-" + i),
                             });
+                            console.log(res);
                             router.push("/review/dalle");
                         }
                         setLoading(false);

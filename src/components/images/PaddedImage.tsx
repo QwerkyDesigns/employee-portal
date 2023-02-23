@@ -4,13 +4,7 @@ import Zoom from "react-medium-image-zoom";
 
 import "react-medium-image-zoom/dist/styles.css";
 
-export const PaddedImage = ({
-    url,
-    s3Key,
-}: {
-    url: string;
-    s3Key?: string;
-}) => {
+export const PaddedImage = ({ url, s3Key }: { url: string; s3Key?: string }) => {
     const [loading, setLoading] = useState<boolean>(true);
 
     const frame: { height: string; width: string; edge: string } = {

@@ -4,9 +4,7 @@ import { StatusCodes } from "../enums/StatusCodes";
 import { AuthenticatedBaseController } from "./BaseController";
 import ArgumentError from "../errors/bad-request/ArgumentError";
 import UnCategorizedImagesStore from "../stores/UncategorizedImagesStore";
-import PrintifyRepository, {
-    PrintifyImageResource,
-} from "../repositories/PrintifyRepository";
+import PrintifyRepository, { PrintifyImageResource } from "../repositories/PrintifyRepository";
 import ArchivedImagesStore from "../stores/ArchivedImagesStore";
 
 class CategorizeAndUploadController extends AuthenticatedBaseController {
@@ -24,49 +22,48 @@ class CategorizeAndUploadController extends AuthenticatedBaseController {
         });
     }
 
-    async post(
-        req: NextApiRequest,
-        res: NextApiResponse<CreateImageCategorizationResponse>
-    ) {
-        var { imageKey, productName } =
-            getBody<CreateImageCategorizationRequest>(req);
+    async post(req: NextApiRequest, res: NextApiResponse<CreateImageCategorizationResponse>) {
+        const { imageKeys, productNames } = getBody<CreateImageCategorizationRequest>(req);
 
-        var preSignedUrl =
-            await this.uncategorizedS3BucketRepository.createPresignedUrlForViewing(
-                imageKey
-            );
+        const imageKeyList = imageKeys.split(",");
 
-        // post a request to printify (need to create a printify repository)
-        const response = await this.shopifyRepository.UploadImageToShopify(
-            productName,
-            preSignedUrl
-        );
+        console.log("Controller imageKeys: " + imageKeyList);
+        const results: PrintifyImageResource[] = [];
+        for (let i = 0; i < imageKeyList.length; i++) {
+            const imageKey = imageKeyList[i];
+            const productName = productNames[i];
+            const preSignedUrl = await this.uncategorizedS3BucketRepository.createPresignedUrlForViewing(imageKey);
+            console.log("presigned: " + preSignedUrl);
 
-        if (response === null) throw new Error("NULL RESPONSE");
+            // post a request to printify (need to create a printify repository)
+            const response = await this.shopifyRepository.UploadImageToShopify(productName, preSignedUrl);
+            if (response === null) throw new Error("NULL RESPONSE");
+            await this.uncategorizedS3BucketRepository.MoveFileFromThisContainerTo(this.archiveStore.bucketName, imageKey);
+            results.push({
+                id: response.id,
+                file_name: response.file_name,
+                height: response.height,
+                width: response.width,
+                size: response.size,
+                mime_type: response.mime_type,
+                preview_url: response.preview_url,
+                upload_time: response.upload_time,
+            });
+        }
 
-        await this.uncategorizedS3BucketRepository.MoveFileFromThisContainerTo(
-            this.archiveStore.bucketName,
-            imageKey
-        );
-
-        return res.json({
-            id: response.id,
-            file_name: response.file_name,
-            height: response.height,
-            width: response.width,
-            size: response.size,
-            mime_type: response.mime_type,
-            preview_url: response.preview_url,
-            upload_time: response.upload_time,
-        });
+        console.log("Results");
+        console.log(results);
+        return res.json({ printifyResources: results });
     }
 }
 
 export type CreateImageCategorizationRequest = {
-    imageKey: string;
-    productName: string;
+    imageKeys: string;
+    productNames: string;
 };
 
-export type CreateImageCategorizationResponse = PrintifyImageResource & {};
+export type CreateImageCategorizationResponse = {
+    printifyResources: PrintifyImageResource[];
+};
 
 export default CategorizeAndUploadController;
