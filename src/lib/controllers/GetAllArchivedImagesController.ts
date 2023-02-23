@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import ArchivedImagesStore from "../stores/ArchivedImagesStore";
+import { PresignedUrlWithMeta } from "../stores/s3Core/S3Core";
 import { AuthenticatedBaseController } from "./BaseController";
 
 class GetAllArchivedController extends AuthenticatedBaseController {
@@ -7,18 +8,22 @@ class GetAllArchivedController extends AuthenticatedBaseController {
         super();
     }
 
-    async get(req: NextApiRequest, res: NextApiResponse) {
+    async get(
+        req: NextApiRequest,
+        res: NextApiResponse<GetAllArchivedResponse>
+    ) {
         const repo = new ArchivedImagesStore();
 
-       
+        const allViewingUrls = await repo.GetAllArchivedImages();
+
         return res.json({
-            urls: allViewingUrls,
+            imageMetas: allViewingUrls,
         });
     }
 }
 
 export type GetAllArchivedResponse = {
-    urls: string[];
+    imageMetas: PresignedUrlWithMeta[];
 };
 
 export default GetAllArchivedController;

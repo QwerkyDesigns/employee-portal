@@ -1,50 +1,60 @@
+import { ImageOptionButtons } from "@/components/buttons/ImageOptionsButtons";
 import { PaddedImage } from "@/components/images/PaddedImage";
 import Layout from "@/components/Layout";
 import frontendClient from "@/lib/client/frontendClient";
 import { GetAllArchivedResponse } from "@/lib/controllers/GetAllArchivedImagesController";
-import { Button } from "@mantine/core";
+import { PresignedUrlWithMeta } from "@/lib/stores/s3Core/S3Core";
+import { batch } from "@/lib/utils/batch";
+import { Pagination } from "@mantine/core";
 import { useEffect, useState } from "react";
+import { Text } from "@mantine/core";
 
 export default function AllArchivedPage() {
-  const [imageUrls, setImageurls] = useState<string[]>([]);
+    const [imageUrlPages, setImageUrlPages] = useState<
+        PresignedUrlWithMeta[][]
+    >([]);
+    const [page, setPage] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(0);
+    useEffect(() => {
+        (async () => {
+            const res = await frontendClient.get<GetAllArchivedResponse>(
+                `archive/get-all-archived`
+            );
 
-  useEffect(() => {
-    (async () => {
-      const res = await frontendClient.get<GetAllArchivedResponse>(
-        `archive/get-all-archived`
-      );
-      setImageurls(res.urls);
-    })();
-  }, []);
+            const batches = batch(
+                res.imageMetas.filter((x) => !x.key.endsWith("meta.txt")),
+                5
+            );
+            setImageUrlPages(batches);
+            setTotalPages(batches.length);
+        })();
+    }, []);
 
-  return (
-    <Layout pageName="Archived Photos">
-      {imageUrls &&
-        imageUrls.map((url) => {
-          return (
-            <div
-              key={url}
-              style={{
-                marginBottom: "2rem",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <PaddedImage url={url} />
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                <Button>Categorize and Sell</Button>
-                <Button disabled>Delete Forever</Button>
-                {/* We don't allow deleting just yet */}
-              </div>
+    return (
+        <Layout pageName="Archived Photos">
+            <div className="h-full flex justify-center mt-4 mb-4">
+                <Pagination
+                    page={page}
+                    onChange={(p) => {
+                        setPage(p);
+                    }}
+                    total={totalPages}
+                />
             </div>
-          );
-        })}
-    </Layout>
-  );
+            <div className="flex flex-wrap justify-evenly">
+                {imageUrlPages.length > 0 &&
+                    imageUrlPages[page - 1].map((meta) => {
+                        return (
+                            <div
+                                key={meta.url}
+                                className="flex flex-col items-center justify-center border-2 m-1"
+                            >
+                                <PaddedImage key={meta.url} url={meta.url} />
+                                <ImageOptionButtons meta={meta} />
+                            </div>
+                        );
+                    })}
+            </div>
+        </Layout>
+    );
 }

@@ -37,6 +37,9 @@ export default function CreateWithDallePage() {
                 <Button
                     onClick={async () => {
                         setLoading(true);
+
+                        
+
                         const res = await frontendClient.post<CreateDalleImagesRequest, CreateDalleImagesResponse>(
                             "create/dalle",
                             {

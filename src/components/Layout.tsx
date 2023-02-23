@@ -4,6 +4,7 @@ import Head from "next/head";
 import React from "react";
 import AccessDenied from "./errorpages/AccessDenied";
 import Header from "./header/Header";
+import { Text } from "@mantine/core";
 
 export default function Layout({
     pageName,
@@ -30,6 +31,9 @@ export default function Layout({
             </Head>
             <Header />
             <main>
+                <Text className="m-5" align="center" fs="normal" fw="bolder" fz={"lg"}>
+                    {pageName}
+                </Text>
                 <Container fluid>
                     <>{children}</>
                 </Container>

@@ -20,21 +20,26 @@ export const NavItems = () => {
             })}
             {Object.keys(headerLinkGroups).map((name, i) => {
                 return (
-                    <div className="flex flex-col justify-center text-center">
+                    <div
+                        key={name}
+                        className="flex flex-col justify-center text-center"
+                    >
                         <Text className="underline" fz="lg" fw={700}>
                             {name}
                         </Text>
                         {headerLinkGroups[name].map((g, i) => {
                             return (
-                                <Button
-                                    className="text-lg text-text bg-primary m-1"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        router.push(g.value);
-                                    }}
-                                >
-                                    {g.label}
-                                </Button>
+                                <div key={g.value}>
+                                    <Button
+                                        className="text-lg text-text bg-primary m-1"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            router.push(g.value);
+                                        }}
+                                    >
+                                        {g.label}
+                                    </Button>
+                                </div>
                             );
                         })}
                     </div>

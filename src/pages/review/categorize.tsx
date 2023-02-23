@@ -36,11 +36,11 @@ export default function CategorizePage() {
     }, [key]);
 
     return (
-        <Layout pageName="Categorize and sell">
+        <Layout pageName="Categorize: Printify">
             <>
                 {image && (
                     <>
-                        <PaddedImage url={image} key={} />
+                        <PaddedImage url={image} />
                     </>
                 )}
                 <TextInput

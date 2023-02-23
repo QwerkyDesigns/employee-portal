@@ -4,6 +4,7 @@ import { AuthenticatedBaseController } from "./BaseController";
 import ArgumentError from "../errors/bad-request/ArgumentError";
 import { ImageOrigin } from "../enums/ImageOrigin";
 import UnCategorizedImagesStore from "../stores/UncategorizedImagesStore";
+import { PresignedUrlWithMeta } from "../stores/s3Core/S3Core";
 
 class GetAllUntransferredController extends AuthenticatedBaseController {
     constructor() {
@@ -23,22 +24,24 @@ class GetAllUntransferredController extends AuthenticatedBaseController {
         }
     };
 
-    async get(req: NextApiRequest, res: NextApiResponse) {
+    async get(
+        req: NextApiRequest,
+        res: NextApiResponse<GetAllUntransferredResponse>
+    ) {
         const repo = new UnCategorizedImagesStore();
 
         const { origin } = getQuery<{ origin: string }>(req);
         const imageOrigin = this.parseImageOrigin(origin);
         const allViewingUrls = await repo.RetrieveAllTransfers(imageOrigin);
-        console.log(allViewingUrls)
         return res.json({ imageMetas: allViewingUrls });
     }
 }
 
 export type GetAllUntransferredResponse = {
-    imageMetas: UnTransferredImageMeta[];
+    imageMetas: PresignedUrlWithMeta[];
 };
 
-export type UnTransferredImageMeta = {
+export type UnCategorizedImageMeta = {
     url: string;
     key: string;
 };

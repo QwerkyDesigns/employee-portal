@@ -7,7 +7,7 @@ class ArchivedImagesStore extends S3Core {
     }
 
     public async GetAllArchivedImages() {
-        const signedUrls = this.getSignedUrlsForAllFiles();
+        const signedUrls = await this.getSignedUrlsForAllFiles();
         return signedUrls;
     }
 }

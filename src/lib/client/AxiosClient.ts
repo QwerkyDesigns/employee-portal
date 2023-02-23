@@ -8,7 +8,7 @@ interface IAxiosClient {
 }
 
 export class AxiosClient implements IAxiosClient {
-  public client: AxiosInstance;
+  private client: AxiosInstance;
 
   constructor(config?: AxiosRequestConfig) {
     this.client = axios.create(config);

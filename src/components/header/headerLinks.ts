@@ -24,6 +24,12 @@ export const headerLinkGroups: { [key: string]: HeaderLink[] } = {
             value: "/review/uploads",
         },
     ],
+    Archive: [
+        {
+            label: "Archived Images",
+            value: "/archive/all-archived"
+        }
+    ]
 };
 
 export const unGroupedHeaderLinks: HeaderLink[] = [
