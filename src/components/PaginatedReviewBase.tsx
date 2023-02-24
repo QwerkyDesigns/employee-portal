@@ -16,7 +16,7 @@ type ImageKeyMap = {
     [key: string]: boolean;
 };
 
-export default function PaginatedReviewBase({ origin }: { origin: ImageOrigin }) {
+export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
     const router = useRouter();
     const [imageMetaPages, setImageMetaPages] = useState<UnCategorizedImageMeta[][]>([]);
     const [page, setPage] = useState<number>(1);
