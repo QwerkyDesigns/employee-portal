@@ -26,12 +26,13 @@ class CategorizeAndUploadController extends AuthenticatedBaseController {
         const { imageKeys, productNames } = getBody<CreateImageCategorizationRequest>(req);
 
         const imageKeyList = imageKeys.split(",");
+        const productNamesList = productNames.split(",");
 
         console.log("Controller imageKeys: " + imageKeyList);
         const results: PrintifyImageResource[] = [];
         for (let i = 0; i < imageKeyList.length; i++) {
             const imageKey = imageKeyList[i];
-            const productName = productNames[i];
+            const productName = productNamesList[i];
             const preSignedUrl = await this.uncategorizedS3BucketRepository.createPresignedUrlForViewing(imageKey);
             console.log("presigned: " + preSignedUrl);
 

@@ -1,8 +1,5 @@
-import { Inter } from "@next/font/google";
 import Layout from "@/components/Layout";
 import { Title, Text } from "@mantine/core";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
     return (
