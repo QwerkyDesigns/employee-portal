@@ -7,7 +7,12 @@
         "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "bootstrap": "npm ci",
+        "setup": "npm run boostrap",
+        "update": "rm -rf ./node_modules && npm run bootstrap",
+        "server": "npm start",
+        "cibuild": "npm run build"
     },
     "dependencies": {
         "@emotion/react": "^11.10.5",
@@ -42,7 +47,7 @@
         "next": "13.1.5",
         "next-auth": "^4.18.10",
         "next-s3-upload": "^0.2.9",
-        "nextjs-backend-helpers": "^0.0.18-6",
+        "nextjs-backend-helpers": "^0.0.18-7",
         "openai": "^3.1.0",
         "query-string": "^8.1.0",
         "react": "18.2.0",

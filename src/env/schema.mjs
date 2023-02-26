@@ -7,10 +7,10 @@ import { z } from "zod";
  */
 export const serverSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]),
-  GITHUB_CLIENT_ID: z.string(),
-  GITHUB_SECRET: z.string(),
-  NEXTAUTH_URL: z.string(),
-  NEXTAUTH_SECRET: z.string()
+  GITHUB_CLIENT_ID: z.string().min(1),
+  GITHUB_SECRET: z.string().min(1),
+  NEXTAUTH_URL: z.string().min(1),
+  NEXTAUTH_SECRET: z.string().min(1)
 });
 
 /**
@@ -19,7 +19,7 @@ export const serverSchema = z.object({
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 export const clientSchema = z.object({
-  // NEXT_PUBLIC_BAR: z.string(),
+  // NEXT_PUBLIC_BAR: z.string().min(1),
 });
 
 /**
