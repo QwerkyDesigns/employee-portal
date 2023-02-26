@@ -14,7 +14,6 @@ export default function Layout({
     children: React.ReactNode;
 }) {
     const { data: session } = useSession();
-
     return (
         <>
             <Head>
@@ -34,10 +33,10 @@ export default function Layout({
                 <Text className="m-5" align="center" fs="normal" fw="bolder" fz={"lg"}>
                     {pageName}
                 </Text>
-                <Container fluid>
+                {/* <Container fluid>
                     <>{children}</>
-                </Container>
-                {/* <Container fluid>{session ? children : <AccessDenied />}</Container> */}
+                </Container> */}
+                <Container fluid>{session ? children : <AccessDenied />}</Container>
             </main>
         </>
     );
