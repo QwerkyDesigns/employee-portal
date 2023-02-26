@@ -1,3 +1,5 @@
+import { env } from './src/env/server.mjs'
+
 /**
  *
  * @template {import('next').NextConfig} T
