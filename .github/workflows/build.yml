@@ -1,0 +1,48 @@
+name: 🪐 Build
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.yml"
+      - "**/.gitignore"
+      - "assets/*"
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.yml"
+      - "**/.gitignore"
+      - "assets/"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.14.2]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run CI build
+      env:
+        GITHUB_CLIENT_ID: dummy-value
+        GITHUB_SECRET: dummy-value
+        NEXTAUTH_URL: dummy-value
+        NEXTAUTH_SECRET: dummy-value
+        NODE_ENV: production
+      run: npm run cibuild
