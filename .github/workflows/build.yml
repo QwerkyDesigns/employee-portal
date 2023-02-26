@@ -39,4 +39,10 @@ jobs:
       run: npm ci
 
     - name: Run CI build
+      env:
+        GITHUB_CLIENT_ID: dummy-value
+        GITHUB_SECRET: dummy-value
+        NEXTAUTH_URL: dummy-value
+        NEXTAUTH_SECRET: dummy-value
+        NODE_ENV: production
       run: npm run cibuild
