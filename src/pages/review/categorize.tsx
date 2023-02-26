@@ -67,7 +67,7 @@ export default function CategorizePage() {
                                 CreateImageCategorizationResponse
                             >("categorize/categorize-and-upload", {
                                 imageKeys: keys,
-                                productNames: keys.split(",").map((_, i) => text + "-" + i),
+                                productNames: keys.split(",").map((_, i) => text + "-" + i).join(),
                             });
                             console.log(res);
                             router.push("/review/dalle");

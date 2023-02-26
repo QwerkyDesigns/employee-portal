@@ -26,12 +26,12 @@ class CategorizeAndUploadController extends AuthenticatedBaseController {
         const { imageKeys, productNames } = getBody<CreateImageCategorizationRequest>(req);
 
         const imageKeyList = imageKeys.split(",");
-
-        console.log("Controller imageKeys: " + imageKeyList);
+        const productNamesList = productNames.split(",");
+        console.log(productNames);
         const results: PrintifyImageResource[] = [];
         for (let i = 0; i < imageKeyList.length; i++) {
             const imageKey = imageKeyList[i];
-            const productName = productNames[i];
+            const productName = productNamesList[i];
             const preSignedUrl = await this.uncategorizedS3BucketRepository.createPresignedUrlForViewing(imageKey);
             console.log("presigned: " + preSignedUrl);
 
@@ -51,8 +51,6 @@ class CategorizeAndUploadController extends AuthenticatedBaseController {
             });
         }
 
-        console.log("Results");
-        console.log(results);
         return res.json({ printifyResources: results });
     }
 }

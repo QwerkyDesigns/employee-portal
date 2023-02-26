@@ -2,14 +2,14 @@ export interface Item {
     [key: string]: string
 }
 
-const groupByProperty = (items: Item[], property: string) =>
-    items.reduce((acc, item) => {
-        (acc[item[property] = acc[item[property]] || []).push(item);
-        return acc;
-    }, {});
+// const groupByProperty = (items: Item[], property: string) =>
+//     items.reduce((acc, item) => {
+//         (acc[item[property] = acc[item[property]] || []).push(item);
+//         return acc;
+//     }, {});
 
 /*
-  { 
+  {
     'category 1': [
       { id: 1, name: 'item 1', category: 'category 1' },
       { id: 3, name: 'item 3', category: 'category 1' },
