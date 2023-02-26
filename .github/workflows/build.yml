@@ -16,7 +16,7 @@ on:
       - "**/*.md"
       - "**/*.yml"
       - "**/.gitignore"
-      - "assets/
+      - "assets/"
   workflow_dispatch:
 
 jobs:
