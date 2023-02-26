@@ -27,8 +27,7 @@ class CategorizeAndUploadController extends AuthenticatedBaseController {
 
         const imageKeyList = imageKeys.split(",");
         const productNamesList = productNames.split(",");
-
-        console.log("Controller imageKeys: " + imageKeyList);
+        console.log(productNames);
         const results: PrintifyImageResource[] = [];
         for (let i = 0; i < imageKeyList.length; i++) {
             const imageKey = imageKeyList[i];
@@ -52,8 +51,6 @@ class CategorizeAndUploadController extends AuthenticatedBaseController {
             });
         }
 
-        console.log("Results");
-        console.log(results);
         return res.json({ printifyResources: results });
     }
 }
