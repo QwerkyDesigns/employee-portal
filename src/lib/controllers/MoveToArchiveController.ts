@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getBody, getQuery } from "nextjs-backend-helpers";
 import { StatusCodes } from "../enums/StatusCodes";
-import { AuthenticatedBaseController } from "./BaseController";
+import { AuthenticatedBaseController } from "./base/AuthenticatedBaseController";
 import ArgumentError from "../errors/bad-request/ArgumentError";
 import UnCategorizedImagesStore from "../stores/UncategorizedImagesStore";
 import ArchivedImagesStore from "../stores/ArchivedImagesStore";

@@ -1,14 +1,17 @@
-import { UnAuthenticatedHeader } from "@/components/header/UnAuthenticatedHeader";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { NextApiRequest, NextApiResponse } from "next";
-import { unstable_getServerSession } from "next-auth";
 import { Controller } from "nextjs-backend-helpers";
-import { StatusCodes } from "../enums/StatusCodes";
-import UnAuthenticatedError from "../errors/bad-request/UnAuthenticatedError";
+import prismaClient from "../../client/prisma";
+import { StatusCodes } from "../../enums/StatusCodes";
+import UnAuthenticatedError from "../../errors/bad-request/UnAuthenticatedError";
+import { PrismaClient } from "@prisma/client";
 
 export class AuthenticatedBaseController extends Controller {
+    public readonly db: PrismaClient;
+
     constructor() {
         super();
+
+        this.db = prismaClient;
 
         this.rescue(Error, (error, request, response) => {
             response.status(StatusCodes.ServerError).json({
@@ -27,6 +30,8 @@ export class AuthenticatedBaseController extends Controller {
             // if (!session) {
             //     throw new UnAuthenticatedError("You're not allowed to fking do that.");
             // }
+
+            await prismaClient.$connect();
         });
     }
 }

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getBody } from "nextjs-backend-helpers";
 import { StatusCodes } from "../enums/StatusCodes";
-import { AuthenticatedBaseController } from "./BaseController";
+import { AuthenticatedBaseController } from "./base/AuthenticatedBaseController";
 import ArgumentError from "../errors/bad-request/ArgumentError";
 import RepositoryOpenAi from "../repositories/DalleRepository";
 import { ImageSize } from "../enums/ImageSizes";

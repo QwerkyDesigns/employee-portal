@@ -5,6 +5,7 @@ This app intended to facilitate image coordination between various AI image gene
 ## Development
 
 ### Important Scripts
+
 #### `npm run boostrap`
 
 Used solely for fulfilling dependencies of the project.
@@ -39,4 +40,10 @@ Run the following in a shell session in the root directory of the project
 
 ```sh
 npm run setup
+```
+
+### Required Tools
+
+```sh
+npm install -g dotenv-cli
 ```

@@ -12,7 +12,8 @@
         "setup": "npm run boostrap",
         "update": "rm -rf ./node_modules && npm run bootstrap",
         "server": "npm start",
-        "cibuild": "npm run build"
+        "cibuild": "npm run build",
+        "migrate-dev": "dotenv -e .env.local -- npx prisma migrate deploy"
     },
     "dependencies": {
         "@emotion/react": "^11.10.5",
@@ -62,6 +63,7 @@
     "devDependencies": {
         "@types/cookies": "^0.7.7",
         "@types/formidable": "^2.0.5",
+        "@types/stripe": "^8.0.417",
         "@types/uuid": "^9.0.0",
         "autoprefixer": "^10.4.13",
         "cross-env": "^7.0.3",

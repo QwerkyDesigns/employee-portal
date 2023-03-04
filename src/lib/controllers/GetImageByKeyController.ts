@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getQuery } from "nextjs-backend-helpers";
-import { AuthenticatedBaseController } from "./BaseController";
+import { AuthenticatedBaseController } from "./base/AuthenticatedBaseController";
 import UnCategorizedImagesStore from "../stores/UncategorizedImagesStore";
 import queryString from "query-string";
 import ArgumentError from "../errors/bad-request/ArgumentError";
