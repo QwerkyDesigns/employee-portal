@@ -1,22 +1,32 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model Account {
-  id               Int      @id @default(autoincrement())
-  username         String   @unique
-  email            String   @unique
-  password         String?
-  stripeCustomerId String   @unique
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+    id                 Int       @id @default(autoincrement())
+    user_name          String    @unique
+    email              String    @unique
+    password           String?
+    stripe_customer_id String    @unique
+    usage              Usage?
+    created_at         DateTime  @default(now())
+    updated_at         DateTime? @updatedAt
 }
 
 model Usage {
-  
+    id              Int       @id @default(autoincrement())
+    available_funds Float
+    updated_at      DateTime? @updatedAt
+    account_id      Int       @unique
+    account         Account   @relation(fields: [account_id], references: [id])
+}
+
+model StripeWebhooks {
+    id                Int    @id @default(autoincrement())
+    payload_signature String @unique
 }

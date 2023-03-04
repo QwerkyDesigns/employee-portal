@@ -39,6 +39,6 @@ export const unGroupedHeaderLinks: HeaderLink[] = [
     },
     {
         label: "Top up your account",
-        value: "/payments/choose-top-up-method",
+        value: "/stripe/payments/choose-top-up-method",
     },
 ];

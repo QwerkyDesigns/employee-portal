@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "devold": "next dev",
-        "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
+        "dev": "cross-env NODE_OPTIONS='--inspect' && dotenv -e .env.development -- next dev",
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
@@ -13,7 +13,11 @@
         "update": "rm -rf ./node_modules && npm run bootstrap",
         "server": "npm start",
         "cibuild": "npm run build",
-        "migrate-dev": "dotenv -e .env.local -- npx prisma migrate deploy"
+        "migrate-db": "dotenv -e .env.development -- npx prisma migrate dev",
+        "reset-db": "dotenv -e .env.development -- npx prisma migrate reset",
+        "setup-db": "node -e \"require('dotenv').config({ path: '.env.development' }); const uuid = require('uuid'); const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient(); const data = { user_name: 'dev-user', email: 'dev@gmail.com', password: '12345', stripe_customer_id: 'sc_123456', usage: { create: { available_funds: 2.0 } }}; console.log('Generated Account data:', data); prisma.account.create({ data }).then(() => { console.log('AccountData stored in the database.'); }).catch((error) => { console.error('Failed to store usage data:', error); }).finally(() => { prisma.$disconnect(); }); \"",
+        "refresh": "npm run reset-db && npm run migrate-db && npm run setup-db",
+        "dev-setup": "npm run reset-db && npm run setup-db"
     },
     "dependencies": {
         "@emotion/react": "^11.10.5",
@@ -29,6 +33,7 @@
         "@mantine/prism": "^5.10.2",
         "@mantine/tiptap": "^5.10.2",
         "@next/font": "13.1.5",
+        "@stripe/stripe-js": "^1.48.0",
         "@tabler/icons": "1.119.0",
         "@tailwindcss/typography": "^0.5.9",
         "@tiptap/extension-link": "^2.0.0-beta.209",
@@ -50,14 +55,15 @@
         "next-s3-upload": "^0.2.9",
         "nextjs-backend-helpers": "^0.0.18-7",
         "openai": "^3.1.0",
+        "prisma": "^4.11.0",
         "query-string": "^8.1.0",
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-medium-image-zoom": "^5.1.2",
         "react-query": "^3.39.3",
+        "stripe": "^11.13.0",
         "tailwindcss": "^3.2.4",
         "typescript": "4.9.4",
-        "uuid": "^9.0.0",
         "zod": "^3.20.6"
     },
     "devDependencies": {
@@ -67,6 +73,9 @@
         "@types/uuid": "^9.0.0",
         "autoprefixer": "^10.4.13",
         "cross-env": "^7.0.3",
-        "postcss": "^8.4.21"
+        "dotenv": "^16.0.3",
+        "postcss": "^8.4.21",
+        "readline-sync": "^1.4.10",
+        "uuid": "^9.0.0"
     }
 }

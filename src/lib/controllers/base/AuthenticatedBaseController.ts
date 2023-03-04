@@ -31,7 +31,7 @@ export class AuthenticatedBaseController extends Controller {
             //     throw new UnAuthenticatedError("You're not allowed to fking do that.");
             // }
 
-            await prismaClient.$connect();
+            await prismaClient.$connect(); //TODO: Umm - pretty sure this isn't needed. Right?
         });
     }
 }
