@@ -27,14 +27,18 @@ export const headerLinkGroups: { [key: string]: HeaderLink[] } = {
     Archive: [
         {
             label: "Archived Images",
-            value: "/archive/all-archived"
-        }
-    ]
+            value: "/archive/all-archived",
+        },
+    ],
 };
 
 export const unGroupedHeaderLinks: HeaderLink[] = [
     {
         label: "Home",
         value: "/",
+    },
+    {
+        label: "Top up your account",
+        value: "/payments/choose-top-up-method",
     },
 ];
