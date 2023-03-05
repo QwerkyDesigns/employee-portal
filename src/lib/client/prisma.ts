@@ -1,5 +1,19 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
+import { env } from '../../env/server.mjs'
 
-const prismaClient = new PrismaClient();
+let client: PrismaClient<{
+  log: ("error" | "query" | "warn")[];
+}, never, false> | undefined
 
-export default prismaClient;
+function createClient () {
+  return new PrismaClient({
+    log:
+        env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error']
+  })
+}
+
+if (client === undefined) {
+  client = createClient()
+}
+
+export const prisma = client

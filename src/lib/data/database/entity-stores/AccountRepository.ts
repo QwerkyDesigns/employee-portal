@@ -1,4 +1,4 @@
-import prismaClient from "@/lib/client/prisma";
+import { prisma } from "@/lib/client/prisma";
 import { AccountDomainEntity } from "../DomainEntities";
 import { AccountModel, UsageModel } from "../Models";
 import { PrismaRepository } from "./PrismaRepository";
@@ -7,7 +7,7 @@ export class AccountRepository extends PrismaRepository<AccountModel, AccountDom
     entityName = "account";
 
     async findByStripeCustomerId(stripeCustomerId: string): Promise<AccountDomainEntity | null> {
-        const accountModel = await (prismaClient as any)[this.entityName].findUnique({
+        const accountModel = await (prisma as any)[this.entityName].findUnique({
             where: { stripe_customer_id: stripeCustomerId },
             include: { usage: true },
         });
