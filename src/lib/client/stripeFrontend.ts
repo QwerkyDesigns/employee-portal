@@ -21,7 +21,7 @@ import { EnvironmentVariable } from "../environment/EnvironmentVariable";
 // const stripeFrontend = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 // const stripeFrontend = loadStripe(stripeApiKey);
 
-const publishableKey = "pk_test_51Mh8ArBuP1CjbxCnOsvtbshK2aTXXUEKcV7A2nxPREvfNM8JqHdbgPz5l0yHDIsf9Qji1Jqc6OygYKQO9Ieiwsqn008vORyQrf";
+const publishableKey = "" // [Check Lastpass]
 const stripeFrontend = loadStripe(publishableKey);
 
 export default stripeFrontend;
