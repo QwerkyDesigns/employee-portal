@@ -1,6 +1,6 @@
+import env from "@/lib/environment/Environment";
+import { EnvironmentVariable } from "@/lib/environment/EnvironmentVariable";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import env from "../environment/Environment";
-import { EnvironmentVariable } from "../environment/EnvironmentVariable";
 
 export type PrintifyImageResource = {
     id: string;
@@ -40,10 +40,10 @@ class PrintifyRepository {
             url,
         };
 
-        const response = await this.client.post<
-            PrintifyImageUploadRequestPayload,
-            PrintifyImageResource
-        >("uploads/images.json", payload); // set base url in client, and then fix this call add payload"
+        const response = await this.client.post<PrintifyImageUploadRequestPayload, PrintifyImageResource>(
+            "uploads/images.json",
+            payload
+        ); // set base url in client, and then fix this call add payload"
         if (response) {
             return response;
         }

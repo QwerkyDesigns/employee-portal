@@ -1,8 +1,8 @@
+import { ImageSize } from "@/lib/enums/ImageSizes";
 import env from "@/lib/environment/Environment";
 import { EnvironmentVariable } from "@/lib/environment/EnvironmentVariable";
 import { ImageBatchMetaData } from "@/types/ImageBatchmetaData";
 import { Configuration, OpenAIApi } from "openai";
-import { ImageSize } from "../enums/ImageSizes";
 import UnCategorizedImagesStore from "../stores/UncategorizedImagesStore";
 
 const openApiKey = env.GetStringEnvironmentVarialble(EnvironmentVariable.OpenAiApiKey);

@@ -9,19 +9,17 @@ import {
 
 export default function ChooseTopUpMethod() {
     const onClick = async () => {
-        const response = await frontendClient.post<StripeCheckoutSessionRequest, StripeCheckoutSessionResponse>(
+        const { session } = await frontendClient.post<StripeCheckoutSessionRequest, StripeCheckoutSessionResponse>(
             "stripe/create-checkout-session"
         );
-        console.log(response);
-        const sessionId = response.session.id;
 
         const stripeClientJs = await stripeFrontend;
-        await stripeClientJs?.redirectToCheckout({ sessionId });
+        await stripeClientJs?.redirectToCheckout({ sessionId: session.id });
     };
 
     return (
         <Layout pageName="Manual Top Up">
-            <p>Lets put somme useful information on this page for customers to consider before we send them to stripe</p>
+            <p>Lets put some useful information on this page for customers to consider before we send them to stripe</p>
             <p>
                 We can also provide a custom checkout page design that also presents this info but maybe more concisely. Have a
                 think about it :D{" "}

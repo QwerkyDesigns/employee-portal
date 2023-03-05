@@ -9,7 +9,7 @@ class Environment {
             const value = parseInt(rawValue);
             return value;
         } catch {
-            throw new EnvironmentVarialbeNotParsedCorrectlyError(`The variable {variable} is not an int`);
+            throw new EnvironmentVarialbeNotParsedCorrectlyError(`The variable ${variable} is not an int`);
         }
     }
 
@@ -21,11 +21,16 @@ class Environment {
 
     private GetEnvironmentVariable(variable: EnvironmentVariable): string {
         const value = process.env[variable];
+        
+        // TODO: This is here for debugging the issue with the loading the stripe api key
         console.log("----------");
-        console.log("variable: " + variable);
+        console.log("Variable: " + variable);
         console.log("Value: " + value);
+        console.log("----------");
         if (value === undefined) {
-            throw new EnvironmentVariableDoesNotExistError(`Could not find ${variable} amongst the env vars. value was : ${value}`);
+            throw new EnvironmentVariableDoesNotExistError(
+                `Could not find ${variable} amongst the env vars. value was : ${value}`
+            );
         }
 
         return value;
