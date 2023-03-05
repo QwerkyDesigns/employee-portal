@@ -2,7 +2,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import env from "../environment/Environment";
 import { EnvironmentVariable } from "../environment/EnvironmentVariable";
 
-const stripeApiKey = env.GetStringEnvironmentVarialble(EnvironmentVariable.StripeApiKey);
+// const stripeApiKey = env.GetStringEnvironmentVarialble(EnvironmentVariable.StripeApiKey);
 
 //TODO: Adam - fucking javascript. I THINK we've got two different stripe libraries to work with
 // that do slightly different things. Help me sort this shit out.
@@ -19,6 +19,9 @@ const stripeApiKey = env.GetStringEnvironmentVarialble(EnvironmentVariable.Strip
 // --------------------------------------------------------  //
 
 // const stripeFrontend = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
-const stripeFrontend = loadStripe(stripeApiKey);
+// const stripeFrontend = loadStripe(stripeApiKey);
+
+const publishableKey = "pk_test_51Mh8ArBuP1CjbxCnOsvtbshK2aTXXUEKcV7A2nxPREvfNM8JqHdbgPz5l0yHDIsf9Qji1Jqc6OygYKQO9Ieiwsqn008vORyQrf";
+const stripeFrontend = loadStripe(publishableKey);
 
 export default stripeFrontend;

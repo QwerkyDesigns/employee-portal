@@ -14,24 +14,18 @@ class Environment {
     }
 
     public GetStringEnvironmentVarialble(variable: EnvironmentVariable) {
-        console.log(process.env);
-        console.log(variable);
         const rawValue = this.GetEnvironmentVariable(variable);
         const value = rawValue.toString();
         return value;
     }
 
     private GetEnvironmentVariable(variable: EnvironmentVariable): string {
-        console.log("-----------------");
-        console.log(variable);
         const value = process.env[variable];
-        console.log("=======================");
-        console.log(process.env);
-
-        console.log("=======================");
-
-        if (!value) {
-            throw new EnvironmentVariableDoesNotExistError(`Could not find ${variable} amongst the env vars`);
+        console.log("----------");
+        console.log("variable: " + variable);
+        console.log("Value: " + value);
+        if (value === undefined) {
+            throw new EnvironmentVariableDoesNotExistError(`Could not find ${variable} amongst the env vars. value was : ${value}`);
         }
 
         return value;

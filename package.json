@@ -15,9 +15,12 @@
         "cibuild": "npm run build",
         "migrate-db": "dotenv -e .env.development -- npx prisma migrate dev",
         "reset-db": "dotenv -e .env.development -- npx prisma migrate reset",
-        "setup-db": "node -e \"require('dotenv').config({ path: '.env.development' }); const uuid = require('uuid'); const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient(); const data = { user_name: 'dev-user', email: 'dev@gmail.com', password: '12345', stripe_customer_id: 'sc_123456', usage: { create: { available_funds: 2.0 } }}; console.log('Generated Account data:', data); prisma.account.create({ data }).then(() => { console.log('AccountData stored in the database.'); }).catch((error) => { console.error('Failed to store usage data:', error); }).finally(() => { prisma.$disconnect(); }); \"",
-        "refresh": "npm run reset-db && npm run migrate-db && npm run setup-db",
-        "dev-setup": "npm run reset-db && npm run setup-db"
+        "refresh-paul": "npm run reset-db && npm run migrate-db && npm run setup-db-paul",
+        "refresh-adam": "npm run reset-db && npm run migrate-db && npm run setup-db-adam",
+        "setup-db-paul": "node -e \"require('dotenv').config({ path: '.env.development' }); const uuid = require('uuid'); const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient(); const data = { user_name: 'dev-user', email: 'paul.e.gradie@gmail.com', password: '12345', stripe_customer_id: 'cus_NT3Kz6yYnM6x1s', usage: { create: { available_funds: 2.0 } }}; console.log('Generated Account data:', data); prisma.account.create({ data }).then(() => { console.log('AccountData stored in the database.'); }).catch((error) => { console.error('Failed to store usage data:', error); }).finally(() => { prisma.$disconnect(); }); \"",
+        "dev-setup-paul": "npm run reset-db && npm run setup-db-paul",
+        "setup-db-adam": "node -e \"require('dotenv').config({ path: '.env.development' }); const uuid = require('uuid'); const { PrismaClient } = require('@prisma/client'); const prisma = new PrismaClient(); const data = { user_name: 'dev-user', email: 'adamb3189@gmail.com', password: '12345', stripe_customer_id: 'cus_NT3Q8CV9Ayl59L', usage: { create: { available_funds: 2.0 } }}; console.log('Generated Account data:', data); prisma.account.create({ data }).then(() => { console.log('AccountData stored in the database.'); }).catch((error) => { console.error('Failed to store usage data:', error); }).finally(() => { prisma.$disconnect(); }); \"",
+        "dev-setup-adam": "npm run reset-db && npm run setup-db-adam"
     },
     "dependencies": {
         "@emotion/react": "^11.10.5",

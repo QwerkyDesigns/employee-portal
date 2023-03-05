@@ -1,7 +1,7 @@
 import stripeBackendClient from "@/lib/client/stripe";
 import env from "@/lib/environment/Environment";
 import { EnvironmentVariable } from "@/lib/environment/EnvironmentVariable";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { NextApiRequest, NextApiResponse } from "next/types";
 import { AuthenticatedBaseController } from "../base/AuthenticatedBaseController";
 import Stripe from "stripe";
@@ -12,15 +12,13 @@ const cancel_url = `${env.GetStringEnvironmentVarialble(EnvironmentVariable.Host
 class StripeCheckoutSessionController extends AuthenticatedBaseController {
     constructor() {
         super();
-        this.before((error, request, response) => {
-            // :thinking: was going to circuit break here on something... but perhaps not. All we need is auth in this case I suppose.
-        });
     }
 
     async post(req: NextApiRequest, res: NextApiResponse<StripeCheckoutSessionResponse>) {
-        const session = useSession();
+        const session = await getSession({ req });
 
-        const userEmail = session.data?.user?.email;
+        console.log(session);
+        const userEmail = session?.user?.email;
         if (userEmail === null) {
             throw new Error("Email not found!");
         }
@@ -31,7 +29,7 @@ class StripeCheckoutSessionController extends AuthenticatedBaseController {
 
         const stripeCustomerId = account?.stripe_customer_id;
         if (stripeCustomerId === null) throw new Error("Stripe Customer ID not found!");
-
+        console.log("Customer ID: " + stripeCustomerId);
         // TODO: Hard coding the test stripe price product here for the moment. This exists now in the test stripe account
         try {
             const checkoutSession = await stripeBackendClient.checkout.sessions.create({
