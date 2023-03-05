@@ -1,8 +1,2 @@
-class UnAuthenticatedError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = this.constructor.name;
-    }
-}
+export default class UnAuthenticatedError extends Error {}
 
-export default UnAuthenticatedError;
