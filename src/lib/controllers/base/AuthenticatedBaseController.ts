@@ -10,7 +10,7 @@ export class AuthenticatedBaseController extends Controller {
 
 
         this.rescue(Error, (error, request, response) => {
-            response.status(StatusCodes.ServerError).json(errors([error.message]))
+            response.status(StatusCodes.ServerError).json(errors([error.message]));
         });
 
         this.before(async (req: NextApiRequest, res: NextApiResponse) => {

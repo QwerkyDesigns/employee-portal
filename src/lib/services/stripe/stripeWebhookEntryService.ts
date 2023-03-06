@@ -14,29 +14,29 @@ const successfulPaymentSchema = z.object({
     customer: z.object({
         id: z.string().min(1)
     })
-})
+});
 
-type SuccessfulPayment = z.infer<typeof successfulPaymentSchema>
+type SuccessfulPayment = z.infer<typeof successfulPaymentSchema>;
 
 class StripeEventParseError extends Error {
     constructor() {
-        super('Error while parsing incoming stripe payment event')
+        super('Error while parsing incoming stripe payment event');
     }
 }
 
 async function castToSuccessfulStripePayment(incoming: Record<string, any>): Promise<SuccessfulPayment> {
-    const result = await successfulPaymentSchema.safeParseAsync(incoming)
+    const result = await successfulPaymentSchema.safeParseAsync(incoming);
 
     if (result.success === false) {
         Logger.error({
             message: 'error while casting incoming stripe payment',
             errors: result.error.flatten()
-        })
+        });
 
-        throw new StripeEventParseError()
+        throw new StripeEventParseError();
     }
 
-    return incoming as SuccessfulPayment
+    return incoming as SuccessfulPayment;
 }
 
 export async function isReplyAttack(signature: string) {
@@ -56,6 +56,7 @@ export async function handleWebhookEvent(event: Stripe.Event, signature: string)
         Logger.warn({
             message: 'Found a stripe replay - could be malicious. Returning and not processing.'
         });
+
         return;
     }
 
@@ -70,6 +71,7 @@ export async function handleWebhookEvent(event: Stripe.Event, signature: string)
         Logger.warn({
             message: `⚠️ Unrecognized Stripe event type "${eventType}"`
         });
+
         throw new Error(`⚠️ Unrecognized Stripe event type "${eventType}"`);
     }
 

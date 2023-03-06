@@ -14,7 +14,7 @@ export async function updateUsageLimit(stripeCustomerId: string, newFunds: numbe
         throw new Error("Account not found");
     }
 
-    const newAvailableFunds = (account.usage?.available_funds || 0) + newFunds
+    const newAvailableFunds = (account.usage?.available_funds || 0) + newFunds;
 
     await prisma.usage.update({
         where: {

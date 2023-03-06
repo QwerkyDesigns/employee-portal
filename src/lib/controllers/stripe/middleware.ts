@@ -6,11 +6,11 @@ import { getStripeHeader } from "./headers";
 import { StripeWebhookResponse } from "./StripeWebhookController";
 
 export function hasStripeHeader(req: NextApiRequest, res: NextApiResponse<StripeWebhookResponse>, stop: () => void) {
-  const sig = getStripeHeader(req)
+  const sig = getStripeHeader(req);
 
   if (typeof sig !== "string") {
-      stop()
-      res.status(StatusCodes.InvalidRequest).json(error('invalid request'))
+      stop();
+      res.status(StatusCodes.InvalidRequest).json(error('invalid request'));
       throw new StripeSignatureError("Errors everywhere!?");
   }
 }
