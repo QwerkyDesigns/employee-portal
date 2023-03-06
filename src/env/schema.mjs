@@ -10,7 +10,19 @@ export const serverSchema = z.object({
   GITHUB_CLIENT_ID: z.string().min(1),
   GITHUB_SECRET: z.string().min(1),
   NEXTAUTH_URL: z.string().min(1),
-  NEXTAUTH_SECRET: z.string().min(1)
+  NEXTAUTH_SECRET: z.string().min(1),
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
+  OPENAI_API_KEY: z.string(),
+  OPERATING_ENVIRONMENT: z.string(),
+  AWS_ACCESS_KEY_ID: z.string(),
+  AWS_SECRET_ACCESS_KEY: z.string(),
+  AWS_REGION: z.string(),
+  PRINTIFY_API_KEY: z.string(),
+  STRIPE_DEVICE_NAME: z.string(),
+  STRIPE_API_KEY: z.string(),
+  STRIPE_WEBHOOK_SECRET: z.string(),
+  DATABASE_URL: z.string(),
 });
 
 /**
@@ -19,7 +31,7 @@ export const serverSchema = z.object({
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 export const clientSchema = z.object({
-  // NEXT_PUBLIC_BAR: z.string().min(1),
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string()
 });
 
 /**

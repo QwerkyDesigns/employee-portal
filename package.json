@@ -5,7 +5,8 @@
     "scripts": {
         "devold": "next dev",
         "dev": "cross-env NODE_OPTIONS='--inspect' && dotenv -e .env.development -- next dev",
-        "build": "next build",
+        "build:dev": "dotenv -e .env.development -- next build",
+        "build:prd": "dotenv -e .env.production -- next build",
         "start": "next start",
         "lint": "next lint",
         "bootstrap": "npm ci",
@@ -77,6 +78,7 @@
         "autoprefixer": "^10.4.13",
         "cross-env": "^7.0.3",
         "dotenv": "^16.0.3",
+        "dotenv-cli": "^7.0.0",
         "postcss": "^8.4.21",
         "readline-sync": "^1.4.10",
         "uuid": "^9.0.0"
