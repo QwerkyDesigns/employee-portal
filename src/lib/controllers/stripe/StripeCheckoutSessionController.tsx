@@ -5,6 +5,7 @@ import { getSession, useSession } from "next-auth/react";
 import { NextApiRequest, NextApiResponse } from "next/types";
 import { AuthenticatedBaseController } from "../base/AuthenticatedBaseController";
 import Stripe from "stripe";
+import { prisma } from "@/lib/client/prisma";
 
 const success_url = `${env.GetStringEnvironmentVarialble(EnvironmentVariable.HostUrl)}/stripe/success`;
 const cancel_url = `${env.GetStringEnvironmentVarialble(EnvironmentVariable.HostUrl)}/stripe/cancel`;
@@ -23,7 +24,7 @@ class StripeCheckoutSessionController extends AuthenticatedBaseController {
             throw new Error("Email not found!");
         }
 
-        const account = await this.db.account.findUnique({
+        const account = await prisma.account.findUnique({
             where: { email: userEmail },
         });
 

@@ -1,36 +1,59 @@
 import StripeEventsCustomBullshit from "@/lib/bullshit/StripeEvents";
 import Stripe from "stripe";
-import UsageUpdateService from "./UsageUpdateService";
+import { updateUsageLimit } from "./UsageUpdateService";
 import { prisma } from "@/lib/client/prisma";
 import { Logger } from "nextjs-backend-helpers";
+import { z } from "zod";
 
 export interface IStripeWebhookHandler {
     handleWebhookEvent(event: any, signature: string): void;
 }
 
-type SuccessfulPayment = {
-    amount: number,
-    customer: {
-        id: string
+const successfulPaymentSchema = z.object({
+    amount: z.number().positive(),
+    customer: z.object({
+        id: z.string().min(1)
+    })
+})
+
+type SuccessfulPayment = z.infer<typeof successfulPaymentSchema>
+
+class StripeEventParseError extends Error {
+    constructor() {
+        super('Error while parsing incoming stripe payment event')
     }
 }
 
-export async function lookForReplayAttacks(signature: string) {
-    const previouswebhooks = await prisma.stripeWebhooks.findMany({
+async function castToSuccessfulStripePayment(incoming: Record<string, any>): Promise<SuccessfulPayment> {
+    const result = await successfulPaymentSchema.safeParseAsync(incoming)
+
+    if (result.success === false) {
+        Logger.error({
+            message: 'error while casting incoming stripe payment',
+            errors: result.error.flatten()
+        })
+
+        throw new StripeEventParseError()
+    }
+
+    return incoming as SuccessfulPayment
+}
+
+export async function isReplyAttack(signature: string) {
+    const previouswebhooks = await prisma.stripeWebhooks.count({
         where: {
             payload_signature: signature,
         },
     });
 
-    return previouswebhooks.length === 0;
+    return previouswebhooks !== 0;
 }
 
 export async function handleWebhookEvent(event: Stripe.Event, signature: string) {
     const eventType = event.type;
 
-    const shouldProcess = await lookForReplayAttacks(signature);
-    if (!shouldProcess) {
-        Logger.debug({
+    if (await isReplyAttack(signature)) {
+        Logger.warn({
             message: 'Found a stripe replay - could be malicious. Returning and not processing.'
         });
         return;
@@ -53,12 +76,10 @@ export async function handleWebhookEvent(event: Stripe.Event, signature: string)
     // Handle the event
     switch (event.type) {
         case StripeEventsCustomBullshit.PaymentIntentSucceeded:
-            const paymentIntentSucceeded = event.data.object as SuccessfulPayment; // TODO: as TYPE THIS SHIT PLZ;
-            // get the customerId - retrieve the account, get the accountId, retrieve the Usage, update the usage
-            const usageService = new UsageUpdateService();
-            const fundsAdded = paymentIntentSucceeded.amount; // TODO: This type to be fixed
-            const customerId = paymentIntentSucceeded.customer.id; // TODO: This too
-            usageService.UpdateUsageLimit(customerId, fundsAdded);
+            const paymentIntentSucceeded = await castToSuccessfulStripePayment(event.data.object);
+            const fundsAdded = paymentIntentSucceeded.amount;
+            const customerId = paymentIntentSucceeded.customer.id;
+            updateUsageLimit(customerId, fundsAdded);
             break;
 
         case StripeEventsCustomBullshit.PaymentIntentPaymentFailed:
