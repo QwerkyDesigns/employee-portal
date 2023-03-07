@@ -2,44 +2,51 @@ import stripeBackendClient from "@/lib/client/stripe";
 import env from "@/lib/environment/Environment";
 import { EnvironmentVariable } from "@/lib/environment/EnvironmentVariable";
 import StripeSignatureError from "@/lib/errors/application-errors/StripeSignatureError";
-import StripeWebhookHandler from "@/lib/services/stripe/stripeWebhookEntryService";
+import { handleWebhookEvent  } from "@/lib/services/stripe/stripeWebhookEntryService";
 import { NextApiRequest, NextApiResponse } from "next/types";
+import { errors, error, Logger } from "nextjs-backend-helpers";
 import { Controller } from "nextjs-backend-helpers/controller";
+import { getStripeHeader } from "./headers";
+import { hasStripeHeader } from "./middleware";
+import { StatusCodes } from '@/lib/enums/StatusCodes';
 
-const endpointSecret = env.GetStringEnvironmentVarialble(EnvironmentVariable.StripeWebhookSecret);
+const endpointSecret = env.
+    GetStringEnvironmentVarialble(EnvironmentVariable.StripeWebhookSecret);
 // This is an unauthenticated stripe webhook controller
 // we'll add middleware on to this to reject any request that does not
 // contain the required headers from stripe
 class StripeWebhookController extends Controller {
-    private readonly stripeWebhookHandler: StripeWebhookHandler;
 
     constructor() {
         super();
-        this.stripeWebhookHandler = new StripeWebhookHandler(); // Can we use injectify-js or something to that event to inject dependencies? That would be nice (not sure about compatibility with the controllers
 
-        this.before((error, request, response) => {
-            // do a check on the request headers and look for the
+        this.rescue(StripeSignatureError, (err, _req, res) => {
+            res.status(400).json(errors([err.constructor.name, err.message]));
         });
 
-        this.rescue(StripeSignatureError, (err, req, res) => {
-            res.status(400).json({
-                errors: [err.constructor.name, err.message],
-            });
-        });
+        this.before(hasStripeHeader).only('post');
     }
 
     async post(req: NextApiRequest, res: NextApiResponse<StripeWebhookResponse>) {
-        const sig = req.headers["stripe-signature"] as string;
-
-        if (typeof sig !== "string") {
-            throw new StripeSignatureError("Errors everywhere!?");
-        }
+        const sig = getStripeHeader<string>(req);
 
         try {
-            const event = stripeBackendClient.webhooks.constructEvent(req.body, sig, endpointSecret);
-            await this.stripeWebhookHandler.HandleWebhookEvent(event, sig);
+            const event = stripeBackendClient
+                .webhooks
+                .constructEvent(req.body, sig, endpointSecret);
+            await handleWebhookEvent(event, sig);
         } catch (err: any) {
-            res.status(400).send(`Webhook Error: ${err.message}`);
+            const errr = err as Error;
+
+            Logger.error({
+                message: 'Webhook Error',
+                error: errr.message,
+                errorName: errr.name
+            });
+
+            res.status(StatusCodes.InvalidRequest)
+                .json(error(`Webhook Error: ${err.message}`));
+
             return;
         }
     }

@@ -1,73 +1,95 @@
 import StripeEventsCustomBullshit from "@/lib/bullshit/StripeEvents";
 import Stripe from "stripe";
-import UsageUpdateService from "./UsageUpdateService";
-import { PrismaClient } from "@prisma/client";
-import prismaClient from "@/lib/client/prisma";
+import { updateUsageLimit } from "./UsageUpdateService";
+import { prisma } from "@/lib/client/prisma";
+import { Logger } from "nextjs-backend-helpers";
+import { z } from "zod";
 
 export interface IStripeWebhookHandler {
-    HandleWebhookEvent(event: any, signature: string): void;
+    handleWebhookEvent(event: any, signature: string): void;
 }
 
-class StripeWebhookHandler implements IStripeWebhookHandler {
-    public readonly db: PrismaClient;
+const successfulPaymentSchema = z.object({
+    amount: z.number().positive(),
+    customer: z.object({
+        id: z.string().min(1)
+    })
+});
 
+type SuccessfulPayment = z.infer<typeof successfulPaymentSchema>;
+
+class StripeEventParseError extends Error {
     constructor() {
-        this.db = prismaClient;
-    }
-
-    private async LookForReplayAttacks(signature: string) {
-        const previouswebhooks = await this.db.stripeWebhookReplays.findMany({
-            where: {
-                payload_signature: signature,
-            },
-        });
-
-        return previouswebhooks.length === 0;
-    }
-
-    public async HandleWebhookEvent(event: Stripe.Event, signature: string) {
-        const eventType = event.type;
-
-        const shouldProcess = await this.LookForReplayAttacks(signature);
-        if (!shouldProcess) {
-            console.log("Found a stripe replay - could be malicious. Returning and not processing.");
-            return;
-        }
-
-        await this.db.stripeWebhookReplays.create({
-            data: {
-                payload_signature: signature,
-            },
-        });
-
-        // Validate the event type
-        if (!(eventType in StripeEventsCustomBullshit)) {
-            console.warn(`⚠️ Unrecognized Stripe event type "${eventType}"`);
-            throw new Error(`⚠️ Unrecognized Stripe event type "${eventType}"`);
-        }
-
-        // Handle the event
-        switch (event.type) {
-            case StripeEventsCustomBullshit.PaymentIntentSucceeded:
-                const paymentIntentSucceeded = event.data.object; // TODO: as TYPE THIS SHIT PLZ;
-                // get the customerId - retrieve the account, get the accountId, retrieve the Usage, update the usage
-                const usageService = new UsageUpdateService();
-                const fundsAdded = paymentIntentSucceeded.amount; // TODO: This type to be fixed
-                const customerId = paymentIntentSucceeded.customer.id; // TODO: This too
-                usageService.UpdateUsageLimit(fundsAdded, customerId);
-                break;
-
-            case StripeEventsCustomBullshit.PaymentIntentPaymentFailed:
-                const paymentIntentFailed = event.data.object;
-                // TODO: do some shit like send an email or feedback to the portal
-                break;
-
-            // TODO: ... handle other event types
-
-            default:
-                console.log(`Unhandled event type ${event.type}`);
-        }
+        super('Error while parsing incoming stripe payment event');
     }
 }
 
-export default StripeWebhookHandler;
+async function castToSuccessfulStripePayment(incoming: Record<string, any>): Promise<SuccessfulPayment> {
+    const result = await successfulPaymentSchema.safeParseAsync(incoming);
+
+    if (result.success === false) {
+        Logger.error({
+            message: 'error while casting incoming stripe payment',
+            errors: result.error.flatten()
+        });
+
+        throw new StripeEventParseError();
+    }
+
+    return incoming as SuccessfulPayment;
+}
+
+export async function isReplyAttack(signature: string) {
+    const previouswebhooks = await prisma.stripeWebhooks.count({
+        where: {
+            payload_signature: signature,
+        },
+    });
+
+    return previouswebhooks !== 0;
+}
+
+export async function handleWebhookEvent(event: Stripe.Event, signature: string) {
+    const eventType = event.type;
+
+    if (await isReplyAttack(signature)) {
+        Logger.warn({
+            message: 'Found a stripe replay - could be malicious. Returning and not processing.'
+        });
+
+        return;
+    }
+
+    await prisma.stripeWebhooks.create({
+        data: {
+            payload_signature: signature,
+        },
+    });
+
+    // Validate the event type
+    if (!(eventType in StripeEventsCustomBullshit)) {
+        Logger.warn({
+            message: `⚠️ Unrecognized Stripe event type "${eventType}"`
+        });
+
+        throw new Error(`⚠️ Unrecognized Stripe event type "${eventType}"`);
+    }
+
+    // Handle the event
+    switch (event.type) {
+        case StripeEventsCustomBullshit.PaymentIntentSucceeded:
+            const paymentIntentSucceeded = await castToSuccessfulStripePayment(event.data.object);
+            const fundsAdded = paymentIntentSucceeded.amount;
+            const customerId = paymentIntentSucceeded.customer.id;
+            updateUsageLimit(customerId, fundsAdded);
+            break;
+
+        case StripeEventsCustomBullshit.PaymentIntentPaymentFailed:
+            break;
+
+        // TODO: ... handle other event types
+
+        default:
+            Logger.debug({ message: `Unhandled event type ${event.type}` });
+    }
+}

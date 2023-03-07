@@ -20,11 +20,11 @@ export const AuthenticatedHeader = ({ session }: { session: Session }) => {
                 <span className="">
                     <small>Signed in as</small>
                     <br />
-                    <strong>
+                    <p className="font-bold">
                         {session.user?.email ??
                             session.user?.name ??
                             "Could not find a username for the current session..."}
-                    </strong>
+                    </p>
                 </span>
             </div>
             <NavItems />

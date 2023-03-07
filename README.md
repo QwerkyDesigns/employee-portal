@@ -41,9 +41,3 @@ Run the following in a shell session in the root directory of the project
 ```sh
 npm run setup
 ```
-
-### Required Tools
-
-```sh
-npm install -g dotenv-cli
-```
