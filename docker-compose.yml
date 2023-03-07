@@ -20,6 +20,7 @@ services:
     stripe-cli:
         image: stripe/stripe-cli
         container_name: stripe-cli
+        restart: always
         command:
             - listen
             - "--api-key"

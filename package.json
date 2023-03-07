@@ -15,10 +15,11 @@
         "update": "rm -rf ./node_modules && db:dev:migrate && npm run bootstrap",
         "server": "dotenv -e .env.production npm start",
         "cibuild": "npm run build:prd",
-        "db:dev:migrate": "dotenv -e .env.development -- npx prisma migrate dev",
-        "db:dev:reset": "dotenv -e .env.development -- npx prisma migrate reset",
+        "db:dev:migrate": "dotenv -e ./scripts/.env.external -- npx prisma migrate dev",
+        "db:dev:reset": "dotenv -e ./scripts/.env.external -- npx prisma migrate reset",
         "db:dev:refresh": "npm run db:dev:reset && npm run db:dev:migrate && npm run setup-db",
-        "setup-db": "node scripts/setup-database.js"
+        "setup-db": "node scripts/setup-database.js",
+        "dev-setup": "docker compose up --build -d && npm run db:dev:refresh"
     },
     "dependencies": {
         "@emotion/react": "^11.10.5",

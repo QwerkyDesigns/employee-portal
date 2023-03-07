@@ -1,7 +1,7 @@
-require("dotenv").config({ path: ".env.development" });
+require("dotenv").config({ path: "./scripts/.env.external" });
 const config = require("./../dev.config.js");
 const { PrismaClient } = require("@prisma/client");
-console.log(process.env.DATABASE_URL);
+
 const prisma = new PrismaClient({
     datasources: {
         db: {
@@ -22,7 +22,7 @@ console.log("Generated Account data:", data);
 prisma.account
     .create({ data })
     .then(() => {
-        console.log("AccountData stored in the database.");
+        console.log("Account Data stored in the database.");
     })
     .catch((error) => {
         console.error("Failed to store usage data:", error);
