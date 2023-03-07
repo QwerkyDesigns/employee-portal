@@ -5,8 +5,9 @@ import {
     StripeCheckoutSessionRequest,
     StripeCheckoutSessionResponse,
 } from "@/lib/controllers/stripe/StripeCheckoutSessionController";
-import { Title, Text } from "@mantine/core";
 import { useEffect } from "react";
+import Landing from "../landing/pages/Landing"
+
 
 export default function Home() {
     useEffect(() => {
@@ -24,14 +25,7 @@ export default function Home() {
 
     return (
         <Layout pageName="Qwerky Designs Employee Portal">
-            <div style={{ marginTop: "4rem" }}>
-                <Title align="center" style={{ marginBottom: "1rem" }}>
-                    Welcome to the Qwerky Designs backend portal!
-                </Title>
-                <Text align="center">
-                    You can use the navigation in the header to navigate to the page you need to do your work.
-                </Text>
-            </div>
+            <Landing />
         </Layout>
     );
 }
