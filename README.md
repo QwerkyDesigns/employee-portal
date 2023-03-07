@@ -41,3 +41,10 @@ Run the following in a shell session in the root directory of the project
 ```sh
 npm run setup
 ```
+
+### Notes
+
+https://jameschambers.co.uk/nextjs-hot-reload-docker-development
+
+https://logfetch.com/next-stripe-cli-docker-integration/
+
