@@ -12,3 +12,12 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzM
 #     "file_name":"BOWLOSOUP",
 #     "url":"https://qd-uploads-and-transfers-dev.s3.amazonaws.com/Dall-E/1cb3463c-d6cc-4cc3-b0cd-16fb50647719/1cb3463c-d6cc-4cc3-b0cd-16fb50647719-2.png?AWSAccessKeyId=AKIAUO46JKWBGMQEFWYW&Expires=1676801502&Signature=p3NP9jgSsk7PjDw7lFpUFZ%2B3FDs%3D"
 # }
+
+###
+
+POST http://localhost:3000/api/stripe/webhook HTTP/1.1
+content-type: application/json
+
+{
+    "some": "data"
+}
