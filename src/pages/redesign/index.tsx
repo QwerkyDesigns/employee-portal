@@ -1,29 +1,29 @@
-import { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
 import {
   Bars3Icon,
   XMarkIcon,
   PaintBrushIcon,
   DocumentMagnifyingGlassIcon
-} from '@heroicons/react/24/outline'
-import { useSession } from 'next-auth/react'
-import { ParsedUrlQuery } from 'querystring'
-import { GetServerSidePropsContext, PreviewData } from 'next'
-import { isAuthenticated } from '@/lib/get-server-side-props/authentication'
-import { signOut } from 'next-auth/react'
+} from '@heroicons/react/24/outline';
+import { useSession } from 'next-auth/react';
+import { ParsedUrlQuery } from 'querystring';
+import { GetServerSidePropsContext, PreviewData } from 'next';
+import { isAuthenticated } from '@/lib/get-server-side-props/authentication';
+import { signOut } from 'next-auth/react';
 
 const navigation = [
   { name: 'Create', href: '#', icon: PaintBrushIcon, current: false },
   { name: 'Review', href: '#', icon: DocumentMagnifyingGlassIcon, current: false },
-]
+];
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
+  return classes.filter(Boolean).join(' ');
+};
 
 export default function Index() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { data: session } = useSession()
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <>
@@ -178,7 +178,7 @@ export default function Index() {
                    onClick={() => {
                     signOut({
                       'callbackUrl': '/redesign/login'
-                    })
+                    });
                    }}
                    >
                       Sign Out
@@ -227,7 +227,7 @@ export default function Index() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 export async function getServerSideProps (context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) {
@@ -235,5 +235,5 @@ export async function getServerSideProps (context: GetServerSidePropsContext<Par
     props: {
       session
     }
-  }))
+  }));
 }

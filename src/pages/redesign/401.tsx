@@ -1,6 +1,6 @@
-import React from 'react'
-import { GetServerSidePropsContext, PreviewData } from 'next'
-import { ParsedUrlQuery } from 'querystring'
+import React from 'react';
+import { GetServerSidePropsContext, PreviewData } from 'next';
+import { ParsedUrlQuery } from 'querystring';
 
 export default function fourohone () {
   return (
@@ -16,10 +16,10 @@ export default function fourohone () {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export async function getServerSideProps (context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) {
-  context.res.statusCode = 401
-  return { props: {} }
+  context.res.statusCode = 401;
+  return { props: {} };
 }

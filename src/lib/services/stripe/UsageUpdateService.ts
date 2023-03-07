@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/client/prisma";
 
 export async function updateUsageLimit(stripeCustomerId: string, newFunds: number) {
-    const account = await prisma.Account.findUnique({
+    const account = await prisma.account.findUnique({
         where: {
             stripeCustomerId: stripeCustomerId,
         },
@@ -14,9 +14,9 @@ export async function updateUsageLimit(stripeCustomerId: string, newFunds: numbe
         throw new Error("Account not found");
     }
 
-    const newAvailableFunds = (account.usage?.available_funds || 0) + newFunds;
+    const newAvailableFunds = (account.usage?.availableFunds || 0) + newFunds;
 
-    await prisma.Usage.update({
+    await prisma.usage.update({
         where: {
             id: account.usage?.id,
         },
