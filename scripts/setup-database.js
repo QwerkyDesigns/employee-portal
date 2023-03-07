@@ -1,20 +1,20 @@
-// require("dotenv").config({ path: ".env.development" });
+require("dotenv").config({ path: ".env.development" });
 const config = require("./../dev.config.js");
 const { PrismaClient } = require("@prisma/client");
+console.log(process.env.DATABASE_URL);
 const prisma = new PrismaClient({
     datasources: {
-      db: {
-        url: "postgresql://postgres:Password01!@localhost:5432/dev",
-      },
+        db: {
+            url: process.env.DATABASE_URL,
+        },
     },
-  });
-
+});
 const data = {
-    UserName: "dev-user",
-    Email: config.email,
-    Password: "12345",
-    StripeCustomerId: "cus_NT3Q8CV9Ayl59L",
-    Usage: { create: { AvailableFunds: 2.0 } },
+    userName: "dev-user",
+    email: config.email,
+    password: "12345",
+    stripeCustomerId: "cus_NT3Q8CV9Ayl59L",
+    usage: { create: { availableFunds: 2.0 } },
 };
 
 console.log("Generated Account data:", data);

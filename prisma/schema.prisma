@@ -1,5 +1,5 @@
 generator client {
-    provider      = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
@@ -9,24 +9,24 @@ datasource db {
 
 model Account {
     id               Int       @id @default(autoincrement())
-    UserName         String    @unique
-    Email            String    @unique
-    Password         String?
-    StripeCustomerId String    @unique
-    Usage            Usage?
-    CreatedAt        DateTime  @default(now())
-    UpdatedAt        DateTime? @updatedAt
+    userName         String    @unique
+    email            String    @unique
+    password         String?
+    stripeCustomerId String    @unique
+    usage            Usage?
+    createdAt        DateTime  @default(now())
+    updatedAt        DateTime? @updatedAt
 }
 
 model Usage {
     id             Int       @id @default(autoincrement())
-    AvailableFunds Float
-    UpdatedAt      DateTime? @updatedAt
-    AccountId      Int       @unique
-    Account        Account   @relation(fields: [AccountId], references: [id])
+    availableFunds Float
+    updatedAt      DateTime? @updatedAt
+    accountId      Int       @unique
+    account        Account   @relation(fields: [accountId], references: [id])
 }
 
 model StripeWebhooks {
     id               Int    @id @default(autoincrement())
-    PayloadSignature String @unique
+    payloadSignature String @unique
 }

@@ -42,7 +42,7 @@ async function castToSuccessfulStripePayment(incoming: Record<string, any>): Pro
 export async function isReplyAttack(signature: string) {
     const previouswebhooks = await prisma.stripeWebhooks.count({
         where: {
-            payload_signature: signature,
+            payloadSignature: signature,
         },
     });
 
@@ -60,9 +60,9 @@ export async function handleWebhookEvent(event: Stripe.Event, signature: string)
         return;
     }
 
-    await prisma.stripeWebhooks.create({
+    await prisma.StripeWebhooks.create({
         data: {
-            payload_signature: signature,
+            payloadSignature: signature,
         },
     });
 

@@ -24,7 +24,7 @@ class StripeCheckoutSessionController extends AuthenticatedBaseController {
             throw new Error("Email not found!");
         }
 
-        const account = await prisma.account.findUnique({
+        const account = await prisma.Account.findUnique({
             where: { email: userEmail },
         });
 
