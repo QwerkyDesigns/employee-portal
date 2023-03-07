@@ -24,7 +24,7 @@ export default function ChooseTopUpMethod() {
             <p>Lets put somme useful information on this page for customers to consider before we send them to stripe</p>
             <p>
                 We can also provide a custom checkout page design that also presents this info but maybe more concisely. Have a
-                think about it :D{" "}
+                think about it :D
             </p>
             <NormalButton onClick={onClick}>Manual Top up</NormalButton>
         </Layout>
