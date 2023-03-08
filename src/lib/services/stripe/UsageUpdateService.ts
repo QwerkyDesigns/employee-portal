@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/client/prisma";
+import { Logger } from "nextjs-backend-helpers";
 
 export async function updateUsageLimit(stripeCustomerId: string, newFunds: number) {
     const account = await prisma.account.findUnique({
@@ -15,14 +16,14 @@ export async function updateUsageLimit(stripeCustomerId: string, newFunds: numbe
     }
 
     const newAvailableFunds = (account.usage?.availableFunds || 0) + newFunds;
+    Logger.debug({ message: `New available funds: ${newAvailableFunds}` });
 
     await prisma.usage.update({
         where: {
             id: account.usage?.id,
         },
         data: {
-            availableFunds: newAvailableFunds, // TODO: we should change the colums from snake_case to camelCase.
-            // if we want them to be snake_case, then Prisma has a @map and @@map directive here: https://www.prisma.io/docs/concepts/components/prisma-schema/data-model#mapping-model-names-to-tables-or-collections
+            availableFunds: newAvailableFunds,
         },
     });
 }
