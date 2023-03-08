@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import Container from './Container'
 import { NavLink } from './NavLink'
 import { Logo } from './Logo'
-import { Button } from './Button'
+import { Button } from '../redesign/Button'
 
 function MobileNavLink({
   href,
@@ -114,9 +114,7 @@ export function Header() {
               <NavLink href="/login">Sign in</NavLink>
             </div>
             <Button href="/register" color="blue">
-              <span>
-                Get started <span className="hidden lg:inline">today</span>
-              </span>
+                Get started today
             </Button>
             <div className="-mr-1 md:hidden">
               <MobileNavigation />

@@ -21,7 +21,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 };
 
-export default function Index() {
+export default function IndexRedesign() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
 

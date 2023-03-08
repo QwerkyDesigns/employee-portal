@@ -12,27 +12,27 @@ import Container from './Container'
 
 const features: FeatureType[] = [
   {
-    title: 'Payroll',
+    title: 'Image',
     description:
-      "Keep track of everyone's salaries and whether or not they've been paid. Direct deposit not supported.",
+      "Create and manage images for your online store.",
     image: screenshotPayroll,
   },
   {
-    title: 'Claim expenses',
+    title: 'Text',
     description:
-      "All of your receipts organized into one place, as long as you don't mind typing in the data by hand.",
+      "Manage all of your text generation needs - from copywriting to prompt engineering.",
     image: screenshotExpenses,
   },
   {
-    title: 'VAT handling',
+    title: 'Audio',
     description:
-      "We only sell our software to companies who don't deal with VAT at all, so technically we do all the VAT stuff they need.",
+      "We might be able integrate audio services",
     image: screenshotVatReturns,
   },
   {
-    title: 'Reporting',
+    title: 'Apply your own styles',
     description:
-      'Easily export your data into an Excel spreadsheet where you can do whatever the hell you want with it.',
+      'Are you an artist? Upload your work and generate images in your own style.',
     image: screenshotReporting,
   },
 ]
@@ -78,11 +78,10 @@ export function PrimaryFeatures() {
       <Container className="relative">
         <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
           <h2 className="text-white font-display text-3xl tracking-tight sm:text-4xl md:text-5xl">
-            Everything you need to run your books.
+            All of your creative generation needs in one place.
           </h2>
           <p className="text-blue-100 mt-6 text-lg tracking-tight">
-            Well everything you need if you aren’t that picky about minor
-            details like tax compliance.
+            Every single AI service you could ever want
           </p>
         </div>
         <Tab.Group
