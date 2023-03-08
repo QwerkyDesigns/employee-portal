@@ -1,9 +1,8 @@
 import clsx from 'clsx'
+import { Button } from './Button'
+import Container from './Container'
 
-import { Button } from '@/components/Button'
-import { Container } from '@/components/Container'
-
-function SwirlyDoodle({ className }) {
+function SwirlyDoodle({ className }: { className: string }) {
   return (
     <svg
       aria-hidden="true"
@@ -20,12 +19,12 @@ function SwirlyDoodle({ className }) {
   )
 }
 
-function CheckIcon({ className }) {
+function CheckIcon({ className }: { className: string }) {
   return (
     <svg
       aria-hidden="true"
       className={clsx(
-        'h-6 w-6 flex-none fill-current stroke-current',
+        'fill-current stroke-current h-6 w-6 flex-none',
         className
       )}
     >
@@ -46,15 +45,31 @@ function CheckIcon({ className }) {
   )
 }
 
-function Plan({ name, price, description, href, features, featured = false }) {
+interface IPlan {
+  name: string
+  price: string
+  description: string
+  href: string
+  features: string[]
+  featured?: boolean
+}
+
+function Plan({
+  name,
+  price,
+  description,
+  href,
+  features,
+  featured = false,
+}: IPlan) {
   return (
     <section
       className={clsx(
         'flex flex-col rounded-3xl px-6 sm:px-8',
-        featured ? 'order-first bg-blue-600 py-8 lg:order-none' : 'lg:py-8'
+        featured ? 'bg-blue-600 order-first py-8 lg:order-none' : 'lg:py-8'
       )}
     >
-      <h3 className="mt-5 font-display text-lg text-white">{name}</h3>
+      <h3 className="text-white mt-5 font-display text-lg">{name}</h3>
       <p
         className={clsx(
           'mt-2 text-base',
@@ -63,7 +78,7 @@ function Plan({ name, price, description, href, features, featured = false }) {
       >
         {description}
       </p>
-      <p className="order-first font-display text-5xl font-light tracking-tight text-white">
+      <p className="text-white order-first font-display text-5xl font-light tracking-tight">
         {price}
       </p>
       <ul
@@ -102,14 +117,14 @@ export function Pricing() {
     >
       <Container>
         <div className="md:text-center">
-          <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl">
+          <h2 className="text-white font-display text-3xl tracking-tight sm:text-4xl">
             <span className="relative whitespace-nowrap">
-              <SwirlyDoodle className="absolute top-1/2 left-0 h-[1em] w-full fill-blue-400" />
+              <SwirlyDoodle className="fill-blue-400 absolute top-1/2 left-0 h-[1em] w-full" />
               <span className="relative">Simple pricing,</span>
             </span>{' '}
             for everyone.
           </h2>
-          <p className="mt-4 text-lg text-slate-400">
+          <p className="text-slate-400 mt-4 text-lg">
             It doesn’t matter what size your business is, our software won’t
             work well for you.
           </p>

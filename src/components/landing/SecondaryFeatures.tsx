@@ -1,14 +1,14 @@
 import { useId } from 'react'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import { Tab } from '@headlessui/react'
 import clsx from 'clsx'
+import React, { FC } from 'react'
+import screenshotContacts from './images/screenshots/contacts.png'
+import screenshotInventory from './images/screenshots/inventory.png'
+import screenshotProfitLoss from './images/screenshots/profit-loss.png'
+import Container from './Container'
 
-import { Container } from '@/components/Container'
-import screenshotContacts from '@/images/screenshots/contacts.png'
-import screenshotInventory from '@/images/screenshots/inventory.png'
-import screenshotProfitLoss from '@/images/screenshots/profit-loss.png'
-
-const features = [
+const features: Feature[] = [
   {
     name: 'Reporting',
     summary: 'Stay on top of things with always up-to-date reporting features.',
@@ -96,7 +96,26 @@ const features = [
   },
 ]
 
-function Feature({ feature, isActive, className, ...props }) {
+type Feature = {
+  icon: any
+  name: string | any
+  summary: string
+  description: string
+  image: StaticImageData
+}
+
+type FeatureProps = {
+  feature: Feature
+  isActive: boolean
+  className?: string
+} & React.HTMLAttributes<HTMLDivElement>
+
+const Feature: FC<FeatureProps> = ({
+  feature,
+  isActive,
+  className,
+  ...props
+}) => {
   return (
     <div
       className={clsx(className, !isActive && 'opacity-75 hover:opacity-100')}
@@ -109,7 +128,7 @@ function Feature({ feature, isActive, className, ...props }) {
         )}
       >
         <svg aria-hidden="true" className="h-9 w-9" fill="none">
-          <feature.icon />
+          {feature.icon}
         </svg>
       </div>
       <h3
@@ -120,10 +139,10 @@ function Feature({ feature, isActive, className, ...props }) {
       >
         {feature.name}
       </h3>
-      <p className="mt-2 font-display text-xl text-slate-900">
+      <p className="text-slate-900 mt-2 font-display text-xl">
         {feature.summary}
       </p>
-      <p className="mt-4 text-sm text-slate-600">{feature.description}</p>
+      <p className="text-slate-600 mt-4 text-sm">{feature.description}</p>
     </div>
   )
 }
@@ -135,8 +154,8 @@ function FeaturesMobile() {
         <div key={feature.name}>
           <Feature feature={feature} className="mx-auto max-w-2xl" isActive />
           <div className="relative mt-10 pb-10">
-            <div className="absolute -inset-x-4 bottom-0 top-8 bg-slate-200 sm:-inset-x-6" />
-            <div className="relative mx-auto w-[52.75rem] overflow-hidden rounded-xl bg-white shadow-lg shadow-slate-900/5 ring-1 ring-slate-500/10">
+            <div className="bg-slate-200 absolute -inset-x-4 bottom-0 top-8 sm:-inset-x-6" />
+            <div className="bg-white shadow-slate-900/5 ring-slate-500/10 relative mx-auto w-[52.75rem] overflow-hidden rounded-xl shadow-lg ring-1">
               <Image
                 className="w-full"
                 src={feature.image}
@@ -174,7 +193,7 @@ function FeaturesDesktop() {
               />
             ))}
           </Tab.List>
-          <Tab.Panels className="relative mt-20 overflow-hidden rounded-4xl bg-slate-200 px-14 py-16 xl:px-16">
+          <Tab.Panels className="bg-slate-200 relative mt-20 overflow-hidden rounded-4xl px-14 py-16 xl:px-16">
             <div className="-mx-5 flex">
               {features.map((feature, featureIndex) => (
                 <Tab.Panel
@@ -187,7 +206,7 @@ function FeaturesDesktop() {
                   style={{ transform: `translateX(-${selectedIndex * 100}%)` }}
                   aria-hidden={featureIndex !== selectedIndex}
                 >
-                  <div className="w-[52.75rem] overflow-hidden rounded-xl bg-white shadow-lg shadow-slate-900/5 ring-1 ring-slate-500/10">
+                  <div className="bg-white shadow-slate-900/5 ring-slate-500/10 w-[52.75rem] overflow-hidden rounded-xl shadow-lg ring-1">
                     <Image
                       className="w-full"
                       src={feature.image}
@@ -198,7 +217,7 @@ function FeaturesDesktop() {
                 </Tab.Panel>
               ))}
             </div>
-            <div className="pointer-events-none absolute inset-0 rounded-4xl ring-1 ring-inset ring-slate-900/10" />
+            <div className="ring-slate-900/10 pointer-events-none absolute inset-0 rounded-4xl ring-1 ring-inset" />
           </Tab.Panels>
         </>
       )}
@@ -215,10 +234,10 @@ export function SecondaryFeatures() {
     >
       <Container>
         <div className="mx-auto max-w-2xl md:text-center">
-          <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
+          <h2 className="text-slate-900 font-display text-3xl tracking-tight sm:text-4xl">
             Simplify everyday business tasks.
           </h2>
-          <p className="mt-4 text-lg tracking-tight text-slate-700">
+          <p className="text-slate-700 mt-4 text-lg tracking-tight">
             Because you’d probably be a little confused if we suggested you
             complicate your everyday business tasks instead.
           </p>

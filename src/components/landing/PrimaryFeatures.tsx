@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import { Tab } from '@headlessui/react'
 import clsx from 'clsx'
 
-import { Container } from '@/components/Container'
-import backgroundImage from '@/images/background-features.jpg'
-import screenshotExpenses from '@/images/screenshots/expenses.png'
-import screenshotPayroll from '@/images/screenshots/payroll.png'
-import screenshotReporting from '@/images/screenshots/reporting.png'
-import screenshotVatReturns from '@/images/screenshots/vat-returns.png'
+import backgroundImage from './images/background-features.jpg'
+import screenshotExpenses from './images/screenshots/expenses.png'
+import screenshotPayroll from './images/screenshots/payroll.png'
+import screenshotReporting from './images/screenshots/reporting.png'
+import screenshotVatReturns from './images/screenshots/vat-returns.png'
+import Container from './Container'
 
-const features = [
+const features: FeatureType[] = [
   {
     title: 'Payroll',
     description:
@@ -37,13 +37,19 @@ const features = [
   },
 ]
 
+type FeatureType = {
+  title: string
+  description: string
+  image: StaticImageData
+}
+
 export function PrimaryFeatures() {
   let [tabOrientation, setTabOrientation] = useState('horizontal')
 
   useEffect(() => {
     let lgMediaQuery = window.matchMedia('(min-width: 1024px)')
 
-    function onMediaQueryChange({ matches }) {
+    function onMediaQueryChange({ matches }: { matches: boolean }) {
       setTabOrientation(matches ? 'vertical' : 'horizontal')
     }
 
@@ -59,7 +65,7 @@ export function PrimaryFeatures() {
     <section
       id="features"
       aria-label="Features for running your books"
-      className="relative overflow-hidden bg-blue-600 pt-20 pb-28 sm:py-32"
+      className="bg-blue-600 relative overflow-hidden pt-20 pb-28 sm:py-32"
     >
       <Image
         className="absolute top-1/2 left-1/2 max-w-none translate-x-[-44%] translate-y-[-42%]"
@@ -71,10 +77,10 @@ export function PrimaryFeatures() {
       />
       <Container className="relative">
         <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
-          <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">
+          <h2 className="text-white font-display text-3xl tracking-tight sm:text-4xl md:text-5xl">
             Everything you need to run your books.
           </h2>
-          <p className="mt-6 text-lg tracking-tight text-blue-100">
+          <p className="text-blue-100 mt-6 text-lg tracking-tight">
             Well everything you need if you aren’t that picky about minor
             details like tax compliance.
           </p>
@@ -94,7 +100,7 @@ export function PrimaryFeatures() {
                       className={clsx(
                         'group relative rounded-full py-1 px-4 lg:rounded-r-none lg:rounded-l-xl lg:p-6',
                         selectedIndex === featureIndex
-                          ? 'bg-white lg:bg-white/10 lg:ring-1 lg:ring-inset lg:ring-white/10'
+                          ? 'bg-white lg:bg-white/10 lg:ring-white/10 lg:ring-1 lg:ring-inset'
                           : 'hover:bg-white/10 lg:hover:bg-white/5'
                       )}
                     >
@@ -129,12 +135,12 @@ export function PrimaryFeatures() {
                 {features.map((feature) => (
                   <Tab.Panel key={feature.title} unmount={false}>
                     <div className="relative sm:px-6 lg:hidden">
-                      <div className="absolute -inset-x-4 top-[-6.5rem] bottom-[-4.25rem] bg-white/10 ring-1 ring-inset ring-white/10 sm:inset-x-0 sm:rounded-t-xl" />
-                      <p className="relative mx-auto max-w-2xl text-base text-white sm:text-center">
+                      <div className="bg-white/10 ring-white/10 absolute -inset-x-4 top-[-6.5rem] bottom-[-4.25rem] ring-1 ring-inset sm:inset-x-0 sm:rounded-t-xl" />
+                      <p className="text-white relative mx-auto max-w-2xl text-base sm:text-center">
                         {feature.description}
                       </p>
                     </div>
-                    <div className="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
+                    <div className="bg-slate-50 shadow-blue-900/20 mt-10 w-[45rem] overflow-hidden rounded-xl shadow-xl sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
                       <Image
                         className="w-full"
                         src={feature.image}

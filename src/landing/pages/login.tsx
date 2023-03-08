@@ -1,10 +1,11 @@
+import { AuthLayout } from '@/components/landing/AuthLayout'
+import { Button } from '@/components/landing/Button'
+import { TextField } from '@/components/landing/Fields'
+import { Logo } from '@/components/landing/Logo'
 import Head from 'next/head'
 import Link from 'next/link'
 
-import { AuthLayout } from '@/components/AuthLayout'
-import { Button } from '@/components/Button'
-import { TextField } from '@/components/Fields'
-import { Logo } from '@/components/Logo'
+
 
 export default function Login() {
   return (

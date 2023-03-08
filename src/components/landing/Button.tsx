@@ -1,5 +1,19 @@
 import Link from 'next/link'
 import clsx from 'clsx'
+import { HTMLProps } from 'react'
+
+type VariantStyles = {
+  solid: {
+    slate: string
+    blue: string
+    white: string
+  }
+  outline: {
+    slate: string
+    white: string
+    blue: string
+  }
+}
 
 const baseStyles = {
   solid:
@@ -8,7 +22,7 @@ const baseStyles = {
     'group inline-flex ring-1 items-center justify-center rounded-full py-2 px-4 text-sm focus:outline-none',
 }
 
-const variantStyles = {
+const variantStyles: VariantStyles = {
   solid: {
     slate:
       'bg-slate-900 text-white hover:bg-slate-700 hover:text-slate-100 active:bg-slate-800 active:text-slate-300 focus-visible:outline-slate-900',
@@ -21,7 +35,17 @@ const variantStyles = {
       'ring-slate-200 text-slate-700 hover:text-slate-900 hover:ring-slate-300 active:bg-slate-100 active:text-slate-600 focus-visible:outline-blue-600 focus-visible:ring-slate-300',
     white:
       'ring-slate-700 text-white hover:ring-slate-500 active:ring-slate-700 active:text-slate-400 focus-visible:outline-white',
+    blue: 'ring-slate-200 text-slate-700 hover:text-slate-900 hover:ring-slate-300 active:bg-slate-100 active:text-slate-600 focus-visible:outline-blue-600 focus-visible:ring-slate-300',
   },
+}
+
+type ButtonProps = {
+  variant?: keyof VariantStyles
+  color?: keyof VariantStyles['solid'] | keyof VariantStyles['outline']
+  className?: string
+  href?: string
+  children: React.ReactNode
+  type?: any
 }
 
 export function Button({
@@ -29,11 +53,12 @@ export function Button({
   color = 'slate',
   className,
   href,
+  children,
   ...props
-}) {
+}: ButtonProps) {
   className = clsx(
     baseStyles[variant],
-    variantStyles[variant][color],
+    variantStyles[variant as keyof VariantStyles][color],
     className
   )
 
