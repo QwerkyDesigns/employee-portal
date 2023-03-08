@@ -14,7 +14,7 @@ const data = {
     email: config.email,
     password: "12345",
     stripeCustomerId: "cus_NT3Q8CV9Ayl59L",
-    usage: { create: { availableFunds: 2.0 } },
+    usage: { create: { availableFunds: 200.0 } },
 };
 
 console.log("Generated Account data:", data);
