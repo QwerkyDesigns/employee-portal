@@ -54,8 +54,3 @@ const buffer = (req: NextApiRequest) => {
 };
 
 export default handler;
-
-// import StripeWebhookController from "@/lib/controllers/stripe/StripeWebhookController";
-// import { install } from "nextjs-backend-helpers";
-
-// export default install(StripeWebhookController);
