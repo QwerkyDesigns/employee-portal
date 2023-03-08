@@ -15,10 +15,11 @@
         "update": "rm -rf ./node_modules && db:dev:migrate && npm run bootstrap",
         "server": "dotenv -e .env.production npm start",
         "cibuild": "npm run build:prd",
-        "db:dev:migrate": "dotenv -e .env.development -- npx prisma migrate dev",
-        "db:dev:reset": "dotenv -e .env.development -- npx prisma migrate reset",
+        "db:dev:migrate": "dotenv -e ./scripts/.env.external -- npx prisma migrate dev",
+        "db:dev:reset": "dotenv -e ./scripts/.env.external -- npx prisma migrate reset",
         "db:dev:refresh": "npm run db:dev:reset && npm run db:dev:migrate && npm run setup-db",
-        "setup-db": "node scripts/setup-database.js"
+        "setup-db": "node scripts/setup-database.js",
+        "dev-setup": "docker compose up --build -d && npm run db:dev:refresh"
     },
     "dependencies": {
         "@emotion/react": "^11.10.5",
@@ -36,6 +37,7 @@
         "@mantine/prism": "^5.10.2",
         "@mantine/tiptap": "^5.10.2",
         "@next/font": "13.1.5",
+        "@prisma/client": "^4.11.0",
         "@stripe/stripe-js": "^1.48.0",
         "@tabler/icons": "1.119.0",
         "@tailwindcss/typography": "^0.5.9",
@@ -58,7 +60,6 @@
         "next-s3-upload": "^0.2.9",
         "nextjs-backend-helpers": "^0.0.18-7",
         "openai": "^3.1.0",
-        "prisma": "^4.11.0",
         "query-string": "^8.1.0",
         "react": "18.2.0",
         "react-dom": "18.2.0",
@@ -79,6 +80,7 @@
         "dotenv": "^16.0.3",
         "dotenv-cli": "^7.0.0",
         "postcss": "^8.4.21",
+        "prisma": "^4.11.0",
         "readline-sync": "^1.4.10",
         "tailwindcss": "^3.2.7",
         "uuid": "^9.0.0"

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export function AuthLayout ({ children }: React.PropsWithChildren) {
   return (
@@ -14,5 +14,5 @@ export function AuthLayout ({ children }: React.PropsWithChildren) {
         </div>
       </div>
     </>
-  )
+  );
 }

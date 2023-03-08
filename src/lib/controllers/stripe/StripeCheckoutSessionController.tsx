@@ -28,7 +28,7 @@ class StripeCheckoutSessionController extends AuthenticatedBaseController {
             where: { email: userEmail },
         });
 
-        const stripeCustomerId = account?.stripe_customer_id;
+        const stripeCustomerId = account?.stripeCustomerId;
         if (stripeCustomerId === null) throw new Error("Stripe Customer ID not found!");
         console.log("Customer ID: " + stripeCustomerId);
         // TODO: Hard coding the test stripe price product here for the moment. This exists now in the test stripe account
