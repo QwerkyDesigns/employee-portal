@@ -60,7 +60,7 @@ export async function handleWebhookEvent(event: Stripe.Event, signature: string)
         return;
     }
 
-    await prisma.StripeWebhooks.create({
+    await prisma.stripeWebhooks.create({
         data: {
             payloadSignature: signature,
         },

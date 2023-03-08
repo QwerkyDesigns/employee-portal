@@ -1,13 +1,13 @@
-import React, { MouseEventHandler, ReactElement } from 'react'
-import Link from 'next/link'
-import clsx from 'clsx'
+import React, { MouseEventHandler, ReactElement } from 'react';
+import Link from 'next/link';
+import clsx from 'clsx';
 
 const baseStyles: Record<'solid' | 'outline', string> = {
   solid:
     'group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2',
   outline:
     'group inline-flex ring-1 items-center justify-center rounded-full py-2 px-4 text-sm focus:outline-none'
-}
+};
 
 const variantStyles: Record<'solid' | 'outline', Record<string, string>> = {
   solid: {
@@ -23,7 +23,7 @@ const variantStyles: Record<'solid' | 'outline', Record<string, string>> = {
     white:
       'ring-slate-700 text-white hover:ring-slate-500 active:ring-slate-700 active:text-slate-400 focus-visible:outline-white'
   }
-}
+};
 
 export function Button ({
   variant = 'solid',
@@ -43,7 +43,7 @@ export function Button ({
     baseStyles[variant],
     variantStyles[variant][color],
     className
-  )
+  );
 
   return href !== undefined
     ? (
@@ -51,5 +51,5 @@ export function Button ({
     )
     : (
       <button className={className} {...props} />
-    )
+    );
 }

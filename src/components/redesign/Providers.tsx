@@ -1,15 +1,15 @@
-import React from 'react'
-import { Button } from '@/components/redesign/Button'
-import { signIn } from 'next-auth/react'
-import { DiGithubBadge } from 'react-icons/di'
-import { CommonProviderOptions } from 'next-auth/providers'
+import React from 'react';
+import { Button } from '@/components/redesign/Button';
+import { signIn } from 'next-auth/react';
+import { DiGithubBadge } from 'react-icons/di';
+import { CommonProviderOptions } from 'next-auth/providers';
 
 function handleSignin (provider: CommonProviderOptions) {
   return () => {
     signIn(provider.id, {
       callbackUrl: `${window.location.origin}/redesign`
-    })
-  }
+    });
+  };
 }
 
 function GithubProvider ({ provider }: { provider: CommonProviderOptions }) {
@@ -26,7 +26,7 @@ function GithubProvider ({ provider }: { provider: CommonProviderOptions }) {
         </span>
       </Button>
     </div>
-  )
+  );
 }
 
 export function Providers ({ providers = [] }: { providers: CommonProviderOptions[] }) {
@@ -35,12 +35,12 @@ export function Providers ({ providers = [] }: { providers: CommonProviderOption
       {
         Object.values(providers).map((provider) => {
           if (provider.id === 'github') {
-            return <GithubProvider key={provider.id} provider={provider} />
+            return <GithubProvider key={provider.id} provider={provider} />;
           }
 
-          return null
+          return null;
         })
       }
     </>
-  )
+  );
 }
