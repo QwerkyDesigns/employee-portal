@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import backgroundImage from './images/background-call-to-action.jpg'
 import Container from './Container'
-import { Button } from './Button'
+import { Button } from '../buttons/Button'
 
 export function CallToAction() {
   return (
@@ -27,7 +27,7 @@ export function CallToAction() {
             It’s time to take control of your books. Buy our software so you can
             feel like you’re doing something productive.
           </p>
-          <Button href="/register" color="white" className="mt-10">
+          <Button href="/register" color="white" className="mt-10" variant={'solid'}>
             Get 6 months free
           </Button>
         </div>

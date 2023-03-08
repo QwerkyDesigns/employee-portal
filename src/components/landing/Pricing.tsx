@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { Button } from './Button'
+import { Button } from '../buttons/Button'
 import Container from './Container'
 
 function SwirlyDoodle({ className }: { className: string }) {

@@ -1,4 +1,4 @@
-import { Button } from '../redesign/Button'
+import { Button } from '../buttons/Button'
 import Container from './Container'
 
 export function Hero() {

@@ -1,7 +1,7 @@
 import { AuthLayout } from '@/components/landing/AuthLayout'
-import { Button } from '@/components/landing/Button'
 import { SelectField, TextField } from '@/components/landing/Fields'
 import { Logo } from '@/components/landing/Logo'
+import { Button } from '@/components/buttons/Button'
 import Head from 'next/head'
 import Link from 'next/link'
 import { APP_NAME } from './constants'

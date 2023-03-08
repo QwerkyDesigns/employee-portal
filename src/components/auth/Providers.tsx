@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@/components/redesign/Button';
+import { Button } from '@/components/buttons/Button';
 import { signIn } from 'next-auth/react';
 import { DiGithubBadge } from 'react-icons/di';
 import { CommonProviderOptions } from 'next-auth/providers';
