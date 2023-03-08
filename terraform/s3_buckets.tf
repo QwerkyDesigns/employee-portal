@@ -1,5 +1,8 @@
+
+
+
 resource "aws_s3_bucket" "archived_images" {
-  bucket        = "qd-archived-images-dev"
+  bucket        = "qd-archived-images-${var.environment}"
   force_destroy = "false"
 
   grant {
@@ -36,7 +39,7 @@ resource "aws_s3_bucket" "archived_images" {
 }
 
 resource "aws_s3_bucket" "uploads_and_transfers" {
-  bucket = "qd-uploads-and-transfers-dev"
+  bucket = "qd-uploads-and-transfers-${var.environment}"
 
   cors_rule {
     allowed_headers = ["*"]
@@ -82,7 +85,7 @@ resource "aws_s3_bucket" "uploads_and_transfers" {
 
 
 resource "aws_s3_bucket" "categorized_images" {
-  bucket = "qd-categorized-images-dev"
+  bucket = "qd-categorized-images-${var.environment}"
 
   cors_rule {
     allowed_headers = ["*"]

@@ -1,4 +1,4 @@
-import { AuthenticatedBaseController } from "@/lib/controllers/BaseController";
+import { AuthenticatedBaseController } from "@/lib/controllers/base/AuthenticatedBaseController";
 import S3 from "aws-sdk/clients/s3";
 import { NextApiRequest, NextApiResponse } from "next";
 import UnCategorizedImagesStore from "../stores/UncategorizedImagesStore";

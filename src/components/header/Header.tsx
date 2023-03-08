@@ -21,7 +21,7 @@ const fakeSession: Session = {
 export default function Header() {
     const { data: session, status } = useSession();
     const loading = status === "loading";
-    const children = status === 'authenticated' ? <AuthenticatedHeader session={session} /> : <UnAuthenticatedHeader />
+    const children = status === 'authenticated' ? <AuthenticatedHeader session={session} /> : <UnAuthenticatedHeader />;
     return (
         <header>
             <noscript>

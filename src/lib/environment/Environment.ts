@@ -9,9 +9,7 @@ class Environment {
             const value = parseInt(rawValue);
             return value;
         } catch {
-            throw new EnvironmentVarialbeNotParsedCorrectlyError(
-                `The variable {variable} is not an int`
-            );
+            throw new EnvironmentVarialbeNotParsedCorrectlyError(`The variable {variable} is not an int`);
         }
     }
 
@@ -23,10 +21,11 @@ class Environment {
 
     private GetEnvironmentVariable(variable: EnvironmentVariable): string {
         const value = process.env[variable];
-        if (!value) {
-            throw new EnvironmentVariableDoesNotExistError(
-                `Could not find {variable} amongst the env vars`
-            );
+        console.log("----------");
+        console.log("variable: " + variable);
+        console.log("Value: " + value);
+        if (value === undefined) {
+            throw new EnvironmentVariableDoesNotExistError(`Could not find ${variable} amongst the env vars. value was : ${value}`);
         }
 
         return value;

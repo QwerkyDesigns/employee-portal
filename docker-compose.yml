@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+    web:
+        image: studio-image
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: next-app
+        restart: always
+        volumes:
+            - ./:/app
+            - /app/node_modules
+            - /app/.next
+        ports:
+            - 3000:3000
+        networks:
+            - studio-network
+
+    stripe-cli:
+        image: stripe/stripe-cli
+        container_name: stripe-cli
+        restart: always
+        command:
+            - listen
+            - "--api-key"
+            - ${STRIPE_API_KEY}
+            - "--device-name"
+            - "studio-dev-cli"
+            - "--forward-to"
+            - "next-app:3000/api/stripe/webhook"
+            - "--skip-verify"
+        env_file:
+            - ./.env.development
+        networks:
+            - studio-network
+
+    postgres-server:
+        image: postgres:14.1-alpine
+        container_name: Database
+        restart: always
+        ports:
+            - 5432:5432
+        volumes:
+            - postgres-server:/var/lib/postgresql/data
+        env_file:
+            - ./.env.development
+        networks:
+            - studio-network
+
+networks:
+    studio-network:
+        driver: bridge
+
+volumes:
+    postgres-server:
+        driver: local
