@@ -45,4 +45,6 @@ jobs:
         NEXTAUTH_URL: dummy-value
         NEXTAUTH_SECRET: dummy-value
         NODE_ENV: production
+        STRIPE_DEVICE_NAME: dummy-value
+        STRIPE_WEBHOOK_SECRET: dummy-value
       run: npm run cibuild
