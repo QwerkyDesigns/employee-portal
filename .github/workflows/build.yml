@@ -33,6 +33,9 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
+      - name: Install prettier
+        run: npm i -g prettier
+
       - name: Prettify code
         uses: creyD/prettier_action@v4.2
         with:
