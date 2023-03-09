@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import { DashboardLayout } from "@/components/layouts/DashboardLayout";
 import { createStyles, Title, Text, Button, Container, Group } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
@@ -46,7 +46,7 @@ export default function ServerError() {
     const { classes } = useStyles();
 
     return (
-        <Layout pageName="Server Error">
+        <DashboardLayout pageName="Server Error">
             <div className={classes.root}>
                 <Container>
                     <div className={classes.label}>500</div>
@@ -62,6 +62,6 @@ export default function ServerError() {
                     </Group>
                 </Container>
             </div>
-        </Layout>
+        </DashboardLayout>
     );
 }

@@ -1,5 +1,5 @@
-import { Button } from "@mantine/core";
 import { IconArrowBigTop } from "@tabler/icons";
+import { Button } from "./Button";
 
 export type ButtonWithSpinnerProps = {
     children: React.ReactNode;
@@ -12,8 +12,10 @@ export type ButtonWithSpinnerProps = {
 export const ButtonWithSpinner = ({ children, loading, onClick, icon, withSpinner = true }: ButtonWithSpinnerProps) => {
     return (
         <Button
+            color="slate"
+            variant="solid"
             className="text-lg text-text bg-primary m-1"
-            leftIcon={icon}
+            // leftIcon={icon}
             loading={withSpinner ? loading ?? false : false}
             onClick={onClick}
         >

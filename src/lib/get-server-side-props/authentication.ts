@@ -17,7 +17,7 @@ export async function isAuthenticated (context: GetServerSidePropsContext<Parsed
     return {
       redirect: {
         permanent: false,
-        destination: '/redesign/401'
+        destination: '/401'
       }
     };
   }

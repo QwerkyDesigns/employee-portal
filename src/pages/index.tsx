@@ -1,37 +1,35 @@
-import Layout from "@/components/Layout";
-import frontendClient from "@/lib/client/frontendClient";
-import stripeFrontend from "@/lib/client/stripeFrontend";
-import {
-    StripeCheckoutSessionRequest,
-    StripeCheckoutSessionResponse,
-} from "@/lib/controllers/stripe/StripeCheckoutSessionController";
-import { Title, Text } from "@mantine/core";
-import { useEffect } from "react";
+import { CallToAction } from '@/components/landing/CallToAction';
+import { Faqs } from '@/components/landing/Faqs';
+import { Footer } from '@/components/landing/Footer';
+import { Header } from '@/components/landing/Header';
+import { Hero } from '@/components/landing/Hero';
+import { Pricing } from '@/components/landing/Pricing';
+import { PrimaryFeatures } from '@/components/landing/PrimaryFeatures';
+import { SecondaryFeatures } from '@/components/landing/SecondaryFeatures';
+import { Testimonials } from '@/components/landing/Testimonials';
+import Head from 'next/head';
 
 export default function Home() {
-    useEffect(() => {
-        (async () => {
-            const response = await frontendClient.post<StripeCheckoutSessionRequest, StripeCheckoutSessionResponse>(
-                "stripe/create-checkout-session"
-            );
-            console.log(response);
-            const sessionId = response.session.id;
-
-            const stripeClientJs = await stripeFrontend;
-            await stripeClientJs?.redirectToCheckout({ sessionId });
-        })();
-    });
-
-    return (
-        <Layout pageName="Qwerky Designs Employee Portal">
-            <div style={{ marginTop: "4rem" }}>
-                <Title align="center" style={{ marginBottom: "1rem" }}>
-                    Welcome to the Qwerky Designs backend portal!
-                </Title>
-                <Text align="center">
-                    You can use the navigation in the header to navigate to the page you need to do your work.
-                </Text>
-            </div>
-        </Layout>
-    );
+  return (
+    <>
+      <Head>
+        <title>QwerkyStudio - Creation made easy</title>
+        <meta
+          name="description"
+          content="Qwerky Studio is your one stop shop for all things generative AI"
+        />
+      </Head>
+      <Header />
+      <main>
+        <Hero />
+        <PrimaryFeatures />
+        <SecondaryFeatures />
+        <CallToAction />
+        <Testimonials />
+        <Pricing />
+        <Faqs />
+      </main>
+      <Footer />
+    </>
+  );
 }

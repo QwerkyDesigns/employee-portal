@@ -1,5 +1,5 @@
 import { Illustration } from "@/components/errorpages/Illustration";
-import Layout from "@/components/Layout";
+import { DashboardLayout } from "@/components/layouts/DashboardLayout";
 import { createStyles, Container, Title, Text, Button, Group } from "@mantine/core";
 import Link from "next/link";
 
@@ -55,7 +55,7 @@ export default function NothingFoundBackground() {
     const { classes } = useStyles();
 
     return (
-        <Layout pageName="Page not found">
+        <DashboardLayout pageName="Page not found">
             <Container className={classes.root}>
                 <div className={classes.inner}>
                     <Illustration className={classes.image} />
@@ -74,6 +74,6 @@ export default function NothingFoundBackground() {
                     </div>
                 </div>
             </Container>
-        </Layout>
+        </DashboardLayout>
     );
 }
