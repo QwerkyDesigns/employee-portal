@@ -1,6 +1,5 @@
 import { PaintBrushIcon, DocumentMagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
-
 export const navigation = [
     {
         name: 'Create with Dall-E',
