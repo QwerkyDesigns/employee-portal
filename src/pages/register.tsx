@@ -4,7 +4,7 @@ import { Logo } from '@/components/landing/Logo';
 import { Button } from '@/components/buttons/Button';
 import Head from 'next/head';
 import Link from 'next/link';
-import { APP_NAME } from './constants';
+import { APP_NAME } from '../lib/constants';
 
 export default function Register() {
   return (
