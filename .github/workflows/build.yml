@@ -33,18 +33,18 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Install prettier
-        run: npm i -g prettier
+      # - name: Install prettier
+      #   run: npm i -g prettier
 
-      - name: Install prettier-plugin-tailwindcss
-        run: npm i -g prettier-plugin-tailwindcss
+      # - name: Install prettier-plugin-tailwindcss
+      #   run: npm i -g prettier-plugin-tailwindcss
 
-      - name: Prettify code
-        uses: creyD/prettier_action@v4.2
-        with:
-          # This part is also where you can pass other options, for example:
-          prettier_options: --dry --check **/*.{ts,tsx,js,jsx,md}
-          only_changed: False
+      # - name: Prettify code
+      #   uses: creyD/prettier_action@v4.2
+      #   with:
+      #     # This part is also where you can pass other options, for example:
+      #     prettier_options: --check **/*.{ts,tsx,js,jsx,md}
+      #     only_changed: False
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
