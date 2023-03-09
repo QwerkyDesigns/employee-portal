@@ -10,6 +10,7 @@ import { Checkbox, NumberInput, Pagination } from "@mantine/core";
 import { IconArrowBigTop } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { DashboardLayout } from "../DashboardLayout";
 
 const DEFAULT_SHOW_NUMBER = 5;
 
@@ -53,7 +54,7 @@ export default function AllArchivedPage() {
         return Object.keys(imageKeyMap).filter((key) => imageKeyMap[key]);
     };
     return (
-        <Layout pageName="Archived Photos">
+        <DashboardLayout pageName="Archived Photos">
             <div className="h-full flex flex-col justify-center items-center mt-4 mb-4">
                 <Pagination
                     page={page}
@@ -109,6 +110,6 @@ export default function AllArchivedPage() {
                         );
                     })}
             </div>
-        </Layout>
+        </DashboardLayout>
     );
 }

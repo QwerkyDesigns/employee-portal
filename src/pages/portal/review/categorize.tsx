@@ -11,6 +11,7 @@ import {
     CreateImageCategorizationResponse,
 } from "@/lib/controllers/CategorizeAndUploadController";
 import { ButtonWithSpinner } from "@/components/buttons/ButtonWithSpinner";
+import { DashboardLayout } from "../DashboardLayout";
 
 export default function CategorizePage() {
     const router = useRouter();
@@ -35,7 +36,7 @@ export default function CategorizePage() {
     }, [keys]);
 
     return (
-        <Layout pageName="Categorize: Printify">
+        <DashboardLayout pageName="Categorize: Printify">
             <>
                 {images && (
                     <div className="flex flex-row m-3 justify-center">
@@ -78,6 +79,6 @@ export default function CategorizePage() {
                     Submit to create new images
                 </ButtonWithSpinner>
             </>
-        </Layout>
+        </DashboardLayout>
     );
 }

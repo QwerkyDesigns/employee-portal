@@ -32,7 +32,7 @@ export const serverSchema = z.object({
  */
 export const clientSchema = z.object({
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
-  OPERATING_ENVIRONMENT: z.string(),
+  NEXT_PUBLIC_OPERATING_ENVIRONMENT: z.string(),
 })
 
 /**
@@ -44,5 +44,5 @@ export const clientSchema = z.object({
 export const clientEnv = {
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-  OPERATING_ENVIRONMENT: process.env.OPERATING_ENVIRONMENT,
+  NEXT_PUBLIC_OPERATING_ENVIRONMENT: process.env.NEXT_PUBLIC_OPERATING_ENVIRONMENT,
 }

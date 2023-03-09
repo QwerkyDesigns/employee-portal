@@ -37,7 +37,7 @@ const Home = ({ providers = [] }: { providers: CommonProviderOptions[] }) => {
           </div>
         </div>
 
-        {env.OPERATING_ENVIRONMENT !== 'prod' && (
+        {env.NEXT_PUBLIC_OPERATING_ENVIRONMENT !== 'prod' && (
           <div className="pt-10">
             <Providers providers={providers} />
           </div>

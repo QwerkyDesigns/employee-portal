@@ -7,7 +7,7 @@ import { CommonProviderOptions } from 'next-auth/providers';
 function handleSignin (provider: CommonProviderOptions) {
   return () => {
     signIn(provider.id, {
-      callbackUrl: `${window.location.origin}/redesign`
+      callbackUrl: `${window.location.origin}/portal`
     });
   };
 }
