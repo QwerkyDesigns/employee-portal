@@ -1,10 +1,10 @@
 import React from 'react'
 
-interface Select<T> {
+interface Select<T extends React.ReactNode> {
   label?: string
   options: T[]
   defaultValue?: string
-  optionValueSelector?(option: object): string
+  optionValueSelector?(option: T): string | number
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
@@ -14,7 +14,7 @@ export default function Select<T extends React.ReactNode>({
   defaultValue,
   optionValueSelector,
   onChange,
-}: Select<T extends React.ReactNode>) {
+}: Select<T>) {
   return (
     <div>
       <label

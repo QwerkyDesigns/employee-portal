@@ -1,16 +1,17 @@
-import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { useSession } from 'next-auth/react';
-import { signOut } from 'next-auth/react';
-import { classNames } from '../../pages/portal/index';
-import { isAuthenticated } from '@/lib/get-server-side-props/authentication';
-import { GetServerSidePropsContext, PreviewData } from 'next';
-import { ParsedUrlQuery } from 'querystring';
+import { Fragment, useState } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useSession } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
+import { classNames } from '../../pages/portal/index'
+import { isAuthenticated } from '@/lib/get-server-side-props/authentication'
+import { GetServerSidePropsContext, PreviewData } from 'next'
+import { ParsedUrlQuery } from 'querystring'
 import {
   PaintBrushIcon,
   DocumentMagnifyingGlassIcon,
-} from '@heroicons/react/24/outline';
+} from '@heroicons/react/24/outline'
+import AccessDenied from '../errorpages/AccessDenied'
 
 export const navigation = [
   {
@@ -50,7 +51,7 @@ export const navigation = [
     icon: DocumentMagnifyingGlassIcon,
     current: false,
   },
-];
+]
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
@@ -59,7 +60,7 @@ export async function getServerSideProps(
     props: {
       session,
     },
-  }));
+  }))
 }
 
 export function DashboardLayout({
@@ -69,10 +70,10 @@ export function DashboardLayout({
   pageName: string
   children: React.ReactNode
 }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { data: session } = useSession();
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { data: session } = useSession()
 
-  return (
+  return session ? (
     <div>
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
@@ -135,29 +136,30 @@ export function DashboardLayout({
                     />
                   </div>
                   <nav className="mt-5 space-y-1 px-2">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                          'group flex items-center rounded-md px-2 py-2 text-base font-medium'
-                        )}
-                      >
-                        <item.icon
+                    {session &&
+                      navigation.map((item) => (
+                        <a
+                          key={item.name}
+                          href={item.href}
                           className={classNames(
                             item.current
-                              ? 'text-gray-500'
-                              : 'text-gray-400 group-hover:text-gray-500',
-                            'mr-4 h-6 w-6 flex-shrink-0'
+                              ? 'bg-gray-100 text-gray-900'
+                              : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                            'group flex items-center rounded-md px-2 py-2 text-base font-medium'
                           )}
-                          aria-hidden="true"
-                        />
-                        {item.name}
-                      </a>
-                    ))}
+                        >
+                          <item.icon
+                            className={classNames(
+                              item.current
+                                ? 'text-gray-500'
+                                : 'text-gray-400 group-hover:text-gray-500',
+                              'mr-4 h-6 w-6 flex-shrink-0'
+                            )}
+                            aria-hidden="true"
+                          />
+                          {item.name}
+                        </a>
+                      ))}
                   </nav>
                 </div>
                 <div className="flex flex-shrink-0 border-t border-gray-200 p-4">
@@ -236,7 +238,7 @@ export function DashboardLayout({
                   onClick={() => {
                     signOut({
                       callbackUrl: '/login',
-                    });
+                    })
                   }}
                 >
                   Sign Out
@@ -244,27 +246,32 @@ export function DashboardLayout({
               </div>
             </a>
           </div>
-          <div className="flex flex-shrink-0 border-t border-gray-200 p-4">
-            <a href="#" className="group block w-full flex-shrink-0">
-              <div className="flex items-center">
-                <div>
-                  <img
-                    className="inline-block h-9 w-9 rounded-full"
-                    src={session?.user?.image || ''}
-                    alt=""
-                  />
+          {session && (
+            <div className="flex flex-shrink-0 border-t border-gray-200 p-4">
+              <a
+                href="/portal/account"
+                className="group block w-full flex-shrink-0"
+              >
+                <div className="flex items-center">
+                  <div>
+                    <img
+                      className="inline-block h-9 w-9 rounded-full"
+                      src={session?.user?.image || ''}
+                      alt=""
+                    />
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                      {session?.user?.name}
+                    </p>
+                    <p className="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                      View Account
+                    </p>
+                  </div>
                 </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
-                    {session?.user?.name}
-                  </p>
-                  <p className="text-xs font-medium text-gray-500 group-hover:text-gray-700">
-                    View Account
-                  </p>
-                </div>
-              </div>
-            </a>
-          </div>
+              </a>
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-1 flex-col lg:pl-64">
@@ -292,5 +299,7 @@ export function DashboardLayout({
         </main>
       </div>
     </div>
-  );
+  ) : (
+    <AccessDenied />
+  )
 }

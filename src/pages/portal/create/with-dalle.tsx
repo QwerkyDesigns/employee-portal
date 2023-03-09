@@ -1,8 +1,7 @@
 import { SliderInput } from '@/components/sliders/slider';
 import frontendClient from '@/lib/client/frontendClient';
 import { ImageSize } from '@/lib/enums/ImageSizes';
-import { Container, Select, Textarea, TextInput } from '@mantine/core';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import {
   CreateDalleImagesResponse,
   CreateDalleImagesRequest,
@@ -11,6 +10,8 @@ import { ImageLocationDetails } from '@/lib/stores/s3Core/S3Core';
 import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner';
 import { PaddedImage } from '@/components/images/PaddedImage';
 import { DashboardLayout } from '../../../components/layouts/DashboardLayout';
+import Select from '@/components/select/Select';
+import TextArea, { TextAreaChangeEvent } from '@/components/text/TextArea';
 
 export const ArtStyles = [
   'hyperrealism',
@@ -24,23 +25,35 @@ export const ArtStyles = [
   'Geometric drawing',
   'geometric abstract',
   'Vector artwork',
-  'flat art',
   '3D illustration',
   'surrealist art',
   'psychedelic art',
+  'flat art',
   'fractal art',
   'digital art',
   'digital neon art',
+  'digital pastel art',
+  '',
 ];
 
 export default function CreateWithDallePage() {
-  const [text, setText] = useState<string>('');
+  const [whatDoYouWantToBuild, setWhatDoYouWantToBuild] = useState<string>('');
   const [value, setValue] = useState<number>(1);
   const [recentlyUploadedImages, setRecentlyUploadedImages] = useState<
     ImageLocationDetails[]
   >([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [artStyle, setArtStyle] = useState<string>('');
+
+  const WhatDoYouWantToBuild = (event: TextAreaChangeEvent) => {
+    event.preventDefault();
+    setWhatDoYouWantToBuild(event.target.value);
+  };
+
+  const WhatTypeOfProduct = (event: TextAreaChangeEvent) => {
+    event.preventDefault();
+  };
+
   return (
     <DashboardLayout pageName="Create with Dall-E">
       <div style={{ height: '3rem' }} />
@@ -53,15 +66,29 @@ export default function CreateWithDallePage() {
       >
         <SliderInput value={value} setValue={setValue} />
         <Select
-          data={ArtStyles.sort()}
-          onChange={(value) => {
-            if (value) {
-              setArtStyle(value);
+          options={ArtStyles.sort()}
+          onChange={(val) => {
+            if (val) {
+              setArtStyle(val.target.value);
             }
           }}
         />
       </div>
-      <Textarea
+
+      <div className="mt-12 mb-12 flex w-full justify-center">
+        <TextArea
+          label="What would you like to create today?"
+          onChange={WhatDoYouWantToBuild}
+        />
+      </div>
+      <div className="mt-12 mb-12 flex w-full justify-center">
+        <TextArea
+          label="What type of product are you creating?"
+          onChange={WhatTypeOfProduct}
+        />
+      </div>
+
+      {/* <Textarea
         style={{ marginTop: '4rem' }}
         placeholder="A manatee sitting on the beach with a cocktail"
         label="Provide a moderately specific description of an image you would like to create"
@@ -69,10 +96,10 @@ export default function CreateWithDallePage() {
         value={text}
         minRows={5}
         onChange={(event) => {
-          event.preventDefault();
-          setText(event.target.value);
+          event.preventDefault()
+          setText(event.target.value)
         }}
-      />
+      /> */}
       <div style={{ height: '3rem' }} />
       <ButtonWithSpinner
         loading={loading}
@@ -84,7 +111,7 @@ export default function CreateWithDallePage() {
           >('create/dalle', {
             n: value,
             size: ImageSize.large,
-            prompt: (text.trim() + ' ' + artStyle).trim(),
+            prompt: (whatDoYouWantToBuild.trim() + ' ' + artStyle).trim(),
           });
           setRecentlyUploadedImages(res.details);
           setLoading(false);
