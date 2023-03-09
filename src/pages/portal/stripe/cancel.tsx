@@ -1,12 +1,12 @@
-import { DashboardLayout } from '@/components/layouts/DashboardLayout'
-import { useRouter } from 'next/router'
+import { DashboardLayout } from '@/components/layouts/DashboardLayout';
+import { useRouter } from 'next/router';
 
 export default function Success() {
-  const router = useRouter()
+  const router = useRouter();
 
   const onClick = () => {
-    router.push('/')
-  }
+    router.push('/');
+  };
 
   return (
     <DashboardLayout pageName="Stripe Session Cancelled">
@@ -19,5 +19,5 @@ export default function Success() {
         <button onClick={onClick} />
       </div>
     </DashboardLayout>
-  )
+  );
 }

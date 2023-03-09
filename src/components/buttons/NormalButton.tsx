@@ -1,4 +1,4 @@
-import { Button } from './Button'
+import { Button } from './Button';
 
 export const NormalButton = ({
   onClick,
@@ -21,5 +21,5 @@ export const NormalButton = ({
     >
       {children}
     </Button>
-  )
-}
+  );
+};

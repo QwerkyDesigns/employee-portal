@@ -10,7 +10,7 @@
         "cibuild": "next build",
         "start": "dotenv -e .env.production next start",
         "lint": "dotenv -e .env.development next lint",
-        "lint:fix": "dotenv -e .env.development next lint --fix",
+        "lint:fix": "npx eslint . --fix",
         "bootstrap": "npm ci && cp -n ./dev.config.js.template ./dev.config.js; cp -n ./.env.development.template ./.env.development; true",
         "setup": "npm run bootstrap && npm run db:dev:reset && npm run setup-db",
         "update": "rm -rf ./node_modules && db:dev:migrate && npm run bootstrap",

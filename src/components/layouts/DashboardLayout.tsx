@@ -1,16 +1,16 @@
-import { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { useSession } from 'next-auth/react'
-import { signOut } from 'next-auth/react'
-import { classNames } from '../../pages/portal/index'
-import { isAuthenticated } from '@/lib/get-server-side-props/authentication'
-import { GetServerSidePropsContext, PreviewData } from 'next'
-import { ParsedUrlQuery } from 'querystring'
+import { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
+import { classNames } from '../../pages/portal/index';
+import { isAuthenticated } from '@/lib/get-server-side-props/authentication';
+import { GetServerSidePropsContext, PreviewData } from 'next';
+import { ParsedUrlQuery } from 'querystring';
 import {
   PaintBrushIcon,
   DocumentMagnifyingGlassIcon,
-} from '@heroicons/react/24/outline'
+} from '@heroicons/react/24/outline';
 
 export const navigation = [
   {
@@ -50,7 +50,7 @@ export const navigation = [
     icon: DocumentMagnifyingGlassIcon,
     current: false,
   },
-]
+];
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
@@ -59,7 +59,7 @@ export async function getServerSideProps(
     props: {
       session,
     },
-  }))
+  }));
 }
 
 export function DashboardLayout({
@@ -69,8 +69,8 @@ export function DashboardLayout({
   pageName: string
   children: React.ReactNode
 }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { data: session } = useSession()
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <div>
@@ -236,7 +236,7 @@ export function DashboardLayout({
                   onClick={() => {
                     signOut({
                       callbackUrl: '/login',
-                    })
+                    });
                   }}
                 >
                   Sign Out
@@ -292,5 +292,5 @@ export function DashboardLayout({
         </main>
       </div>
     </div>
-  )
+  );
 }

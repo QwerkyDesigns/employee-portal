@@ -1,5 +1,5 @@
-import { Button } from '../buttons/Button'
-import Container from './Container'
+import { Button } from '../buttons/Button';
+import Container from './Container';
 
 export function Hero() {
   return (
@@ -23,13 +23,23 @@ export function Hero() {
         There is an abundance of artificial intelligence services out there.
       </p>
       <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">
-        We'll connect you to all of them.
+        We will connect you to all of them.
       </p>
       <div className="mt-10 flex justify-center gap-x-6">
-        <Button href="/register" variant={'solid'} color={'slate'} className={''}>Get $2 UDS free to start!</Button>
+        <Button
+          href="/register"
+          variant={'solid'}
+          color={'slate'}
+          className={''}
+        >
+          Get $2 UDS free to start!
+        </Button>
         <Button
           href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-          variant="outline" color={'slate'} className={''}        >
+          variant="outline"
+          color={'slate'}
+          className={''}
+        >
           <svg
             aria-hidden="true"
             className="h-3 w-3 flex-none fill-blue-600 group-active:fill-current"
@@ -40,5 +50,5 @@ export function Hero() {
         </Button>
       </div>
     </Container>
-  )
+  );
 }

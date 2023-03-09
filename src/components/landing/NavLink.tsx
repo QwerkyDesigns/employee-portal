@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from 'next/link';
 
 export function NavLink({
   href,
@@ -14,5 +14,5 @@ export function NavLink({
     >
       {children}
     </Link>
-  )
+  );
 }

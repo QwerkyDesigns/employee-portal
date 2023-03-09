@@ -1,13 +1,13 @@
-import React from 'react'
-import Link from 'next/link'
-import Head from 'next/head'
-import { getProviders } from 'next-auth/react'
-import { CommonProviderOptions } from 'next-auth/providers'
-import { AuthLayout } from '@/components/auth/AuthLayout'
-import { Providers } from '@/components/auth/Providers'
-import { TextField } from '@/components/landing/Fields'
-import { Button } from '@/components/buttons/Button'
-import { env } from '@/env/client.mjs'
+import React from 'react';
+import Link from 'next/link';
+import Head from 'next/head';
+import { getProviders } from 'next-auth/react';
+import { CommonProviderOptions } from 'next-auth/providers';
+import { AuthLayout } from '@/components/auth/AuthLayout';
+import { Providers } from '@/components/auth/Providers';
+import { TextField } from '@/components/landing/Fields';
+import { Button } from '@/components/buttons/Button';
+import { env } from '@/env/client.mjs';
 
 const Home = ({ providers = [] }: { providers: CommonProviderOptions[] }) => {
   return (
@@ -76,17 +76,17 @@ const Home = ({ providers = [] }: { providers: CommonProviderOptions[] }) => {
         </form>
       </AuthLayout>
     </>
-  )
-}
+  );
+};
 
 export async function getServerSideProps(): Promise<{
   props: { providers: any }
 }> {
-  const providers = await getProviders()
+  const providers = await getProviders();
 
   return {
     props: { providers },
-  }
+  };
 }
 
-export default Home
+export default Home;

@@ -1,12 +1,12 @@
-import { useId } from 'react'
-import Image, { StaticImageData } from 'next/image'
-import { Tab } from '@headlessui/react'
-import clsx from 'clsx'
-import React, { FC } from 'react'
-import screenshotContacts from './images/screenshots/contacts.png'
-import screenshotInventory from './images/screenshots/inventory.png'
-import screenshotProfitLoss from './images/screenshots/profit-loss.png'
-import Container from './Container'
+import { useId } from 'react';
+import Image, { StaticImageData } from 'next/image';
+import { Tab } from '@headlessui/react';
+import clsx from 'clsx';
+import React, { FC } from 'react';
+import screenshotContacts from './images/screenshots/contacts.png';
+import screenshotInventory from './images/screenshots/inventory.png';
+import screenshotProfitLoss from './images/screenshots/profit-loss.png';
+import Container from './Container';
 
 const features: Feature[] = [
   {
@@ -16,7 +16,7 @@ const features: Feature[] = [
       'We talked about reporting in the section above but we needed three items here, so mentioning it one more time for posterity.',
     image: screenshotProfitLoss,
     icon: function ReportingIcon() {
-      let id = useId()
+      let id = useId();
       return (
         <>
           <defs>
@@ -40,7 +40,7 @@ const features: Feature[] = [
             strokeLinejoin="round"
           />
         </>
-      )
+      );
     },
   },
   {
@@ -68,7 +68,7 @@ const features: Feature[] = [
             fill="#fff"
           />
         </>
-      )
+      );
     },
   },
   {
@@ -91,10 +91,10 @@ const features: Feature[] = [
             fill="#fff"
           />
         </>
-      )
+      );
     },
   },
-]
+];
 
 type Feature = {
   icon: any
@@ -144,8 +144,8 @@ const Feature: FC<FeatureProps> = ({
       </p>
       <p className="text-slate-600 mt-4 text-sm">{feature.description}</p>
     </div>
-  )
-}
+  );
+};
 
 function FeaturesMobile() {
   return (
@@ -167,7 +167,7 @@ function FeaturesMobile() {
         </div>
       ))}
     </div>
-  )
+  );
 }
 
 function FeaturesDesktop() {
@@ -222,7 +222,7 @@ function FeaturesDesktop() {
         </>
       )}
     </Tab.Group>
-  )
+  );
 }
 
 export function SecondaryFeatures() {
@@ -246,5 +246,5 @@ export function SecondaryFeatures() {
         <FeaturesDesktop />
       </Container>
     </section>
-  )
+  );
 }

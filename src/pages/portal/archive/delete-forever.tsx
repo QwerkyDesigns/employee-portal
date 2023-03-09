@@ -1,5 +1,5 @@
-import { Container } from '@mantine/core'
-import { DashboardLayout } from '../../../components/layouts/DashboardLayout'
+import { Container } from '@mantine/core';
+import { DashboardLayout } from '../../../components/layouts/DashboardLayout';
 
 export default function DeleteForeverPage() {
   return (
@@ -8,5 +8,5 @@ export default function DeleteForeverPage() {
         Please do not delete any images yet. We are just starting.
       </Container>
     </DashboardLayout>
-  )
+  );
 }

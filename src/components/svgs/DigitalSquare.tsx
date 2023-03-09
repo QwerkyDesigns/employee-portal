@@ -532,5 +532,5 @@ export default function DigitalSquare(props: any) {
         <path d="M140.7 0L0 0L125.7 67Z" fill="#88a629" stroke="#88a629"></path>
       </g>
     </svg>
-  )
+  );
 }

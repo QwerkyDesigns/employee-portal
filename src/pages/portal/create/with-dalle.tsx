@@ -1,16 +1,16 @@
-import { SliderInput } from '@/components/sliders/slider'
-import frontendClient from '@/lib/client/frontendClient'
-import { ImageSize } from '@/lib/enums/ImageSizes'
-import { Container, Select, Textarea, TextInput } from '@mantine/core'
-import { useState } from 'react'
+import { SliderInput } from '@/components/sliders/slider';
+import frontendClient from '@/lib/client/frontendClient';
+import { ImageSize } from '@/lib/enums/ImageSizes';
+import { Container, Select, Textarea, TextInput } from '@mantine/core';
+import { useState } from 'react';
 import {
   CreateDalleImagesResponse,
   CreateDalleImagesRequest,
-} from '@/lib/controllers/CreateDalleImagesController'
-import { ImageLocationDetails } from '@/lib/stores/s3Core/S3Core'
-import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner'
-import { PaddedImage } from '@/components/images/PaddedImage'
-import { DashboardLayout } from '../../../components/layouts/DashboardLayout'
+} from '@/lib/controllers/CreateDalleImagesController';
+import { ImageLocationDetails } from '@/lib/stores/s3Core/S3Core';
+import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner';
+import { PaddedImage } from '@/components/images/PaddedImage';
+import { DashboardLayout } from '../../../components/layouts/DashboardLayout';
 
 export const ArtStyles = [
   'hyperrealism',
@@ -31,16 +31,16 @@ export const ArtStyles = [
   'fractal art',
   'digital art',
   'digital neon art',
-]
+];
 
 export default function CreateWithDallePage() {
-  const [text, setText] = useState<string>('')
-  const [value, setValue] = useState<number>(1)
+  const [text, setText] = useState<string>('');
+  const [value, setValue] = useState<number>(1);
   const [recentlyUploadedImages, setRecentlyUploadedImages] = useState<
     ImageLocationDetails[]
-  >([])
-  const [loading, setLoading] = useState<boolean>(false)
-  const [artStyle, setArtStyle] = useState<string>('')
+  >([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [artStyle, setArtStyle] = useState<string>('');
   return (
     <DashboardLayout pageName="Create with Dall-E">
       <div style={{ height: '3rem' }} />
@@ -56,7 +56,7 @@ export default function CreateWithDallePage() {
           data={ArtStyles.sort()}
           onChange={(value) => {
             if (value) {
-              setArtStyle(value)
+              setArtStyle(value);
             }
           }}
         />
@@ -69,15 +69,15 @@ export default function CreateWithDallePage() {
         value={text}
         minRows={5}
         onChange={(event) => {
-          event.preventDefault()
-          setText(event.target.value)
+          event.preventDefault();
+          setText(event.target.value);
         }}
       />
       <div style={{ height: '3rem' }} />
       <ButtonWithSpinner
         loading={loading}
         onClick={async () => {
-          setLoading(true)
+          setLoading(true);
           const res = await frontendClient.post<
             CreateDalleImagesRequest,
             CreateDalleImagesResponse
@@ -85,9 +85,9 @@ export default function CreateWithDallePage() {
             n: value,
             size: ImageSize.large,
             prompt: (text.trim() + ' ' + artStyle).trim(),
-          })
-          setRecentlyUploadedImages(res.details)
-          setLoading(false)
+          });
+          setRecentlyUploadedImages(res.details);
+          setLoading(false);
         }}
       >
         Submit to create new images
@@ -110,5 +110,5 @@ export default function CreateWithDallePage() {
         </div>
       )}
     </DashboardLayout>
-  )
+  );
 }

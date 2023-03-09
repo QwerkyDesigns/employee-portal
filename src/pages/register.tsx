@@ -1,10 +1,10 @@
-import { AuthLayout } from '@/components/landing/AuthLayout'
-import { SelectField, TextField } from '@/components/landing/Fields'
-import { Logo } from '@/components/landing/Logo'
-import { Button } from '@/components/buttons/Button'
-import Head from 'next/head'
-import Link from 'next/link'
-import { APP_NAME } from './constants'
+import { AuthLayout } from '@/components/landing/AuthLayout';
+import { SelectField, TextField } from '@/components/landing/Fields';
+import { Logo } from '@/components/landing/Logo';
+import { Button } from '@/components/buttons/Button';
+import Head from 'next/head';
+import Link from 'next/link';
+import { APP_NAME } from './constants';
 
 export default function Register() {
   return (
@@ -97,5 +97,5 @@ export default function Register() {
         </form>
       </AuthLayout>
     </>
-  )
+  );
 }

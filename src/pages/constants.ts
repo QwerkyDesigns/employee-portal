@@ -1,1 +1,1 @@
-export const APP_NAME = 'Qwerky Studio'
+export const APP_NAME = 'Qwerky Studio';

@@ -1,7 +1,7 @@
-import { Head, Html, Main, NextScript } from 'next/document'
+import { Head, Html, Main, NextScript } from 'next/document';
 
 export default function Document(props: any) {
-  let pageProps = props.__NEXT_DATA__?.props?.pageProps
+  let pageProps = props.__NEXT_DATA__?.props?.pageProps;
 
   return (
     <Html lang="en" className="bg-gray-100 h-full">
@@ -23,5 +23,5 @@ export default function Document(props: any) {
         <NextScript />
       </body>
     </Html>
-  )
+  );
 }

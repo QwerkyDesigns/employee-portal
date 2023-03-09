@@ -1,12 +1,12 @@
-import { PngImageDropzone } from '@/components/transfers/UploadFiles'
-import { useState } from 'react'
-import Image from 'next/image'
-import { Loader, Progress } from '@mantine/core'
-import { DashboardLayout } from '../../../components/layouts/DashboardLayout'
+import { PngImageDropzone } from '@/components/transfers/UploadFiles';
+import { useState } from 'react';
+import Image from 'next/image';
+import { Loader, Progress } from '@mantine/core';
+import { DashboardLayout } from '../../../components/layouts/DashboardLayout';
 
 export default function UploadImages() {
-  const [uploadedImages, setUploadedImages] = useState<string[]>([])
-  const [loading, setLoading] = useState<boolean>(false)
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   return (
     <DashboardLayout pageName="Upload your images">
       <PngImageDropzone
@@ -23,5 +23,5 @@ export default function UploadImages() {
       </div>
       {loading && <Loader />}
     </DashboardLayout>
-  )
+  );
 }

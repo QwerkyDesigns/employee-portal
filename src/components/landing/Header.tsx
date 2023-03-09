@@ -1,11 +1,11 @@
-import { Fragment } from 'react'
-import Link from 'next/link'
-import { Popover, Transition } from '@headlessui/react'
-import clsx from 'clsx'
-import Container from './Container'
-import { NavLink } from './NavLink'
-import { Logo } from './Logo'
-import { Button } from '../buttons/Button'
+import { Fragment } from 'react';
+import Link from 'next/link';
+import { Popover, Transition } from '@headlessui/react';
+import clsx from 'clsx';
+import Container from './Container';
+import { NavLink } from './NavLink';
+import { Logo } from './Logo';
+import { Button } from '../buttons/Button';
 
 function MobileNavLink({
   href,
@@ -18,7 +18,7 @@ function MobileNavLink({
     <Popover.Button as={Link} href={href} className="block w-full p-2">
       {children}
     </Popover.Button>
-  )
+  );
 }
 
 function MobileNavIcon({ open }: { open: boolean }) {
@@ -45,7 +45,7 @@ function MobileNavIcon({ open }: { open: boolean }) {
         )}
       />
     </svg>
-  )
+  );
 }
 
 function MobileNavigation() {
@@ -91,7 +91,7 @@ function MobileNavigation() {
         </Transition.Child>
       </Transition.Root>
     </Popover>
-  )
+  );
 }
 
 export function Header() {
@@ -123,5 +123,5 @@ export function Header() {
         </nav>
       </Container>
     </header>
-  )
+  );
 }
