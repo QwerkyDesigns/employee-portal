@@ -2,12 +2,13 @@ import { ChangeEvent } from 'react';
 
 export type TextAreaProps = {
     label: string;
+    value: string;
     onChange(e: TextAreaChangeEvent): void;
 };
 
 export type TextAreaChangeEvent = ChangeEvent<HTMLTextAreaElement>;
 
-export default function TextArea({ label, onChange }: TextAreaProps) {
+export default function TextArea({ label, value, onChange }: TextAreaProps) {
     return (
         <div>
             <label htmlFor="comment" className="block text-sm font-medium leading-6 text-gray-900">
@@ -15,6 +16,7 @@ export default function TextArea({ label, onChange }: TextAreaProps) {
             </label>
             <div className="mt-2">
                 <textarea
+                    value={value}
                     rows={4}
                     onChange={onChange}
                     name="comment"

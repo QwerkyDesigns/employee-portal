@@ -8,6 +8,7 @@ import { Providers } from '@/components/auth/Providers';
 import { TextField } from '@/components/landing/Fields';
 import { Button } from '@/components/buttons/Button';
 import { env } from '@/env/client.mjs';
+import Divider from '@/components/dividers/Divider';
 
 const Home = ({ providers = [] }: { providers: CommonProviderOptions[] }) => {
     return (
@@ -33,12 +34,14 @@ const Home = ({ providers = [] }: { providers: CommonProviderOptions[] }) => {
                 </div>
 
                 {env.NEXT_PUBLIC_OPERATING_ENVIRONMENT !== 'prod' && (
-                    <div className="pt-10">
-                        <Providers providers={providers} />
-                    </div>
+                    <>
+                        <div className="pt-10 mb-12">
+                            <Providers providers={providers} />
+                        </div>
+                        <Divider text="Or"/>
+                    </>
                 )}
 
-                <p className="mt-12 mb-12 text-center text-2xl font-extrabold">Or</p>
                 <form action="#" className="mt-10 grid grid-cols-1 gap-y-8">
                     <TextField label="Email address" id="email" name="email" type="email" autoComplete="email" required />
                     <TextField label="Password" id="password" name="password" type="password" autoComplete="current-password" required />

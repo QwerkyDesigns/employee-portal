@@ -14,7 +14,7 @@ export default defineNextConfig({
     webpack: (config, { dev }) => {
         if (dev) {
             config.watchOptions = {
-                poll: 1000,
+                poll: 500,
                 aggregateTimeout: 300
             };
         }
