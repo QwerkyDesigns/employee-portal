@@ -16,8 +16,8 @@ import { useState, useEffect } from 'react';
 const DEFAULT_SHOW_NUMBER = 5;
 
 type ImageKeyMap = {
-  [key: string]: boolean
-}
+  [key: string]: boolean;
+};
 
 export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
   const router = useRouter();
@@ -31,7 +31,7 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
   const [imageKeyMap, setImageKeyMap] = useState<ImageKeyMap>({});
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       const res = await frontendClient.get<GetAllUntransferredResponse>(
         `review/get-all-untransferred?origin=${origin}`
       );

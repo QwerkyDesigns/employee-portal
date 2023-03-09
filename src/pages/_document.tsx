@@ -4,7 +4,7 @@ export default function Document(props: any) {
   let pageProps = props.__NEXT_DATA__?.props?.pageProps;
 
   return (
-    <Html lang="en" className="bg-gray-100 h-full">
+    <Html lang="en" className="h-full bg-gray-100">
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link

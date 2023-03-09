@@ -1,9 +1,9 @@
-import { StatusCodes } from "@/lib/enums/StatusCodes";
-import S3DownloadError from "@/lib/errors/application-errors/S3DownloadError";
-import S3UploadError from "@/lib/errors/application-errors/S3UploadError";
-import { HeaderKeys } from "@/lib/utils/constants";
-import { S3 } from "aws-sdk";
-import { ManagedUpload } from "aws-sdk/clients/s3";
+import { StatusCodes } from '@/lib/enums/StatusCodes';
+import S3DownloadError from '@/lib/errors/application-errors/S3DownloadError';
+import S3UploadError from '@/lib/errors/application-errors/S3UploadError';
+import { HeaderKeys } from '@/lib/utils/constants';
+import { S3 } from 'aws-sdk';
+import { ManagedUpload } from 'aws-sdk/clients/s3';
 
 // TODO: Get these evn vars via the environment object
 const s3Options = {
@@ -34,7 +34,7 @@ class S3Core {
       Expires: 3600,
     };
 
-    return await this.s3.getSignedUrlPromise("getObject", params);
+    return await this.s3.getSignedUrlPromise('getObject', params);
   }
 
   async createPresignedUrlForPosting(key: string): Promise<S3.PresignedPost> {
@@ -43,8 +43,8 @@ class S3Core {
       Expires: 3600,
       Fields: {
         key: key,
-        [HeaderKeys.ContentType]: "image/png", // TODO: this will need to be more than just png
-        [HeaderKeys.CacheControl]: "max-age=31536000",
+        [HeaderKeys.ContentType]: 'image/png', // TODO: this will need to be more than just png
+        [HeaderKeys.CacheControl]: 'max-age=31536000',
       },
     };
     const url = this.s3.createPresignedPost(params);
@@ -64,7 +64,7 @@ class S3Core {
       Body: file.data,
       ContentType: file.contentType,
       ResponseHeaderOverrides: {
-        [HeaderKeys.CacheControl]: "max-age=31536000",
+        [HeaderKeys.CacheControl]: 'max-age=31536000',
       },
     };
 
@@ -94,14 +94,14 @@ class S3Core {
   async listFiles(prefix?: string): Promise<S3.ObjectList> {
     const params = {
       Bucket: this.bucketName,
-      Prefix: prefix ?? "",
+      Prefix: prefix ?? '',
     };
     try {
       const response = await this.s3.listObjects(params).promise();
       return response.Contents ?? [];
     } catch (err) {
       throw new S3DownloadError(
-        "Failed to list all objects",
+        'Failed to list all objects',
         StatusCodes.ServerError
       );
     }
@@ -110,12 +110,14 @@ class S3Core {
   async getSignedUrlsForAllFiles(
     prefix?: string
   ): Promise<PresignedUrlWithMeta[]> {
-    let key = prefix ?? "";
+    let key = prefix ?? '';
     try {
       const fileObjects = await this.listFiles(prefix);
       const keys = fileObjects
         .map((obj) => obj.Key)
-        .filter((k) => k !== undefined && !key.endsWith("meta.txt")) as string[];
+        .filter(
+          (k) => k !== undefined && !key.endsWith('meta.txt')
+        ) as string[];
       const data = keys.map((k) => {
         const url = this.createPresignedUrlForViewing(k);
         return { key: k, url };
@@ -137,7 +139,7 @@ class S3Core {
   }
 
   async getAllFiles(prefix?: string): Promise<Buffer[]> {
-    let key = prefix ?? "";
+    let key = prefix ?? '';
     try {
       const fileObjects = await this.listFiles(prefix);
       const keys = fileObjects.map((fo) => fo.Key);

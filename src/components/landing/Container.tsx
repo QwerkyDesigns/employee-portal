@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React, { FC, HTMLProps } from 'react';
 
 interface ContainerProps extends HTMLProps<HTMLDivElement> {
-  className?: string
+  className?: string;
 }
 
 const Container: FC<ContainerProps> = ({ className, ...props }) => {

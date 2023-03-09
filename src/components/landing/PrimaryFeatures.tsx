@@ -13,20 +13,18 @@ import Container from './Container';
 const features: FeatureType[] = [
   {
     title: 'Image',
-    description:
-      "Create and manage images for your online store.",
+    description: 'Create and manage images for your online store.',
     image: screenshotPayroll,
   },
   {
     title: 'Text',
     description:
-      "Manage all of your text generation needs - from copywriting to prompt engineering.",
+      'Manage all of your text generation needs - from copywriting to prompt engineering.',
     image: screenshotExpenses,
   },
   {
     title: 'Audio',
-    description:
-      "We might be able integrate audio services",
+    description: 'We might be able integrate audio services',
     image: screenshotVatReturns,
   },
   {
@@ -38,10 +36,10 @@ const features: FeatureType[] = [
 ];
 
 type FeatureType = {
-  title: string
-  description: string
-  image: StaticImageData
-}
+  title: string;
+  description: string;
+  image: StaticImageData;
+};
 
 export function PrimaryFeatures() {
   let [tabOrientation, setTabOrientation] = useState('horizontal');
@@ -65,7 +63,7 @@ export function PrimaryFeatures() {
     <section
       id="features"
       aria-label="Features for running your books"
-      className="bg-blue-600 relative overflow-hidden pt-20 pb-28 sm:py-32"
+      className="relative overflow-hidden bg-blue-600 pt-20 pb-28 sm:py-32"
     >
       <Image
         className="absolute top-1/2 left-1/2 max-w-none translate-x-[-44%] translate-y-[-42%]"
@@ -77,10 +75,10 @@ export function PrimaryFeatures() {
       />
       <Container className="relative">
         <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
-          <h2 className="text-white font-display text-3xl tracking-tight sm:text-4xl md:text-5xl">
+          <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">
             All of your creative generation needs in one place.
           </h2>
-          <p className="text-blue-100 mt-6 text-lg tracking-tight">
+          <p className="mt-6 text-lg tracking-tight text-blue-100">
             Every single AI service you could ever want
           </p>
         </div>
@@ -99,7 +97,7 @@ export function PrimaryFeatures() {
                       className={clsx(
                         'group relative rounded-full py-1 px-4 lg:rounded-r-none lg:rounded-l-xl lg:p-6',
                         selectedIndex === featureIndex
-                          ? 'bg-white lg:bg-white/10 lg:ring-white/10 lg:ring-1 lg:ring-inset'
+                          ? 'bg-white lg:bg-white/10 lg:ring-1 lg:ring-inset lg:ring-white/10'
                           : 'hover:bg-white/10 lg:hover:bg-white/5'
                       )}
                     >
@@ -134,12 +132,12 @@ export function PrimaryFeatures() {
                 {features.map((feature) => (
                   <Tab.Panel key={feature.title} unmount={false}>
                     <div className="relative sm:px-6 lg:hidden">
-                      <div className="bg-white/10 ring-white/10 absolute -inset-x-4 top-[-6.5rem] bottom-[-4.25rem] ring-1 ring-inset sm:inset-x-0 sm:rounded-t-xl" />
-                      <p className="text-white relative mx-auto max-w-2xl text-base sm:text-center">
+                      <div className="absolute -inset-x-4 top-[-6.5rem] bottom-[-4.25rem] bg-white/10 ring-1 ring-inset ring-white/10 sm:inset-x-0 sm:rounded-t-xl" />
+                      <p className="relative mx-auto max-w-2xl text-base text-white sm:text-center">
                         {feature.description}
                       </p>
                     </div>
-                    <div className="bg-slate-50 shadow-blue-900/20 mt-10 w-[45rem] overflow-hidden rounded-xl shadow-xl sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
+                    <div className="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
                       <Image
                         className="w-full"
                         src={feature.image}

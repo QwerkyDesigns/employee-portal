@@ -1,1 +1,1 @@
-export default class FileUploadError extends Error {};
+export default class FileUploadError extends Error {}

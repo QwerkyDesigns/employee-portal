@@ -80,7 +80,7 @@ const Home = ({ providers = [] }: { providers: CommonProviderOptions[] }) => {
 };
 
 export async function getServerSideProps(): Promise<{
-  props: { providers: any }
+  props: { providers: any };
 }> {
   const providers = await getProviders();
 

@@ -12,6 +12,6 @@
 //    -- imageSetId-meta.txt
 
 export enum ImageOrigin {
-    Dalle = "Dall-E",
-    Upload = "Uploads"
+  Dalle = 'Dall-E',
+  Upload = 'Uploads',
 }

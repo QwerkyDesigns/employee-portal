@@ -5,9 +5,9 @@ export const NormalButton = ({
   disabled,
   children,
 }: {
-  onClick?: (e: any) => void
-  disabled?: boolean
-  children: React.ReactNode
+  onClick?: (e: any) => void;
+  disabled?: boolean;
+  children: React.ReactNode;
 }) => {
   // TODO: temp - until style issues are fixed with mantine - or we leave mantine behind :pray:
 

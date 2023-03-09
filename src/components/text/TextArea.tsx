@@ -1,9 +1,9 @@
-import { ChangeEvent } from "react"
+import { ChangeEvent } from 'react';
 
 export type TextAreaProps = {
-  label: string
-  onChange(e: TextAreaChangeEvent): void
-}
+  label: string;
+  onChange(e: TextAreaChangeEvent): void;
+};
 
 export type TextAreaChangeEvent = ChangeEvent<HTMLTextAreaElement>;
 
@@ -27,5 +27,5 @@ export default function TextArea({ label, onChange }: TextAreaProps) {
         />
       </div>
     </div>
-  )
+  );
 }

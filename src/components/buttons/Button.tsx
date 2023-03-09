@@ -33,13 +33,13 @@ export function Button({
   disabled,
   ...props
 }: {
-  disabled?: boolean
-  variant: 'solid' | 'outline'
-  color: 'slate' | 'white' | 'blue'
-  className: string
-  href?: string
-  onClick?: MouseEventHandler
-  [key: string]: any
+  disabled?: boolean;
+  variant: 'solid' | 'outline';
+  color: 'slate' | 'white' | 'blue';
+  className: string;
+  href?: string;
+  onClick?: MouseEventHandler;
+  [key: string]: any;
 }): ReactElement {
   className = clsx(
     baseStyles[variant],

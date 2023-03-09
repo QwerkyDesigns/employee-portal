@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 interface Select<T extends React.ReactNode> {
-  label?: string
-  options: T[]
-  defaultValue?: string
-  optionValueSelector?(option: T): string | number
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
+  label?: string;
+  options: T[];
+  defaultValue?: string;
+  optionValueSelector?(option: T): string | number;
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export default function Select<T extends React.ReactNode>({
@@ -31,9 +31,11 @@ export default function Select<T extends React.ReactNode>({
         onChange={onChange}
       >
         {options.map((option, i) => (
-          <option key={i}>{optionValueSelector ? optionValueSelector(option) : option}</option>
+          <option key={i}>
+            {optionValueSelector ? optionValueSelector(option) : option}
+          </option>
         ))}
       </select>
     </div>
-  )
+  );
 }

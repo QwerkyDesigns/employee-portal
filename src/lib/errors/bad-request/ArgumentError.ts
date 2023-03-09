@@ -1,1 +1,1 @@
-export default class ArgumentError extends Error {};
+export default class ArgumentError extends Error {}

@@ -11,8 +11,8 @@ function MobileNavLink({
   href,
   children,
 }: {
-  href: string
-  children: React.ReactNode
+  href: string;
+  children: React.ReactNode;
 }) {
   return (
     <Popover.Button as={Link} href={href} className="block w-full p-2">
@@ -25,7 +25,7 @@ function MobileNavIcon({ open }: { open: boolean }) {
   return (
     <svg
       aria-hidden="true"
-      className="stroke-slate-700 h-3.5 w-3.5 overflow-visible"
+      className="h-3.5 w-3.5 overflow-visible stroke-slate-700"
       fill="none"
       strokeWidth={2}
       strokeLinecap="round"
@@ -67,7 +67,7 @@ function MobileNavigation() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Popover.Overlay className="bg-slate-300/50 fixed inset-0" />
+          <Popover.Overlay className="fixed inset-0 bg-slate-300/50" />
         </Transition.Child>
         <Transition.Child
           as={Fragment}
@@ -80,12 +80,12 @@ function MobileNavigation() {
         >
           <Popover.Panel
             as="div"
-            className="bg-white text-slate-900 ring-slate-900/5 absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl p-4 text-lg tracking-tight shadow-xl ring-1"
+            className="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl bg-white p-4 text-lg tracking-tight text-slate-900 shadow-xl ring-1 ring-slate-900/5"
           >
             <MobileNavLink href="#features">Features</MobileNavLink>
             <MobileNavLink href="#testimonials">Testimonials</MobileNavLink>
             <MobileNavLink href="#pricing">Pricing</MobileNavLink>
-            <hr className="border-slate-300/40 m-2" />
+            <hr className="m-2 border-slate-300/40" />
             <MobileNavLink href="/login">Sign in</MobileNavLink>
           </Popover.Panel>
         </Transition.Child>
@@ -113,8 +113,13 @@ export function Header() {
             <div className="hidden md:block">
               <NavLink href="/login">Sign in</NavLink>
             </div>
-            <Button href="/register" color="blue" variant={'outline'} className={''}>
-                Get started today
+            <Button
+              href="/register"
+              color="blue"
+              variant={'outline'}
+              className={''}
+            >
+              Get started today
             </Button>
             <div className="-mr-1 md:hidden">
               <MobileNavigation />

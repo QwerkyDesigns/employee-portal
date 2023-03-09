@@ -1,13 +1,13 @@
-import { ImageOrigin } from "@/lib/enums/ImageOrigin";
-import DataContainers from "@/lib/models/data-containers/S3DataContainers";
-import { ImageName } from "@/lib/models/images/ImageName";
-import { ImageSet } from "@/lib/models/images/ImageSet";
-import { ImageTransfer } from "@/lib/models/images/ImageTransfer";
-import { HeaderKeys } from "@/lib/utils/constants";
-import { ImageBatchMetaData } from "@/types/ImageBatchmetaData";
-import S3 from "aws-sdk/clients/s3";
-import { v4 as uuidv4 } from "uuid";
-import S3Core, { ImageLocationDetails } from "./s3Core/S3Core";
+import { ImageOrigin } from '@/lib/enums/ImageOrigin';
+import DataContainers from '@/lib/models/data-containers/S3DataContainers';
+import { ImageName } from '@/lib/models/images/ImageName';
+import { ImageSet } from '@/lib/models/images/ImageSet';
+import { ImageTransfer } from '@/lib/models/images/ImageTransfer';
+import { HeaderKeys } from '@/lib/utils/constants';
+import { ImageBatchMetaData } from '@/types/ImageBatchmetaData';
+import S3 from 'aws-sdk/clients/s3';
+import { v4 as uuidv4 } from 'uuid';
+import S3Core, { ImageLocationDetails } from './s3Core/S3Core';
 
 export interface IMoveFromHereToThere {
   MoveFileFromThisContainerTo: (
@@ -29,7 +29,7 @@ export class UnCategorizedImagesStore
   };
 
   public async RetrieveAllTransfers(imageOrigin?: ImageOrigin) {
-    const viewingUrls = await this.getSignedUrlsForAllFiles(imageOrigin ?? "");
+    const viewingUrls = await this.getSignedUrlsForAllFiles(imageOrigin ?? '');
     return viewingUrls;
   }
 
@@ -51,13 +51,13 @@ export class UnCategorizedImagesStore
         ImageOrigin.Dalle
       );
       const contentType =
-        response.headers.get(HeaderKeys.ContentType) ?? "image/png"; // must set image type explicity, image/* is not allowed
+        response.headers.get(HeaderKeys.ContentType) ?? 'image/png'; // must set image type explicity, image/* is not allowed
       const timeStamp = new Date();
       const timeStampString = timeStamp
         .toISOString()
         .slice(0, 19)
-        .replace("T", " ");
-      const tags: S3.Tag[] = [{ Key: "DownloadDate", Value: timeStampString }];
+        .replace('T', ' ');
+      const tags: S3.Tag[] = [{ Key: 'DownloadDate', Value: timeStampString }];
       const imageTransfer = new ImageTransfer(
         imageData,
         imageName,
@@ -90,9 +90,9 @@ export class UnCategorizedImagesStore
     fileName: string,
     prefix: string
   ) {
-    const buffer = Buffer.from(serializedData, "utf-8");
+    const buffer = Buffer.from(serializedData, 'utf-8');
     await this.writeFiles(
-      [{ name: fileName, data: buffer, contentType: "text/*" }],
+      [{ name: fileName, data: buffer, contentType: 'text/*' }],
       this.uploadOptions,
       prefix
     );

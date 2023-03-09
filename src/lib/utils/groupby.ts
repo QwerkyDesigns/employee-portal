@@ -1,5 +1,5 @@
 export interface Item {
-    [key: string]: string
+  [key: string]: string;
 }
 
 // const groupByProperty = (items: Item[], property: string) =>
