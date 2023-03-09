@@ -1,16 +1,15 @@
 import { SliderInput } from '@/components/sliders/slider';
 import frontendClient from '@/lib/client/frontendClient';
 import { ImageSize } from '@/lib/enums/ImageSizes';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { CreateDalleImagesResponse, CreateDalleImagesRequest } from '@/lib/controllers/CreateDalleImagesController';
 import { ImageLocationDetails } from '@/lib/stores/s3Core/S3Core';
 import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner';
-import { PaddedImage } from '@/components/images/PaddedImage';
 import { DashboardLayout } from '../../../components/layouts/DashboardLayout';
 import Select from '@/components/select/Select';
-import TextArea, { TextAreaChangeEvent } from '@/components/text/TextArea';
+import TextArea from '@/components/text/TextArea';
 import { unpackChangeEvent } from '@/lib/decorators/EventChangeDecorator';
-import BasicGallery from '@/components/image/gallery/BasicGallery';
+import CreatorGallery from '@/components/image/gallery/CreatorGallery';
 
 export const ArtStyles = [
     'hyperrealism',
@@ -110,7 +109,7 @@ export default function CreateWithDallePage() {
                     <div style={{ height: '3rem' }} />
                 </div>
                 <div aria-label="right side of the screen" className="flex-grow  bg-blue-300 p-4">
-                    {recentlyUploadedImages && <BasicGallery details={recentlyUploadedImages} />}
+                    {recentlyUploadedImages && <CreatorGallery details={recentlyUploadedImages} />}
                 </div>
             </div>
         </DashboardLayout>
