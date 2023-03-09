@@ -30,8 +30,10 @@ export function Button({
   color = 'slate',
   className,
   href,
+  disabled,
   ...props
 }: {
+  disabled?: boolean
   variant: 'solid' | 'outline'
   color: 'slate' | 'white' | 'blue'
   className: string
@@ -46,8 +48,10 @@ export function Button({
   )
 
   return href !== undefined ? (
-    <Link href={href} className={className} {...props} />
+    <button disabled={disabled} className={className}>
+      <Link href={href} className={className} {...props} />
+    </button>
   ) : (
-    <button className={className} {...props} />
+    <button disabled={disabled} className={className} {...props} />
   )
 }

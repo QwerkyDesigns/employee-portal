@@ -1,5 +1,5 @@
 import { NormalButton } from "@/components/buttons/NormalButton";
-import Layout from "@/components/Layout";
+import { DashboardLayout } from "@/components/layouts/DashboardLayout";
 import frontendClient from "@/lib/client/frontendClient";
 import stripeFrontend from "@/lib/client/stripeFrontend";
 import {
@@ -20,13 +20,13 @@ export default function ChooseTopUpMethod() {
     };
 
     return (
-        <Layout pageName="Manual Top Up">
+        <DashboardLayout pageName="Manual Top Up">
             <p>Lets put somme useful information on this page for customers to consider before we send them to stripe</p>
             <p>
                 We can also provide a custom checkout page design that also presents this info but maybe more concisely. Have a
                 think about it :D
             </p>
             <NormalButton onClick={onClick}>Manual Top up</NormalButton>
-        </Layout>
+        </DashboardLayout>
     );
 }

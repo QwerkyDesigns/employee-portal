@@ -1,5 +1,4 @@
 import { PaddedImage } from "@/components/images/PaddedImage";
-import Layout from "@/components/Layout";
 import frontendClient from "@/lib/client/frontendClient";
 import { GetSingleImageUrlResponse } from "@/lib/controllers/GetImageByKeyController";
 import { useRouter } from "next/router";
@@ -11,7 +10,7 @@ import {
     CreateImageCategorizationResponse,
 } from "@/lib/controllers/CategorizeAndUploadController";
 import { ButtonWithSpinner } from "@/components/buttons/ButtonWithSpinner";
-import { DashboardLayout } from "../DashboardLayout";
+import { DashboardLayout } from "../../../components/layouts/DashboardLayout";
 
 export default function CategorizePage() {
     const router = useRouter();

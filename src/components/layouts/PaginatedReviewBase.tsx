@@ -1,6 +1,5 @@
 import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner'
 import { PaddedImage } from '@/components/images/PaddedImage'
-import Layout from '@/components/Layout'
 import frontendClient from '@/lib/client/frontendClient'
 import {
   UnCategorizedImageMeta,
@@ -8,7 +7,7 @@ import {
 } from '@/lib/controllers/GetAllUntransferredController'
 import { ImageOrigin } from '@/lib/enums/ImageOrigin'
 import { batch } from '@/lib/utils/batch'
-import { DashboardLayout } from '@/pages/portal/DashboardLayout'
+import { DashboardLayout } from '@/components/layouts/DashboardLayout'
 import { Checkbox, NumberInput, Pagination, Text } from '@mantine/core'
 import { IconArrowBigTop } from '@tabler/icons'
 import { useRouter } from 'next/router'

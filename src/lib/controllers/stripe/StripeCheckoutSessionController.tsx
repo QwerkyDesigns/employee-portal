@@ -7,8 +7,8 @@ import { AuthenticatedBaseController } from "../base/AuthenticatedBaseController
 import Stripe from "stripe";
 import { prisma } from "@/lib/client/prisma";
 
-const success_url = `${env.GetStringEnvironmentVarialble(EnvironmentVariable.HostUrl)}/stripe/success`;
-const cancel_url = `${env.GetStringEnvironmentVarialble(EnvironmentVariable.HostUrl)}/stripe/cancel`;
+const success_url = `${env.GetStringEnvironmentVarialble(EnvironmentVariable.HostUrl)}/portal/stripe/success`;
+const cancel_url = `${env.GetStringEnvironmentVarialble(EnvironmentVariable.HostUrl)}/portal/stripe/cancel`;
 
 class StripeCheckoutSessionController extends AuthenticatedBaseController {
     constructor() {
@@ -17,8 +17,6 @@ class StripeCheckoutSessionController extends AuthenticatedBaseController {
 
     async post(req: NextApiRequest, res: NextApiResponse<StripeCheckoutSessionResponse>) {
         const session = await getSession({ req });
-
-        console.log(session);
         const userEmail = session?.user?.email;
         if (userEmail === null) {
             throw new Error("Email not found!");
@@ -30,7 +28,7 @@ class StripeCheckoutSessionController extends AuthenticatedBaseController {
 
         const stripeCustomerId = account?.stripeCustomerId;
         if (stripeCustomerId === null) throw new Error("Stripe Customer ID not found!");
-        console.log("Customer ID: " + stripeCustomerId);
+
         // TODO: Hard coding the test stripe price product here for the moment. This exists now in the test stripe account
         try {
             const checkoutSession = await stripeBackendClient.checkout.sessions.create({

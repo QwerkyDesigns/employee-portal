@@ -1,4 +1,3 @@
-import Layout from '@/components/Layout'
 import { SliderInput } from '@/components/sliders/slider'
 import frontendClient from '@/lib/client/frontendClient'
 import { ImageSize } from '@/lib/enums/ImageSizes'
@@ -11,7 +10,7 @@ import {
 import { ImageLocationDetails } from '@/lib/stores/s3Core/S3Core'
 import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner'
 import { PaddedImage } from '@/components/images/PaddedImage'
-import { DashboardLayout } from '../DashboardLayout'
+import { DashboardLayout } from '../../../components/layouts/DashboardLayout'
 
 export const ArtStyles = [
   'hyperrealism',

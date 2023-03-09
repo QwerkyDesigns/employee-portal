@@ -1,9 +1,8 @@
-import Layout from '@/components/Layout'
 import { PngImageDropzone } from '@/components/transfers/UploadFiles'
 import { useState } from 'react'
 import Image from 'next/image'
 import { Loader, Progress } from '@mantine/core'
-import { DashboardLayout } from '../DashboardLayout'
+import { DashboardLayout } from '../../../components/layouts/DashboardLayout'
 
 export default function UploadImages() {
   const [uploadedImages, setUploadedImages] = useState<string[]>([])

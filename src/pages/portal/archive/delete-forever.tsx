@@ -1,5 +1,5 @@
 import { Container } from '@mantine/core'
-import { DashboardLayout } from '../DashboardLayout'
+import { DashboardLayout } from '../../../components/layouts/DashboardLayout'
 
 export default function DeleteForeverPage() {
   return (

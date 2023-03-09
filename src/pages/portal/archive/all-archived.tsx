@@ -1,7 +1,5 @@
 import { ButtonWithSpinner } from "@/components/buttons/ButtonWithSpinner";
-import { ImageOptionButtons } from "@/components/buttons/ImageOptionsButtons";
 import { PaddedImage } from "@/components/images/PaddedImage";
-import Layout from "@/components/Layout";
 import frontendClient from "@/lib/client/frontendClient";
 import { GetAllArchivedResponse } from "@/lib/controllers/GetAllArchivedImagesController";
 import { PresignedUrlWithMeta } from "@/lib/stores/s3Core/S3Core";
@@ -10,7 +8,7 @@ import { Checkbox, NumberInput, Pagination } from "@mantine/core";
 import { IconArrowBigTop } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { DashboardLayout } from "../DashboardLayout";
+import { DashboardLayout } from "../../../components/layouts/DashboardLayout";
 
 const DEFAULT_SHOW_NUMBER = 5;
 
