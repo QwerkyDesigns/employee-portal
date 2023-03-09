@@ -4,23 +4,23 @@ import { PresignedUrlWithMeta } from '../stores/s3Core/S3Core';
 import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
 
 class GetAllArchivedController extends AuthenticatedBaseController {
-  constructor() {
-    super();
-  }
+    constructor() {
+        super();
+    }
 
-  async get(req: NextApiRequest, res: NextApiResponse<GetAllArchivedResponse>) {
-    const repo = new ArchivedImagesStore();
+    async get(req: NextApiRequest, res: NextApiResponse<GetAllArchivedResponse>) {
+        const repo = new ArchivedImagesStore();
 
-    const allViewingUrls = await repo.GetAllArchivedImages();
+        const allViewingUrls = await repo.GetAllArchivedImages();
 
-    return res.json({
-      imageMetas: allViewingUrls,
-    });
-  }
+        return res.json({
+            imageMetas: allViewingUrls
+        });
+    }
 }
 
 export type GetAllArchivedResponse = {
-  imageMetas: PresignedUrlWithMeta[];
+    imageMetas: PresignedUrlWithMeta[];
 };
 
 export default GetAllArchivedController;

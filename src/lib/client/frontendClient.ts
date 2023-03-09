@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 import AxiosClient from './AxiosClient';
 
 const CONFIG: AxiosRequestConfig = {
-  baseURL: '/api',
+    baseURL: '/api'
 };
 
 const frontendClient = new AxiosClient(CONFIG);

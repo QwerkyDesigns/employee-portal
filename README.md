@@ -47,4 +47,3 @@ npm run setup
 https://jameschambers.co.uk/nextjs-hot-reload-docker-development
 
 https://logfetch.com/next-stripe-cli-docker-integration/
-
