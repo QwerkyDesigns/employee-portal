@@ -11,16 +11,13 @@ export const authOptions: NextAuthOptions = {
                 usernameOrEmail: { label: 'Username', type: 'text', placeholder: 'username or email' },
                 password: { label: 'Password', type: 'password' }
             },
-            async authorize(credentials, req): Promise<Awaitable<User | null>> {
-                console.log(credentials);
-
+            async authorize(credentials, req): Promise<User | null> {
                 let account = await prisma.account.findUnique({
                     where: {
                         userName: credentials?.usernameOrEmail
                     }
                 });
 
-                console.log(account);
                 if (account === null) {
                     account = await prisma.account.findUnique({
                         where: {
@@ -28,20 +25,15 @@ export const authOptions: NextAuthOptions = {
                         }
                     });
                 }
-                console.log(account);
                 if (account === null) {
                     return null;
                 }
 
-                console;
                 // TODO: encrypt this with salt. I have prior art for this available - later b4 prod tho
                 if (account?.password !== credentials?.password) {
                     return null;
                 }
 
-                if (!account) {
-                    return null;
-                }
                 const user: User = { id: account?.id.toString(), email: account?.email, name: account.userName };
                 return user;
             }
