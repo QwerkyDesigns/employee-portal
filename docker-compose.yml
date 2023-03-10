@@ -16,6 +16,8 @@ services:
             - 3000:3000
         networks:
             - studio-network
+        env_file:
+            - ./.env.development
 
     stripe-cli:
         image: stripe/stripe-cli

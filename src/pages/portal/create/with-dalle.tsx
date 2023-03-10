@@ -1,5 +1,4 @@
 import { SliderInput } from '@/components/sliders/slider';
-import frontendClient from '@/lib/client/frontendClient';
 import { ImageSize } from '@/lib/enums/ImageSizes';
 import { useState } from 'react';
 import { CreateDalleImagesResponse, CreateDalleImagesRequest } from '@/lib/controllers/CreateDalleImagesController';
@@ -10,6 +9,7 @@ import Select from '@/components/select/Select';
 import TextArea from '@/components/text/TextArea';
 import { unpackChangeEvent } from '@/lib/decorators/EventChangeDecorator';
 import CreatorGallery from '@/components/image/gallery/CreatorGallery';
+import frontendClient from '@/lib/client/frontendClient';
 
 export const ArtStyles = [
     'hyperrealism',
