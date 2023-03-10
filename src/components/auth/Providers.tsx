@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/buttons/Button';
 import { signIn } from 'next-auth/react';
 import { DiGithubBadge } from 'react-icons/di';
@@ -15,6 +15,12 @@ function handleSignin(provider: CommonProviderOptions) {
     };
 }
 
+function handlePasswordSignin(provider: CommonProviderOptions, usernameOrEmail: string, password: string) {
+    return () => {
+        signIn(provider.id, { callbackUrl: `${window.location.origin}/portal` });
+    };
+}
+
 function GithubProvider({ provider }: { provider: CommonProviderOptions }) {
     return (
         <div className="mb-12" key={provider.name}>
@@ -28,20 +34,37 @@ function GithubProvider({ provider }: { provider: CommonProviderOptions }) {
 }
 
 function CredentialsProvider({ provider }: { provider: CommonProviderOptions }) {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.target.value);
+    };
+
+    const handlePassChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event?.target.value);
+    };
+
     return (
-        <div>
+        <div className="mt-10 grid grid-cols-1 gap-y-8">
             <p className="font-extrabold">Sign with {provider.name} </p>
-            <form action="#" className="mt-10 grid grid-cols-1 gap-y-8">
-                <TextField label="Email address" id="usernameoremail" name="usernameoremail" type="text" autoComplete="email" required />
-                <TextField label="Password" id="password" name="password" type="password" autoComplete="current-password" required />
-                <div className="mb-12">
-                    <Button type="submit" variant="solid" color="blue" className="w-full">
-                        <span>
-                            Sign in <span aria-hidden="true">&rarr;</span>
-                        </span>
-                    </Button>
-                </div>
-            </form>
+            <TextField
+                onChange={handleEmailChange}
+                label="Email address"
+                id="usernameoremail"
+                name="usernameoremail"
+                type="text"
+                autoComplete="email"
+                required
+            />
+            <TextField onChange={handlePassChange} label="Password" id="password" name="password" type="password" autoComplete="current-password" required />
+            <div className="mb-12">
+                <Button type="submit" variant="solid" color="blue" className="w-full" onClick={handlePasswordSignin(provider, email, password)}>
+                    <span>
+                        Sign in <span aria-hidden="true">&rarr;</span>
+                    </span>
+                </Button>
+            </div>
             <Divider text="Or" classNames="mb-12" />
         </div>
     );
