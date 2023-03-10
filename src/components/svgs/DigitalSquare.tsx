@@ -1,7 +1,7 @@
 export default function DigitalSquare(props: any) {
     return (
         <svg id="visual" viewBox="0 0 960 540" width="960" height="540" xmlns="http://www.w3.org/2000/svg" version="1.1" {...props}>
-            <g stroke-width="1" stroke-linejoin="bevel">
+            <g strokeWidth="1" stroke-linejoin="bevel">
                 <path d="M510.3 272L431.7 294L456.7 393Z" fill="#1d7e54" stroke="#1d7e54"></path>
                 <path d="M456.7 393L570.3 394L510.3 272Z" fill="#88a629" stroke="#88a629"></path>
                 <path d="M431.7 294L351 330L456.7 393Z" fill="#021f2c" stroke="#021f2c"></path>
