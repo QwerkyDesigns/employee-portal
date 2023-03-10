@@ -1,4 +1,3 @@
-
 export class Image {
     public arrayBuffer: ArrayBuffer;
     public imageId: string;

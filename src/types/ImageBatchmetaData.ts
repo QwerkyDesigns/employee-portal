@@ -1,7 +1,7 @@
-import { ImageSize } from "../lib/enums/ImageSizes";
+import { ImageSize } from '../lib/enums/ImageSizes';
 
 export type ImageBatchMetaData = {
-  prompt: string;
-  imageSize: ImageSize;
-  numImages: number;
+    prompt: string;
+    imageSize: ImageSize;
+    numImages: number;
 };

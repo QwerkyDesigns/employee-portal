@@ -1,12 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { getBody } from "nextjs-backend-helpers";
-import { StatusCodes } from "../enums/StatusCodes";
-import { AuthenticatedBaseController } from "./base/AuthenticatedBaseController";
-import ArgumentError from "../errors/bad-request/ArgumentError";
-import RepositoryOpenAi from "../repositories/DalleRepository";
-import { ImageSize } from "../enums/ImageSizes";
-import UnCategorizedImagesStore from "../stores/UncategorizedImagesStore";
-import { ImageLocationDetails } from "../stores/s3Core/S3Core";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getBody } from 'nextjs-backend-helpers';
+import { StatusCodes } from '../enums/StatusCodes';
+import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
+import ArgumentError from '../errors/bad-request/ArgumentError';
+import RepositoryOpenAi from '../repositories/DalleRepository';
+import { ImageSize } from '../enums/ImageSizes';
+import UnCategorizedImagesStore from '../stores/UncategorizedImagesStore';
+import { ImageLocationDetails } from '../stores/s3Core/S3Core';
 
 class CreateDalleImagesController extends AuthenticatedBaseController {
     private RepositoryOpenAAI = new RepositoryOpenAi();
@@ -17,7 +17,7 @@ class CreateDalleImagesController extends AuthenticatedBaseController {
 
         this.rescue(ArgumentError, (error, request, response) => {
             response.status(StatusCodes.InvalidRequest).json({
-                errors: [error.message],
+                errors: [error.message]
             });
         });
     }
@@ -26,7 +26,7 @@ class CreateDalleImagesController extends AuthenticatedBaseController {
         let { n, size, prompt } = getBody<CreateDalleImagesRequest>(req);
 
         if (n < 1 || n > 10) {
-            throw new ArgumentError("You may only request up to 10 images");
+            throw new ArgumentError('You may only request up to 10 images');
         }
 
         if (prompt.length > 500) {
@@ -37,7 +37,7 @@ class CreateDalleImagesController extends AuthenticatedBaseController {
 
         const imageLocationdetails = await this.s3Repository.SaveDalleUrlsToS3(response.urls, response.metaData);
         return res.json({
-            details: imageLocationdetails,
+            details: imageLocationdetails
         });
     }
 }

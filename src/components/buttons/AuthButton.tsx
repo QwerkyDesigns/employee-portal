@@ -1,5 +1,5 @@
-import { Button } from "@mantine/core";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { Button } from '@mantine/core';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 export const AuthButton = () => {
     const { data: session } = useSession();
@@ -14,7 +14,7 @@ export const AuthButton = () => {
                 }
             }}
         >
-            {session ? "Sign Out" : "Sign In"}
+            {session ? 'Sign Out' : 'Sign In'}
         </Button>
     );
 };

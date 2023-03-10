@@ -1,14 +1,14 @@
-import env from "@/lib/environment/Environment";
-import { EnvironmentVariable } from "@/lib/environment/EnvironmentVariable";
-import { ImageBatchMetaData } from "@/types/ImageBatchmetaData";
-import { Configuration, OpenAIApi } from "openai";
-import { ImageSize } from "../enums/ImageSizes";
-import UnCategorizedImagesStore from "../stores/UncategorizedImagesStore";
+import env from '@/lib/environment/Environment';
+import { EnvironmentVariable } from '@/lib/environment/EnvironmentVariable';
+import { ImageBatchMetaData } from '@/types/ImageBatchmetaData';
+import { Configuration, OpenAIApi } from 'openai';
+import { ImageSize } from '../enums/ImageSizes';
+import UnCategorizedImagesStore from '../stores/UncategorizedImagesStore';
 
 const openApiKey = env.GetStringEnvironmentVarialble(EnvironmentVariable.OpenAiApiKey);
 
 const configuration = new Configuration({
-    apiKey: openApiKey,
+    apiKey: openApiKey
 });
 
 export type DalleResponse = {
@@ -29,7 +29,7 @@ class DalleRepository {
         const response = await this.openAIApi.createImage({
             prompt: prompt,
             n: n,
-            size: size,
+            size: size
         });
 
         const imageUrls: string[] = [];
@@ -42,7 +42,7 @@ class DalleRepository {
         const batchMeta: ImageBatchMetaData = {
             prompt: prompt,
             imageSize: size,
-            numImages: n,
+            numImages: n
         };
         return { urls: imageUrls, metaData: batchMeta };
     }

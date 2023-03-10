@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 
 services:
     stripe-cli:
@@ -7,13 +7,13 @@ services:
         restart: always
         command:
             - listen
-            - "--api-key"
+            - '--api-key'
             - ${STRIPE_API_KEY}
-            - "--device-name"
-            - "studio-dev-cli"
-            - "--forward-to"
-            - "next-app:3000/api/stripe/webhook"
-            - "--skip-verify"
+            - '--device-name'
+            - 'studio-dev-cli'
+            - '--forward-to'
+            - 'next-app:3000/api/stripe/webhook'
+            - '--skip-verify'
         env_file:
             - ./.env.production
         networks:

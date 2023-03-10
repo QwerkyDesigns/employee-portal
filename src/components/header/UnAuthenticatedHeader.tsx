@@ -1,4 +1,4 @@
-import { AuthButton } from "../buttons/AuthButton";
+import { AuthButton } from '../buttons/AuthButton';
 
 export const UnAuthenticatedHeader = () => {
     return (

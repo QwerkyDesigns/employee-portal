@@ -6,39 +6,39 @@ export type HeaderLink = {
 export const headerLinkGroups: { [key: string]: HeaderLink[] } = {
     Create: [
         {
-            label: "Create w/ Dalle",
-            value: "/create/with-dalle",
+            label: 'Create w/ Dalle',
+            value: '/create/with-dalle'
         },
         {
-            label: "Upload images",
-            value: "/create/with-upload",
-        },
+            label: 'Upload images',
+            value: '/create/with-upload'
+        }
     ],
     Review: [
         {
-            label: "Review Dalle Creations",
-            value: "/review/dalle",
+            label: 'Review Dalle Creations',
+            value: '/review/dalle'
         },
         {
-            label: "Review uploads",
-            value: "/review/uploads",
-        },
+            label: 'Review uploads',
+            value: '/review/uploads'
+        }
     ],
     Archive: [
         {
-            label: "Archived Images",
-            value: "/archive/all-archived",
-        },
-    ],
+            label: 'Archived Images',
+            value: '/archive/all-archived'
+        }
+    ]
 };
 
 export const unGroupedHeaderLinks: HeaderLink[] = [
     {
-        label: "Home",
-        value: "/",
+        label: 'Home',
+        value: '/'
     },
     {
-        label: "Top up your account",
-        value: "/stripe/payments/choose-top-up-method",
-    },
+        label: 'Top up your account',
+        value: '/stripe/payments/choose-top-up-method'
+    }
 ];

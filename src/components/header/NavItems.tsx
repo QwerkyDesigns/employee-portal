@@ -1,14 +1,14 @@
-import { Button, Select } from "@mantine/core";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { headerLinkGroups, unGroupedHeaderLinks } from "./headerLinks";
-import { Text } from "@mantine/core";
-import { NormalButton } from "../buttons/NormalButton";
+import { Button, Select } from '@mantine/core';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { headerLinkGroups, unGroupedHeaderLinks } from './headerLinks';
+import { Text } from '@mantine/core';
+import { NormalButton } from '../buttons/NormalButton';
 
 export const NavItems = () => {
     const router = useRouter();
     return (
-        <nav className="flex flex-row justify-between w-full ml-2 mr-2 items-center h-[150px]">
+        <nav className="ml-2 mr-2 flex h-[150px] w-full flex-row items-center justify-between">
             <div />
             {unGroupedHeaderLinks.map((hl, i) => {
                 return (

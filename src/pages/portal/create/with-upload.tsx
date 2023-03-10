@@ -5,23 +5,20 @@ import { Loader, Progress } from '@mantine/core';
 import { DashboardLayout } from '../../../components/layouts/DashboardLayout';
 
 export default function UploadImages() {
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  return (
-    <DashboardLayout pageName="Upload your images">
-      <PngImageDropzone
-        setUploadedImages={setUploadedImages}
-        setLoading={setLoading}
-      />
-      <div style={{ height: '3rem' }} />
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        {uploadedImages.map((src, i) => (
-          <div key={src}>
-            <Image height={400} width={400} src={src} alt="wow" />
-          </div>
-        ))}
-      </div>
-      {loading && <Loader />}
-    </DashboardLayout>
-  );
+    const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    return (
+        <DashboardLayout pageName="Upload your images">
+            <PngImageDropzone setUploadedImages={setUploadedImages} setLoading={setLoading} />
+            <div style={{ height: '3rem' }} />
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                {uploadedImages.map((src, i) => (
+                    <div key={src}>
+                        <Image height={400} width={400} src={src} alt="wow" />
+                    </div>
+                ))}
+            </div>
+            {loading && <Loader />}
+        </DashboardLayout>
+    );
 }

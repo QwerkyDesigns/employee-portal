@@ -1,5 +1,5 @@
-import { StatusCodes } from "@/lib/enums/StatusCodes";
-import { IError } from "./IError";
+import { StatusCodes } from '@/lib/enums/StatusCodes';
+import { IError } from './IError';
 
 class S3DownloadError extends Error implements IError {
     constructor(message: string, errorCode?: StatusCodes) {

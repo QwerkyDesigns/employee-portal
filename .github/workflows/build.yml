@@ -5,18 +5,18 @@ on:
     branches:
       - main
     paths-ignore:
-      - "**/*.md"
-      - "**/*.yml"
-      - "**/.gitignore"
-      - "assets/*"
+      - '**/*.md'
+      - '**/*.yml'
+      - '**/.gitignore'
+      - 'assets/*'
   push:
     branches:
       - main
     paths-ignore:
-      - "**/*.md"
-      - "**/*.yml"
-      - "**/.gitignore"
-      - "assets/"
+      - '**/*.md'
+      - '**/*.yml'
+      - '**/.gitignore'
+      - 'assets/'
   workflow_dispatch:
 
 jobs:
@@ -27,24 +27,40 @@ jobs:
         node-version: [18.14.2]
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
+      # - name: Install prettier
+      #   run: npm i -g prettier
 
-    - name: Install dependencies
-      run: npm ci
+      # - name: Install prettier-plugin-tailwindcss
+      #   run: npm i -g prettier-plugin-tailwindcss
 
-    - name: Run CI build
-      env:
-        GITHUB_CLIENT_ID: dummy-value
-        GITHUB_CLIENT_SECRET: dummy-value
-        NEXTAUTH_URL: dummy-value
-        NEXTAUTH_SECRET: dummy-value
-        NODE_ENV: production
-        STRIPE_DEVICE_NAME: dummy-value
-        STRIPE_WEBHOOK_SECRET: dummy-value
-      run: npm run cibuild
+      # - name: Prettify code
+      #   uses: creyD/prettier_action@v4.2
+      #   with:
+      #     # This part is also where you can pass other options, for example:
+      #     prettier_options: --check **/*.{ts,tsx,js,jsx,md}
+      #     only_changed: False
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run CI build
+        env:
+          GITHUB_CLIENT_ID: dummy-value
+          GITHUB_CLIENT_SECRET: dummy-value
+          NEXTAUTH_URL: dummy-value
+          NEXTAUTH_SECRET: dummy-value
+          NODE_ENV: production
+          STRIPE_DEVICE_NAME: dummy-value
+          STRIPE_WEBHOOK_SECRET: dummy-value
+        run: npm run cibuild

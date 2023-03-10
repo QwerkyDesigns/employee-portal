@@ -1,13 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { Controller, errors } from "nextjs-backend-helpers";
-import { StatusCodes } from "../../enums/StatusCodes";
-import UnAuthenticatedError from "../../errors/bad-request/UnAuthenticatedError";
-import { getSession } from "next-auth/react";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { Controller, errors } from 'nextjs-backend-helpers';
+import { StatusCodes } from '../../enums/StatusCodes';
+import UnAuthenticatedError from '../../errors/bad-request/UnAuthenticatedError';
+import { getSession } from 'next-auth/react';
 
 export class AuthenticatedBaseController extends Controller {
     constructor() {
         super();
-
 
         this.rescue(Error, (error, request, response) => {
             response.status(StatusCodes.ServerError).json(errors([error.message]));
@@ -23,7 +22,7 @@ export class AuthenticatedBaseController extends Controller {
 
         this.rescue(UnAuthenticatedError, (error, request, response) => {
             response.status(StatusCodes.NotAuthorized).json({
-                errors: [error.name, error.message],
+                errors: [error.name, error.message]
             });
         });
     }

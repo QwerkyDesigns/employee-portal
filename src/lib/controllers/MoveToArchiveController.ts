@@ -1,10 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { getBody, getQuery } from "nextjs-backend-helpers";
-import { StatusCodes } from "../enums/StatusCodes";
-import { AuthenticatedBaseController } from "./base/AuthenticatedBaseController";
-import ArgumentError from "../errors/bad-request/ArgumentError";
-import UnCategorizedImagesStore from "../stores/UncategorizedImagesStore";
-import ArchivedImagesStore from "../stores/ArchivedImagesStore";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getBody, getQuery } from 'nextjs-backend-helpers';
+import { StatusCodes } from '../enums/StatusCodes';
+import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
+import ArgumentError from '../errors/bad-request/ArgumentError';
+import UnCategorizedImagesStore from '../stores/UncategorizedImagesStore';
+import ArchivedImagesStore from '../stores/ArchivedImagesStore';
 
 class MoveToArchiveController extends AuthenticatedBaseController {
     private uncategorizedS3BucketRepository = new UnCategorizedImagesStore();
@@ -15,7 +15,7 @@ class MoveToArchiveController extends AuthenticatedBaseController {
 
         this.rescue(ArgumentError, (error, request, response) => {
             response.status(StatusCodes.InvalidRequest).json({
-                errors: [error.message],
+                errors: [error.message]
             });
         });
     }

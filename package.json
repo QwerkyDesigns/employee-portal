@@ -11,6 +11,7 @@
         "start": "dotenv -e .env.production next start",
         "lint": "dotenv -e .env.development next lint",
         "lint:fix": "npx eslint . --fix",
+        "prettify": "npx prettier -w --config ./prettier.config.js .",
         "bootstrap": "npm ci && cp -n ./dev.config.js.template ./dev.config.js; cp -n ./.env.development.template ./.env.development; true",
         "setup": "npm run bootstrap && npm run db:dev:reset && npm run setup-db",
         "update": "rm -rf ./node_modules && db:dev:migrate && npm run bootstrap",
@@ -19,7 +20,7 @@
         "db:dev:reset": "dotenv -e ./scripts/.env.external -- npx prisma migrate reset",
         "db:dev:refresh": "npm run db:dev:reset && npm run db:dev:migrate && npm run setup-db",
         "setup-db": "node scripts/setup-database.js",
-        "delete_node_modules": "npm i -g rimraf && rimraf node_modules",
+        "delete_node_modules": "npm i   -g rimraf && rimraf node_modules",
         "dev-setup": "npm run delete_node_modules && docker compose up --build -d && npm run db:dev:refresh"
     },
     "dependencies": {
@@ -41,6 +42,7 @@
         "@prisma/client": "^4.11.0",
         "@stripe/stripe-js": "^1.48.0",
         "@tabler/icons": "1.119.0",
+        "@tailwindcss/aspect-ratio": "^0.4.2",
         "@tailwindcss/forms": "^0.5.3",
         "@tailwindcss/typography": "^0.5.9",
         "@tiptap/extension-link": "^2.0.0-beta.209",

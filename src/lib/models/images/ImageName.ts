@@ -1,4 +1,4 @@
-import { ImageOrigin } from "@/lib/enums/ImageOrigin";
+import { ImageOrigin } from '@/lib/enums/ImageOrigin';
 
 export class ImageName {
     private imageSetId: string;
@@ -31,6 +31,6 @@ export class ImageName {
     }
 
     public static retrieveFileNameWithoutImageIndex(imageName: string) {
-        return imageName.split("_")[0];
+        return imageName.split('_')[0];
     }
 }

@@ -1,6 +1,6 @@
-import EnvironmentVariableDoesNotExistError from "../errors/application-errors/EnvironmentVariableDoesNotExistError";
-import EnvironmentVarialbeNotParsedCorrectlyError from "../errors/application-errors/EnvironmentVarialbeNotParsedCorrectlyError";
-import { EnvironmentVariable } from "./EnvironmentVariable";
+import EnvironmentVariableDoesNotExistError from '../errors/application-errors/EnvironmentVariableDoesNotExistError';
+import EnvironmentVarialbeNotParsedCorrectlyError from '../errors/application-errors/EnvironmentVarialbeNotParsedCorrectlyError';
+import { EnvironmentVariable } from './EnvironmentVariable';
 
 class Environment {
     public GetIntEnvironementVariable(variable: EnvironmentVariable): number {
@@ -21,9 +21,9 @@ class Environment {
 
     private GetEnvironmentVariable(variable: EnvironmentVariable): string {
         const value = process.env[variable];
-        console.log("----------");
-        console.log("variable: " + variable);
-        console.log("Value: " + value);
+        console.log('----------');
+        console.log('variable: ' + variable);
+        console.log('Value: ' + value);
         if (value === undefined) {
             throw new EnvironmentVariableDoesNotExistError(`Could not find ${variable} amongst the env vars. value was : ${value}`);
         }

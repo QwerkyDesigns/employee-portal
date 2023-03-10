@@ -1,5 +1,5 @@
-import { v4 as uuidv4 } from "uuid";
-import { Image } from "./Image";
+import { v4 as uuidv4 } from 'uuid';
+import { Image } from './Image';
 
 export class ImageSet {
     public imageSet: Image[] = [];

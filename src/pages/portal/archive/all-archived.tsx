@@ -1,14 +1,14 @@
-import { ButtonWithSpinner } from "@/components/buttons/ButtonWithSpinner";
-import { PaddedImage } from "@/components/images/PaddedImage";
-import frontendClient from "@/lib/client/frontendClient";
-import { GetAllArchivedResponse } from "@/lib/controllers/GetAllArchivedImagesController";
-import { PresignedUrlWithMeta } from "@/lib/stores/s3Core/S3Core";
-import { batch } from "@/lib/utils/batch";
-import { Checkbox, NumberInput, Pagination } from "@mantine/core";
-import { IconArrowBigTop } from "@tabler/icons";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { DashboardLayout } from "../../../components/layouts/DashboardLayout";
+import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner';
+import { PaddedImage } from '@/components/images/PaddedImage';
+import frontendClient from '@/lib/client/frontendClient';
+import { GetAllArchivedResponse } from '@/lib/controllers/GetAllArchivedImagesController';
+import { PresignedUrlWithMeta } from '@/lib/stores/s3Core/S3Core';
+import { batch } from '@/lib/utils/batch';
+import { Checkbox, NumberInput, Pagination } from '@mantine/core';
+import { IconArrowBigTop } from '@tabler/icons';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { DashboardLayout } from '../../../components/layouts/DashboardLayout';
 
 const DEFAULT_SHOW_NUMBER = 5;
 
@@ -29,7 +29,7 @@ export default function AllArchivedPage() {
     useEffect(() => {
         (async () => {
             const res = await frontendClient.get<GetAllArchivedResponse>(`archive/get-all-archived`);
-            const filteredImageMetas = res.imageMetas.filter((x) => !x.key.endsWith("meta.txt"));
+            const filteredImageMetas = res.imageMetas.filter((x) => !x.key.endsWith('meta.txt'));
 
             const batches = batch(filteredImageMetas);
 
@@ -45,7 +45,7 @@ export default function AllArchivedPage() {
     }, []);
 
     const categorize = (key: string | null) => {
-        const dest = `/review/categorize?keys=${key === null ? getCheckImageKeys().join(",") : key}`;
+        const dest = `/review/categorize?keys=${key === null ? getCheckImageKeys().join(',') : key}`;
         router.push(dest);
     };
     const getCheckImageKeys = () => {
@@ -53,7 +53,7 @@ export default function AllArchivedPage() {
     };
     return (
         <DashboardLayout pageName="Archived Photos">
-            <div className="h-full flex flex-col justify-center items-center mt-4 mb-4">
+            <div className="mt-4 mb-4 flex h-full flex-col items-center justify-center">
                 <Pagination
                     page={page}
                     onChange={(p) => {
@@ -76,7 +76,7 @@ export default function AllArchivedPage() {
                 {imageUrlPages.length > 0 &&
                     imageUrlPages[page - 1].map((meta) => {
                         return (
-                            <div key={meta.key} className="border-2 m-1">
+                            <div key={meta.key} className="m-1 border-2">
                                 <Checkbox
                                     size="lg"
                                     checked={imageKeyMap[meta.key]}

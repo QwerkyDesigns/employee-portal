@@ -1,5 +1,5 @@
-import { IconArrowBigTop } from "@tabler/icons";
-import { Button } from "./Button";
+import { IconArrowBigTop } from '@tabler/icons';
+import { Button } from './Button';
 
 export type ButtonWithSpinnerProps = {
     children: React.ReactNode;
@@ -14,7 +14,7 @@ export const ButtonWithSpinner = ({ children, loading, onClick, icon, withSpinne
         <Button
             color="slate"
             variant="solid"
-            className="text-lg text-text bg-primary m-1"
+            className="text-text bg-primary m-1 text-lg"
             // leftIcon={icon}
             loading={withSpinner ? loading ?? false : false}
             onClick={onClick}

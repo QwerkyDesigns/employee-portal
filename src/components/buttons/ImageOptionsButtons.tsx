@@ -1,20 +1,17 @@
-import frontendClient from "@/lib/client/frontendClient";
-import {
-    GetAllUntransferredResponse,
-    UnCategorizedImageMeta,
-} from "@/lib/controllers/GetAllUntransferredController";
-import { ImageOrigin } from "@/lib/enums/ImageOrigin";
-import { batch } from "@/lib/utils/batch";
-import { SetState } from "@/types/sharedTypes";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { ButtonWithSpinner } from "./ButtonWithSpinner";
+import frontendClient from '@/lib/client/frontendClient';
+import { GetAllUntransferredResponse, UnCategorizedImageMeta } from '@/lib/controllers/GetAllUntransferredController';
+import { ImageOrigin } from '@/lib/enums/ImageOrigin';
+import { batch } from '@/lib/utils/batch';
+import { SetState } from '@/types/sharedTypes';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { ButtonWithSpinner } from './ButtonWithSpinner';
 
 export const ImageOptionButtons = ({
     meta,
     setImageMetaPages,
     setTotalPages,
-    origin,
+    origin
 }: {
     meta: UnCategorizedImageMeta;
     setImageMetaPages: SetState<UnCategorizedImageMeta[][]>;
@@ -25,17 +22,11 @@ export const ImageOptionButtons = ({
     const [loading, setLoading] = useState<boolean>(false);
     const archive = async (key: string) => {
         setLoading(true);
-        await frontendClient.post<{}, {}>(
-            `archive/move-to-archive?imageKey=${key}`
-        );
+        await frontendClient.post<{}, {}>(`archive/move-to-archive?imageKey=${key}`);
 
-        const res = await frontendClient.get<GetAllUntransferredResponse>(
-            `review/get-all-untransferred?origin=${origin}`
-        );
+        const res = await frontendClient.get<GetAllUntransferredResponse>(`review/get-all-untransferred?origin=${origin}`);
 
-        const batches = batch(
-            res.imageMetas.filter((x) => !x.key.endsWith("meta.txt"))
-        );
+        const batches = batch(res.imageMetas.filter((x) => !x.key.endsWith('meta.txt')));
 
         setImageMetaPages(batches);
         setTotalPages(batches.length);
@@ -47,16 +38,10 @@ export const ImageOptionButtons = ({
     };
     return (
         <div className="flex flex-row justify-evenly">
-            <ButtonWithSpinner
-                loading={loading}
-                onClick={() => categorize(meta.key)}
-            >
+            <ButtonWithSpinner loading={loading} onClick={() => categorize(meta.key)}>
                 Categorize
             </ButtonWithSpinner>
-            <ButtonWithSpinner
-                loading={loading}
-                onClick={() => archive(meta.key)}
-            >
+            <ButtonWithSpinner loading={loading} onClick={() => archive(meta.key)}>
                 Archive
             </ButtonWithSpinner>
         </div>

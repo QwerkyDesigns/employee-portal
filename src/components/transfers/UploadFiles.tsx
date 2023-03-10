@@ -1,27 +1,18 @@
-import { Group, Text, useMantineTheme } from "@mantine/core";
-import { IconUpload, IconPhoto, IconX } from "@tabler/icons";
-import {
-    Dropzone,
-    DropzoneProps,
-    FileWithPath,
-    MIME_TYPES,
-} from "@mantine/dropzone";
-import frontendClient from "@/lib/client/frontendClient";
-import { SetState } from "@/types/sharedTypes";
-import { GetPresignedPostResponse } from "@/lib/controllers/GetPresignedPostController";
-import { HeaderKeys } from "@/lib/utils/constants";
-import { useState } from "react";
+import { Group, Text, useMantineTheme } from '@mantine/core';
+import { IconUpload, IconPhoto, IconX } from '@tabler/icons';
+import { Dropzone, DropzoneProps, FileWithPath, MIME_TYPES } from '@mantine/dropzone';
+import frontendClient from '@/lib/client/frontendClient';
+import { SetState } from '@/types/sharedTypes';
+import { GetPresignedPostResponse } from '@/lib/controllers/GetPresignedPostController';
+import { HeaderKeys } from '@/lib/utils/constants';
+import { useState } from 'react';
 
 export type PngImageDropzoneProps = Partial<DropzoneProps> & {
     setUploadedImages: SetState<string[]>;
     setLoading: SetState<boolean>;
 };
-const timer = "timer";
-export function PngImageDropzone({
-    setUploadedImages,
-    setLoading,
-    ...props
-}: PngImageDropzoneProps) {
+const timer = 'timer';
+export function PngImageDropzone({ setUploadedImages, setLoading, ...props }: PngImageDropzoneProps) {
     const theme = useMantineTheme();
     const [count, setCount] = useState<number>(0);
 
@@ -36,20 +27,17 @@ export function PngImageDropzone({
             let currentFile = filteredFiles[i];
             let { path: _, ...rest } = currentFile;
 
-            console.info("starting presigned");
-            const result = await frontendClient.post<
-                { fileName: string },
-                GetPresignedPostResponse
-            >("create/presigned-posts", {
-                fileName: currentFile.name,
+            console.info('starting presigned');
+            const result = await frontendClient.post<{ fileName: string }, GetPresignedPostResponse>('create/presigned-posts', {
+                fileName: currentFile.name
             });
-            console.info("finished presigned: " + result);
+            console.info('finished presigned: ' + result);
 
             const data: { [key: string]: File | string } = {
                 ...result.presignedUrlForUploading.fields,
-                [HeaderKeys.ContentType]: "image/png",
+                [HeaderKeys.ContentType]: 'image/png',
                 file: currentFile,
-                "x-amz-acl": "public-read",
+                'x-amz-acl': 'public-read'
             };
 
             const formData = new FormData();
@@ -57,24 +45,20 @@ export function PngImageDropzone({
                 formData.append(name, data[name]);
             }
 
-            console.info("starting upload");
-            await frontendClient.post<FormData, null>(
-                result.presignedUrlForUploading.url,
-                formData,
-                {
-                    headers: {
-                        [HeaderKeys.ContentType]: currentFile.type,
-                    },
+            console.info('starting upload');
+            await frontendClient.post<FormData, null>(result.presignedUrlForUploading.url, formData, {
+                headers: {
+                    [HeaderKeys.ContentType]: currentFile.type
                 }
-            );
-            console.info("finished upload");
+            });
+            console.info('finished upload');
 
             recentlyUploadedUrls.push(result.presignedForViewing);
-            console.info("incrementing count");
+            console.info('incrementing count');
 
             setCount(() => count + 1);
         }
-        console.info("completing the upload and setting image urls");
+        console.info('completing the upload and setting image urls');
         setUploadedImages(recentlyUploadedUrls);
         setLoading(false);
     };
@@ -84,39 +68,19 @@ export function PngImageDropzone({
             <span>{count}</span>
             <Dropzone
                 onDrop={handleFileSave}
-                onReject={(files) => console.log("rejected files", files)}
+                onReject={(files) => console.log('rejected files', files)}
                 maxSize={5000000} // 5mb
                 accept={[MIME_TYPES.png]} // TODO
                 maxFiles={4}
                 multiple
                 {...props}
             >
-                <Group
-                    position="center"
-                    spacing="xl"
-                    style={{ minHeight: 220, pointerEvents: "none" }}
-                >
+                <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: 'none' }}>
                     <Dropzone.Accept>
-                        <IconUpload
-                            size={50}
-                            stroke={1.5}
-                            color={
-                                theme.colors[theme.primaryColor][
-                                    theme.colorScheme === "dark" ? 4 : 6
-                                ]
-                            }
-                        />
+                        <IconUpload size={50} stroke={1.5} color={theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 6]} />
                     </Dropzone.Accept>
                     <Dropzone.Reject>
-                        <IconX
-                            size={50}
-                            stroke={1.5}
-                            color={
-                                theme.colors.red[
-                                    theme.colorScheme === "dark" ? 4 : 6
-                                ]
-                            }
-                        />
+                        <IconX size={50} stroke={1.5} color={theme.colors.red[theme.colorScheme === 'dark' ? 4 : 6]} />
                     </Dropzone.Reject>
                     <Dropzone.Idle>
                         <IconPhoto size={50} stroke={1.5} />
@@ -127,8 +91,7 @@ export function PngImageDropzone({
                             Drag images here or click to select files
                         </Text>
                         <Text size="sm" color="dimmed" inline mt={7}>
-                            Attach as many files as you like, each file should
-                            not exceed 5mb
+                            Attach as many files as you like, each file should not exceed 5mb
                         </Text>
                     </div>
                 </Group>

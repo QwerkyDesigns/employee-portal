@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { Image, Loader } from "@mantine/core";
-import Zoom from "react-medium-image-zoom";
+import { useState } from 'react';
+import { Image, Loader } from '@mantine/core';
+import Zoom from 'react-medium-image-zoom';
 
-import "react-medium-image-zoom/dist/styles.css";
+import 'react-medium-image-zoom/dist/styles.css';
 
-export const PaddedImage = ({ url, s3Key }: { url: string; s3Key?: string }) => {
+export const PaddedImage = ({ url, s3Key, alt }: { url: string; s3Key?: string; alt?: string }) => {
     const [loading, setLoading] = useState<boolean>(true);
 
     const frame: { height: string; width: string; edge: string } = {
-        height: "200px",
-        width: "200px",
-        edge: "0.75rem",
+        height: '200px',
+        width: '200px',
+        edge: '0.75rem'
     };
 
     return (
@@ -18,17 +18,17 @@ export const PaddedImage = ({ url, s3Key }: { url: string; s3Key?: string }) => 
             <Zoom>
                 <Image
                     style={{
-                        animation: "fadeIn 0.5s",
-                        display: loading ? "none" : "block",
-                        border: "1px solid black",
+                        animation: 'fadeIn 0.5s',
+                        display: loading ? 'none' : 'block',
+                        border: '1px solid black',
                         margin: frame.edge,
                         padding: frame.edge,
                         height: frame.height,
-                        width: frame.width,
+                        width: frame.width
                     }}
                     key={url}
                     src={url}
-                    alt="alter"
+                    alt={alt ?? 'alternate'}
                     onLoad={() => {
                         setLoading(false);
                     }}
@@ -37,12 +37,12 @@ export const PaddedImage = ({ url, s3Key }: { url: string; s3Key?: string }) => 
             {s3Key && <span>{s3Key}</span>}
             <Loader
                 style={{
-                    border: "1px solid black",
+                    border: '1px solid black',
                     margin: frame.edge,
                     padding: frame.edge,
                     height: frame.height,
                     width: frame.width,
-                    display: loading ? "block" : "none",
+                    display: loading ? 'block' : 'none'
                 }}
             />
         </>

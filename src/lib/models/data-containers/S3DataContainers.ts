@@ -1,5 +1,5 @@
-import currentOperatingEnvironment from "@/lib/environment/CurrentOperatingEnvironment";
-import { IDataContainer } from "./IDataContainer";
+import currentOperatingEnvironment from '@/lib/environment/CurrentOperatingEnvironment';
+import { IDataContainer } from './IDataContainer';
 
 class DataContainers {
     public static CurrentDataContainer(): IDataContainer {
@@ -19,21 +19,21 @@ class DataContainers {
 }
 
 class DevDataContainers implements IDataContainer {
-    public InitialTransfersContainer: string = "qd-uploads-and-transfers-dev";
-    public BusinessStore: string = "qd-categorized-images-dev";
-    public ArchivedImagesStore: string = "qd-archived-images-dev";
+    public InitialTransfersContainer: string = 'qd-uploads-and-transfers-dev';
+    public BusinessStore: string = 'qd-categorized-images-dev';
+    public ArchivedImagesStore: string = 'qd-archived-images-dev';
 }
 
 class StagingDataContainers implements IDataContainer {
-    public InitialTransfersContainer: string = "qd-uploads-and-transfers-staging";
-    public BusinessStore: string = "qd-categorized-images-staging";
-    public ArchivedImagesStore: string = "qd-archived-images-staging";
+    public InitialTransfersContainer: string = 'qd-uploads-and-transfers-staging';
+    public BusinessStore: string = 'qd-categorized-images-staging';
+    public ArchivedImagesStore: string = 'qd-archived-images-staging';
 }
 
 class ProductionDataContainers implements IDataContainer {
-    public InitialTransfersContainer: string = "qd-uploads-and-transfers-prod";
-    public BusinessStore: string = "qd-categorized-images-prod";
-    public ArchivedImagesStore: string = "qd-archived-images-prod";
+    public InitialTransfersContainer: string = 'qd-uploads-and-transfers-prod';
+    public BusinessStore: string = 'qd-categorized-images-prod';
+    public ArchivedImagesStore: string = 'qd-archived-images-prod';
 }
 
 export default DataContainers;

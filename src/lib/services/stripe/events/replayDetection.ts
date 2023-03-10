@@ -1,10 +1,10 @@
-import { prisma } from "@/lib/client/prisma";
+import { prisma } from '@/lib/client/prisma';
 
 export async function isReplyAttack(signature: string) {
     const previouswebhooks = await prisma.stripeWebhooks.count({
         where: {
-            payloadSignature: signature,
-        },
+            payloadSignature: signature
+        }
     });
 
     return previouswebhooks !== 0;

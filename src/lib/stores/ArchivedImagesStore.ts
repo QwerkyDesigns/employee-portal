@@ -1,5 +1,5 @@
-import DataContainers from "../models/data-containers/S3DataContainers";
-import S3Core from "./s3Core/S3Core";
+import DataContainers from '../models/data-containers/S3DataContainers';
+import S3Core from './s3Core/S3Core';
 
 class ArchivedImagesStore extends S3Core {
     constructor() {

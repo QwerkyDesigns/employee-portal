@@ -1,19 +1,15 @@
-import OperatingEnvironmentDoesNotExistError from "../errors/application-errors/OperatingEnvDoesNotExistError";
-import env from "./Environment";
-import { EnvironmentVariable } from "./EnvironmentVariable";
+import OperatingEnvironmentDoesNotExistError from '../errors/application-errors/OperatingEnvDoesNotExistError';
+import env from './Environment';
+import { EnvironmentVariable } from './EnvironmentVariable';
 
 export enum OperatingEnv {
-    dev = "dev",
-    staging = "staging",
-    production = "production",
+    dev = 'dev',
+    staging = 'staging',
+    production = 'production'
 }
 
 class CurrentOperatingEnvironment {
-    public ResovleInEnviron<T>(
-        ifDev?: () => T,
-        ifStaging?: () => T,
-        ifProd?: () => T
-    ): T {
+    public ResovleInEnviron<T>(ifDev?: () => T, ifStaging?: () => T, ifProd?: () => T): T {
         const currentEnv = this.GetCurrentOperatingEnvironment();
         if (ifDev && currentEnv === OperatingEnv.dev) {
             return ifDev();
@@ -22,17 +18,13 @@ class CurrentOperatingEnvironment {
         } else if (ifProd && currentEnv === OperatingEnv.dev) {
             return ifProd();
         }
-        throw new Error("CurrentOperatingEnvironmentError");
+        throw new Error('CurrentOperatingEnvironmentError');
     }
 
     public GetCurrentOperatingEnvironment(): OperatingEnv {
-        const currentOperatingEnvironment = env.GetStringEnvironmentVarialble(
-            EnvironmentVariable.OperatingEnvironment
-        );
+        const currentOperatingEnvironment = env.GetStringEnvironmentVarialble(EnvironmentVariable.OperatingEnvironment);
 
-        var currentEnvEnum = this.MatchCurrentEnvironment(
-            currentOperatingEnvironment
-        );
+        var currentEnvEnum = this.MatchCurrentEnvironment(currentOperatingEnvironment);
         return currentEnvEnum;
     }
 
@@ -44,9 +36,7 @@ class CurrentOperatingEnvironment {
         } else if (env == OperatingEnv.production) {
             return OperatingEnv.production;
         } else {
-            throw new OperatingEnvironmentDoesNotExistError(
-                `Operating environment {env} does not exist / is not valid`
-            );
+            throw new OperatingEnvironmentDoesNotExistError(`Operating environment {env} does not exist / is not valid`);
         }
     }
 }

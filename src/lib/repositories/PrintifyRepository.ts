@@ -1,6 +1,6 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-import env from "../environment/Environment";
-import { EnvironmentVariable } from "../environment/EnvironmentVariable";
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import env from '../environment/Environment';
+import { EnvironmentVariable } from '../environment/EnvironmentVariable';
 
 export type PrintifyImageResource = {
     id: string;
@@ -17,14 +17,14 @@ export type PrintifyImageUploadRequestPayload = {
     file_name: string;
     url: string;
 };
-const BASE_URL = "https://api.printify.com/v1";
+const BASE_URL = 'https://api.printify.com/v1';
 
 const CONFIG: AxiosRequestConfig = {
     headers: {
-        "Content-Type": "application/json;charset=utf-8",
-        Authorization: `Bearer ${env.GetStringEnvironmentVarialble(EnvironmentVariable.PrintifyApiKey)}`,
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Bearer ${env.GetStringEnvironmentVarialble(EnvironmentVariable.PrintifyApiKey)}`
     },
-    baseURL: BASE_URL,
+    baseURL: BASE_URL
 };
 
 class PrintifyRepository {
@@ -37,17 +37,14 @@ class PrintifyRepository {
     public async UploadImageToShopify(fileName: string, url: string) {
         const payload: PrintifyImageUploadRequestPayload = {
             file_name: fileName,
-            url,
+            url
         };
 
-        const response = await this.client.post<
-            PrintifyImageUploadRequestPayload,
-            PrintifyImageResource
-        >("uploads/images.json", payload); // set base url in client, and then fix this call add payload"
+        const response = await this.client.post<PrintifyImageUploadRequestPayload, PrintifyImageResource>('uploads/images.json', payload); // set base url in client, and then fix this call add payload"
         if (response) {
             return response;
         }
-        throw new Error("FAILURE TO LAOD TO PRINTIFY");
+        throw new Error('FAILURE TO LAOD TO PRINTIFY');
     }
 }
 

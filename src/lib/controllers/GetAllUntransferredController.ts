@@ -1,10 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { getQuery } from "nextjs-backend-helpers";
-import { AuthenticatedBaseController } from "./base/AuthenticatedBaseController";
-import ArgumentError from "../errors/bad-request/ArgumentError";
-import { ImageOrigin } from "../enums/ImageOrigin";
-import UnCategorizedImagesStore from "../stores/UncategorizedImagesStore";
-import { PresignedUrlWithMeta } from "../stores/s3Core/S3Core";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getQuery } from 'nextjs-backend-helpers';
+import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
+import ArgumentError from '../errors/bad-request/ArgumentError';
+import { ImageOrigin } from '../enums/ImageOrigin';
+import UnCategorizedImagesStore from '../stores/UncategorizedImagesStore';
+import { PresignedUrlWithMeta } from '../stores/s3Core/S3Core';
 
 class GetAllUntransferredController extends AuthenticatedBaseController {
     constructor() {
@@ -18,16 +18,11 @@ class GetAllUntransferredController extends AuthenticatedBaseController {
             case ImageOrigin.Upload:
                 return ImageOrigin.Upload;
             default:
-                throw new ArgumentError(
-                    `Query must be provided, one of '${ImageOrigin.Dalle}' or '${ImageOrigin.Upload}'`
-                );
+                throw new ArgumentError(`Query must be provided, one of '${ImageOrigin.Dalle}' or '${ImageOrigin.Upload}'`);
         }
     };
 
-    async get(
-        req: NextApiRequest,
-        res: NextApiResponse<GetAllUntransferredResponse>
-    ) {
+    async get(req: NextApiRequest, res: NextApiResponse<GetAllUntransferredResponse>) {
         const repo = new UnCategorizedImagesStore();
 
         const { origin } = getQuery<{ origin: string }>(req);
