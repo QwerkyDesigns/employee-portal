@@ -1,69 +1,14 @@
-import { DashboardLayout } from '@/components/layouts/DashboardLayout';
-import { createStyles, Title, Text, Button, Container, Group } from '@mantine/core';
-
-const useStyles = createStyles((theme) => ({
-    root: {
-        paddingTop: 80,
-        paddingBottom: 120,
-        backgroundColor: theme.fn.variant({
-            variant: 'filled',
-            color: theme.primaryColor
-        }).background
-    },
-
-    label: {
-        textAlign: 'center',
-        fontWeight: 900,
-        fontSize: 220,
-        lineHeight: 1,
-        marginBottom: theme.spacing.xl * 1.5,
-        color: theme.colors[theme.primaryColor][3],
-
-        [theme.fn.smallerThan('sm')]: {
-            fontSize: 120
-        }
-    },
-
-    title: {
-        fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-        textAlign: 'center',
-        fontWeight: 900,
-        fontSize: 38,
-        color: theme.white,
-
-        [theme.fn.smallerThan('sm')]: {
-            fontSize: 32
-        }
-    },
-
-    description: {
-        maxWidth: 540,
-        margin: 'auto',
-        marginTop: theme.spacing.xl,
-        marginBottom: theme.spacing.xl * 1.5,
-        color: theme.colors[theme.primaryColor][1]
-    }
-}));
-
 export default function ServerError() {
-    const { classes } = useStyles();
-
     return (
-        <DashboardLayout pageName="Server Error">
-            <div className={classes.root}>
-                <Container>
-                    <div className={classes.label}>500</div>
-                    <Title className={classes.title}>Something bad just happened...</Title>
-                    <Text size="lg" align="center" className={classes.description}>
-                        Our servers could not handle your request. Don&apos;t worry, our development team was already notified. Try refreshing the page.
-                    </Text>
-                    <Group position="center">
-                        <Button variant="white" size="md">
-                            Refresh the page
-                        </Button>
-                    </Group>
-                </Container>
+        <main className="mx-auto flex w-full max-w-7xl flex-auto flex-col justify-center px-6 py-24 sm:py-64 lg:px-8">
+            <p className="text-base font-semibold leading-8 text-indigo-600">404</p>
+            <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">Page not found</h1>
+            <p className="mt-6 text-base leading-7 text-gray-600">Sorry, we could not find the page you are looking for.</p>
+            <div className="mt-10">
+                <a href="/" className="text-sm font-semibold leading-7 text-indigo-600">
+                    <span aria-hidden="true">&larr;</span> Back to home
+                </a>
             </div>
-        </DashboardLayout>
+        </main>
     );
 }

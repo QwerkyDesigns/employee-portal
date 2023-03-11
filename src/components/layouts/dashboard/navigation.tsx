@@ -8,7 +8,7 @@ type NavItems = {
 };
 const navItems: NavItems[] = [
     {
-        name: 'Design Wizard',
+        name: 'Create New Artwork',
         href: '/portal/create/image-wizard',
         icon: PaintBrushIcon
     },

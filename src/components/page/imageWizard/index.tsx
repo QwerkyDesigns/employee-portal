@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import React, { FC, useState } from 'react';
-import Container from '../container/Container';
-import { ImageWizardContext, ImageWizardContextType } from '@/lib/contexts/ImageWizardContext';
+import { ImageWizardContext, TextPrompts } from '@/lib/contexts/ImageWizardContext';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { SetState } from '@/types/sharedTypes';
-import { Button } from '../buttons/Button';
 import { InitialStep } from './steps/InitialStep';
 import { RefineStep } from './steps/RefineStep';
 import { ReviewStep } from './steps/ReviewStep';
+import { Button } from '@/components/buttons/Button';
+import Container from '@/components/container/Container';
 
 enum Status {
     incomplete,
@@ -194,9 +194,18 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
 export function ImageCreationWizard() {
     const [currentStep, setCurrentStep] = useState<number>(0);
     const [currentSteps, setCurrentSteps] = useState<WizardStep[]>([...wizardSteps]);
+    const [showProceedButton, setShowProceedButton] = useState<boolean>(false);
+    const [textPrompts, setTextPrompts] = useState<TextPrompts>({
+        whatDoYouWantToBuild: '',
+        whatTypeOfProduct: '',
+        whoIsTheProductTargetedAt: '',
+        howDoesThisProductStandOut: ''
+    });
 
     return (
-        <ImageWizardContext.Provider value={{ internalSteps: currentSteps, setCurrentSteps }}>
+        <ImageWizardContext.Provider
+            value={{ internalSteps: currentSteps, setCurrentSteps, showProceedButton, setShowProceedButton, textPrompts, setTextPrompts }}
+        >
             <Container>
                 <div className="mx-auto max-w-2xl md:text-center">
                     <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">Lets create some new artwork</h2>
