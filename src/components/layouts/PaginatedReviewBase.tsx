@@ -4,11 +4,11 @@ import frontendClient from '@/lib/client/frontendClient';
 import { UnCategorizedImageMeta, GetAllUntransferredResponse } from '@/lib/controllers/GetAllUntransferredController';
 import { ImageOrigin } from '@/lib/enums/ImageOrigin';
 import { batch } from '@/lib/utils/batch';
-import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { Checkbox, NumberInput, Pagination, Text } from '@mantine/core';
 import { IconArrowBigTop } from '@tabler/icons';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import { DashboardLayout } from './DashboardLayout';
 
 const DEFAULT_SHOW_NUMBER = 5;
 

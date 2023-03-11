@@ -18,7 +18,8 @@
         "ecmaVersion": 12,
         "sourceType": "module",
         "ecmaFeatures": {
-            "jsx": true
+            "jsx": true,
+            "tailwindcss": true
         },
         "project": "./tsconfig.json"
     },

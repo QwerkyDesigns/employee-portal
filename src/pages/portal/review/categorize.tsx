@@ -7,7 +7,7 @@ import queryString from 'query-string';
 import { TextInput } from '@mantine/core';
 import { CreateImageCategorizationRequest, CreateImageCategorizationResponse } from '@/lib/controllers/CategorizeAndUploadController';
 import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner';
-import { DashboardLayout } from '../../../components/layouts/DashboardLayout';
+import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 
 export default function CategorizePage() {
     const router = useRouter();

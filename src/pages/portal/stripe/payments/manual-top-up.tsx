@@ -1,5 +1,5 @@
 import { NormalButton } from '@/components/buttons/NormalButton';
-import { DashboardLayout } from '@/components/layouts/DashboardLayout';
+import { DashboardLayout } from '@/components/layouts/dashboard/DashboardLayout';
 import frontendClient from '@/lib/client/frontendClient';
 import stripeFrontend from '@/lib/client/stripeFrontend';
 import { StripeCheckoutSessionRequest, StripeCheckoutSessionResponse } from '@/lib/controllers/stripe/StripeCheckoutSessionController';

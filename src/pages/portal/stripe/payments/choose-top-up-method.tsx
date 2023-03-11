@@ -1,5 +1,5 @@
 import { NormalButton } from '@/components/buttons/NormalButton';
-import { DashboardLayout } from '@/components/layouts/DashboardLayout';
+import { DashboardLayout } from '@/components/layouts/dashboard/DashboardLayout';
 import { useRouter } from 'next/router';
 
 export default function ChooseTopUpMethod() {
