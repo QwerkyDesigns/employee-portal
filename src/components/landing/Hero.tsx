@@ -1,5 +1,5 @@
 import { Button } from '../buttons/Button';
-import Container from './Container';
+import Container from '../container/Container';
 
 export function Hero() {
     return (

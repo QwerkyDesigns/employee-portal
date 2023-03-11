@@ -1,4 +1,4 @@
-import { PaintBrushIcon, DocumentMagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { PaintBrushIcon, DocumentMagnifyingGlassIcon, ArrowUpOnSquareIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline';
 
 type NavItems = {
     name: string;
@@ -8,34 +8,29 @@ type NavItems = {
 };
 const navItems: NavItems[] = [
     {
-        name: 'Create with Dall-E',
-        href: '/portal/create/with-dalle',
+        name: 'Design Wizard',
+        href: '/portal/create/image-wizard',
         icon: PaintBrushIcon
-    },
-    {
-        name: 'Review Dall-E creations',
-        href: '/portal/review/dalle',
-        icon: DocumentMagnifyingGlassIcon
     },
     {
         name: 'Upload',
         href: '/portal/create/with-upload',
-        icon: PaintBrushIcon
+        icon: ArrowUpOnSquareIcon
     },
     {
-        name: 'Review Uploads',
+        name: 'Review your Creations',
+        href: '/portal/review/dalle',
+        icon: ClipboardDocumentCheckIcon
+    },
+    {
+        name: 'Review your Uploads',
         href: '/portal/review/uploads',
         icon: DocumentMagnifyingGlassIcon
     },
 
     {
-        name: 'Categorize',
-        href: '/portal/review/uploads',
-        icon: DocumentMagnifyingGlassIcon
-    },
-    {
-        name: 'Top Up Money',
-        href: '/portal/stripe/payments/choose-top-up-method',
+        name: 'Send images to your stores',
+        href: '/portal/review/categorize',
         icon: DocumentMagnifyingGlassIcon
     }
 ];

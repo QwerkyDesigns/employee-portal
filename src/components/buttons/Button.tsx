@@ -28,9 +28,9 @@ export function Button({
     ...props
 }: {
     disabled?: boolean;
-    variant: 'solid' | 'outline';
-    color: 'slate' | 'white' | 'blue';
-    className: string;
+    variant?: 'solid' | 'outline';
+    color?: 'slate' | 'white' | 'blue';
+    className?: string;
     href?: string;
     onClick?: MouseEventHandler;
     [key: string]: any;

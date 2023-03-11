@@ -1,4 +1,4 @@
-import { DashboardLayout } from '@/components/layouts/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { useRouter } from 'next/router';
 
 export default function Success() {

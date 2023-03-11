@@ -1,5 +1,5 @@
 import { NormalButton } from '@/components/buttons/NormalButton';
-import { DashboardLayout } from '@/components/layouts/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { useRouter } from 'next/router';
 
 export default function ChooseTopUpMethod() {
@@ -10,7 +10,7 @@ export default function ChooseTopUpMethod() {
     };
 
     return (
-        <DashboardLayout pageName="Choose Topup Method">
+        <DashboardLayout pageName="Choose Top-up Method">
             <div className="m-12 flex w-full flex-row justify-around">
                 <NormalButton onClick={onClick}>Manual Top up</NormalButton>
                 <NormalButton disabled={true}>Enable Auto-top up</NormalButton>
