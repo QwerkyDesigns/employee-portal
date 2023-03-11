@@ -1,11 +1,15 @@
 import { createContext } from 'react';
 
-export interface IDashboardContext {
+export type DashboardContextType = {
     currentFunds: number;
+    sideBarOpen: boolean;
+    setSideBarOpen(state: boolean): null;
 }
 
-const defaultDashboardContext: IDashboardContext = {
-    currentFunds: 0
+const defaultDashboardContext: DashboardContextType = {
+    currentFunds: 0,
+    sideBarOpen: true,
+    setSideBarOpen: (state: boolean) => null
 };
 
-export const DashboardContext = createContext(defaultDashboardContext as IDashboardContext);
+export const DashboardContext = createContext<DashboardContextType>(defaultDashboardContext);

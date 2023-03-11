@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import backgroundImage from './images/background-faqs.jpg';
-import Container from './Container';
+import Container from '../container/Container';
 
 const faqs = [
     [

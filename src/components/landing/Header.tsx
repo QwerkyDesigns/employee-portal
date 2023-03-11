@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import Link from 'next/link';
 import { Popover, Transition } from '@headlessui/react';
 import clsx from 'clsx';
-import Container from './Container';
+import Container from '../container/Container';
 import { NavLink } from './NavLink';
 import { Logo } from './Logo';
 import { Button } from '../buttons/Button';

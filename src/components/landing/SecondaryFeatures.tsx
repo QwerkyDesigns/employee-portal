@@ -6,7 +6,7 @@ import React, { FC } from 'react';
 import screenshotContacts from './images/screenshots/contacts.png';
 import screenshotInventory from './images/screenshots/inventory.png';
 import screenshotProfitLoss from './images/screenshots/profit-loss.png';
-import Container from './Container';
+import Container from '../container/Container';
 
 const features: Feature[] = [
     {

@@ -4,12 +4,12 @@ import { useState } from 'react';
 import { CreateDalleImagesResponse, CreateDalleImagesRequest } from '@/lib/controllers/CreateDalleImagesController';
 import { ImageLocationDetails } from '@/lib/stores/s3Core/S3Core';
 import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner';
-import { DashboardLayout } from '../../../components/layouts/DashboardLayout';
 import Select from '@/components/select/Select';
 import TextArea from '@/components/text/TextArea';
 import { unpackChangeEvent } from '@/lib/decorators/EventChangeDecorator';
 import CreatorGallery from '@/components/image/gallery/CreatorGallery';
 import frontendClient from '@/lib/client/frontendClient';
+import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 
 export const ArtStyles = [
     'hyperrealism',
@@ -75,7 +75,7 @@ export default function CreateWithDallePage() {
                         />
                     </div>
 
-                    <div className="w-1/3">
+                    <div className="w-full">
                         <div className="mt-12 mb-12 flex w-full justify-center">
                             <TextArea value={whatDoYouWantToBuild} label="What would you like to create today?" onChange={WhatDoYouWantToBuild} />
                         </div>

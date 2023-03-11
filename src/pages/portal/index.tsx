@@ -1,4 +1,4 @@
-import { DashboardLayout } from '../../components/layouts/DashboardLayout';
+import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 
 export function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
