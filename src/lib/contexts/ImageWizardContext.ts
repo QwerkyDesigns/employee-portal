@@ -1,5 +1,5 @@
 import { WizardStep } from '@/components/page/imageWizard';
-import { SetState } from '@/types/sharedTypes';
+import { ArtistStyleMeta, SetState } from '@/types/sharedTypes';
 import { createContext } from 'react';
 
 export type TextPrompts = {
@@ -9,6 +9,11 @@ export type TextPrompts = {
     howDoesThisProductStandOut: string;
 };
 
+export type ArtStyles = {
+    style: string;
+    artist: ArtistStyleMeta | undefined;
+};
+
 export type ImageWizardContextType = {
     internalSteps: WizardStep[];
     setCurrentSteps: SetState<WizardStep[]> | undefined;
@@ -16,9 +21,16 @@ export type ImageWizardContextType = {
     setShowProceedButton: SetState<boolean> | undefined;
     textPrompts: TextPrompts;
     setTextPrompts: SetState<TextPrompts> | undefined;
+    artStyles: ArtStyles;
+    setArtStyles: SetState<ArtStyles> | undefined;
 };
 
 const defaultImageWizardContext: ImageWizardContextType = {
+    artStyles: {
+        style: '',
+        artist: undefined
+    },
+    setArtStyles: undefined,
     internalSteps: [],
     setCurrentSteps: undefined,
     showProceedButton: false,

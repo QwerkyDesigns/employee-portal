@@ -15,7 +15,8 @@ export default function Register() {
             <AuthLayout>
                 <div className="flex flex-col">
                     <Link href="/" aria-label="Home">
-                        <Logo className="h-10 w-auto" />
+                        <h1 className="font-extrabold">Qwerky Studio</h1>
+                        {/* <Logo className="h-10 w-auto" /> */}
                     </Link>
                     <div className="mt-20">
                         <h2 className="text-lg font-semibold text-gray-900">Get started for free</h2>
@@ -33,12 +34,12 @@ export default function Register() {
                     <TextField label="Last name" id="last_name" name="last_name" type="text" autoComplete="family-name" required />
                     <TextField className="col-span-full" label="Email address" id="email" name="email" type="email" autoComplete="email" required />
                     <TextField className="col-span-full" label="Password" id="password" name="password" type="password" autoComplete="new-password" required />
-                    <SelectField className="col-span-full" label="How did you hear about us?" id="referral_source" name="referral_source">
+                    {/* <SelectField className="col-span-full" label="How did you hear about us?" id="referral_source" name="referral_source">
                         <option>AltaVista search</option>
                         <option>Super Bowl commercial</option>
                         <option>Our route 34 city bus ad</option>
                         <option>The “Never Use This” podcast</option>
-                    </SelectField>
+                    </SelectField> */}
                     <div className="col-span-full">
                         <Button type="submit" variant="solid" color="blue" className="w-full">
                             <span>

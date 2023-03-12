@@ -1,13 +1,14 @@
 import clsx from 'clsx';
-import React, { FC, useState } from 'react';
-import { ImageWizardContext, TextPrompts } from '@/lib/contexts/ImageWizardContext';
+import React, { FC, useContext, useState } from 'react';
+import { ArtStyles, ImageWizardContext, ImageWizardContextType, TextPrompts } from '@/lib/contexts/ImageWizardContext';
 import { CheckIcon } from '@heroicons/react/24/solid';
-import { SetState } from '@/types/sharedTypes';
+import { ArtistStyleMeta, SetState } from '@/types/sharedTypes';
 import { InitialStep } from './steps/InitialStep';
 import { RefineStep } from './steps/RefineStep';
 import { ReviewStep } from './steps/ReviewStep';
 import { Button } from '@/components/buttons/Button';
 import Container from '@/components/container/Container';
+import { ChooseArtStyle } from './steps/ChooseArtStyle';
 
 enum Status {
     incomplete,
@@ -30,12 +31,20 @@ const wizardSteps: WizardStep[] = [
     },
     {
         id: 1,
+        name: 'Choose Art Styles',
+        summary: 'You can make your artwork in the style of well known artists',
+        status: Status.incomplete
+    },
+
+    {
+        id: 2,
         name: 'Refine',
         summary: "The image generation process isn't perfect, and sometimes we need to give it additional information",
         status: Status.incomplete
     },
+
     {
-        id: 2,
+        id: 3,
         name: 'Review',
         summary:
             "Lets have a look at your results! You may select from these some actions to take, such as publish to your storefront. You'll be able to review these later as well.",
@@ -84,6 +93,8 @@ function WizardMobile({ wizardSteps }: BaseWizardProps) {
 }
 
 function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSteps }: WizardProps) {
+    const { showProceedButton } = useContext<ImageWizardContextType>(ImageWizardContext);
+
     return (
         <>
             <nav aria-label="Progress">
@@ -153,7 +164,7 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                     <div />
                 )}
                 <div className="flex-1" />
-                {currentStep < wizardSteps.length ? (
+                {currentStep < wizardSteps.length && showProceedButton ? (
                     <div>
                         <Button
                             onClick={() => {
@@ -184,7 +195,8 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
             </section>
             <section>
                 {currentStep === 0 && <InitialStep />}
-                {currentStep === 1 && <RefineStep />}
+                {currentStep === 1 && <ChooseArtStyle />}
+                {currentStep === 2 && <RefineStep />}
                 {currentStep === 2 && <ReviewStep />}
             </section>
         </>
@@ -201,10 +213,22 @@ export function ImageCreationWizard() {
         whoIsTheProductTargetedAt: '',
         howDoesThisProductStandOut: ''
     });
-
+    const [artStyles, setArtStyles] = useState<ArtStyles>({
+        style: '',
+        artist: undefined
+    });
     return (
         <ImageWizardContext.Provider
-            value={{ internalSteps: currentSteps, setCurrentSteps, showProceedButton, setShowProceedButton, textPrompts, setTextPrompts }}
+            value={{
+                internalSteps: currentSteps,
+                setCurrentSteps,
+                showProceedButton,
+                setShowProceedButton,
+                textPrompts,
+                setTextPrompts,
+                artStyles,
+                setArtStyles
+            }}
         >
             <Container>
                 <div className="mx-auto max-w-2xl md:text-center">

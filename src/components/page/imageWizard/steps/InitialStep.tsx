@@ -1,13 +1,11 @@
 import TextArea from '@/components/text/TextArea';
 import { ImageWizardContextType, ImageWizardContext, TextPrompts } from '@/lib/contexts/ImageWizardContext';
-import { unpackChangeEvent } from '@/lib/decorators/EventChangeDecorator';
 import { useContext, useEffect, useState } from 'react';
 
 export const InitialStep = () => {
-    const { showProceedButton, setShowProceedButton, textPrompts, setTextPrompts } = useContext<ImageWizardContextType>(ImageWizardContext);
+    const { setShowProceedButton, textPrompts, setTextPrompts } = useContext<ImageWizardContextType>(ImageWizardContext);
     useEffect(() => {
         if (setShowProceedButton) {
-            console.log('Welp');
             setShowProceedButton(
                 textPrompts.whatDoYouWantToBuild.length > 0 &&
                     textPrompts.whatTypeOfProduct.length > 0 &&
@@ -25,6 +23,7 @@ export const InitialStep = () => {
                         value={textPrompts.whatDoYouWantToBuild}
                         label="What would you like to create today?"
                         onChange={(e) => {
+                            console.log(e.target.value);
                             if (setTextPrompts) {
                                 setTextPrompts((cur) => {
                                     return { ...cur, whatDoYouWantToBuild: e.target.value } as TextPrompts;
@@ -38,9 +37,10 @@ export const InitialStep = () => {
                         value={textPrompts.whatTypeOfProduct}
                         label="What type of product are you creating?"
                         onChange={(e) => {
+                            console.log(e.target.value);
                             if (setTextPrompts) {
                                 setTextPrompts((cur) => {
-                                    return { ...cur, WhatTypeOfProduct: e.target.value } as TextPrompts;
+                                    return { ...cur, whatTypeOfProduct: e.target.value } as TextPrompts;
                                 });
                             }
                         }}
@@ -51,9 +51,10 @@ export const InitialStep = () => {
                         value={textPrompts.whoIsTheProductTargetedAt}
                         label="Who is this product targeted at?"
                         onChange={(e) => {
+                            console.log(e.target.value);
                             if (setTextPrompts) {
                                 setTextPrompts((cur) => {
-                                    return { ...cur, WhoIsTheProductTargetedAt: e.target.value } as TextPrompts;
+                                    return { ...cur, whoIsTheProductTargetedAt: e.target.value } as TextPrompts;
                                 });
                             }
                         }}
@@ -64,9 +65,10 @@ export const InitialStep = () => {
                         value={textPrompts.howDoesThisProductStandOut}
                         label="How does this product stand out?"
                         onChange={(e) => {
+                            console.log(e.target.value);
                             if (setTextPrompts) {
                                 setTextPrompts((cur) => {
-                                    return { ...cur, HowDoesThisProductStandOut: e.target.value } as TextPrompts;
+                                    return { ...cur, howDoesThisProductStandOut: e.target.value } as TextPrompts;
                                 });
                             }
                         }}

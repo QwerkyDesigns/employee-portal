@@ -10,34 +10,32 @@ function defineNextConfig(config) {
     return config;
 }
 
-export default withMDX(
-    defineNextConfig({
-        webpack: (config, { dev }) => {
-            if (dev) {
-                config.watchOptions = {
-                    poll: 500,
-                    aggregateTimeout: 300
-                };
-            }
-            return config;
-        },
-        reactStrictMode: true,
-        pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-        swcMinify: true,
-        // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
-        i18n: {
-            locales: ['en'],
-            defaultLocale: 'en'
-        },
-        images: {
-            remotePatterns: [
-                {
-                    protocol: 'https',
-                    hostname: 'qd-uploads-and-transfers-dev.s3.amazonaws.com',
-                    port: '',
-                    pathname: '**/*'
-                }
-            ]
+export default defineNextConfig({
+    webpack: (config, { dev }) => {
+        if (dev) {
+            config.watchOptions = {
+                poll: 500,
+                aggregateTimeout: 300
+            };
         }
-    })
-);
+        return config;
+    },
+    reactStrictMode: true,
+    pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+    swcMinify: true,
+    // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
+    i18n: {
+        locales: ['en'],
+        defaultLocale: 'en'
+    },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'qd-uploads-and-transfers-dev.s3.amazonaws.com',
+                port: '',
+                pathname: '**/*'
+            }
+        ]
+    }
+});

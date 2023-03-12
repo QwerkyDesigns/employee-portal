@@ -15,7 +15,7 @@ export const ReviewStep = () => {
 
     return (
         <>
-            <NumberSelector value={value} setValue={setValue} />
+            <NumberSelector value={value} setValue={setValue} label="Choose how many images you would like to create" />
             <div style={{ height: '3rem' }} />
             <ButtonWithSpinner
                 loading={loading}

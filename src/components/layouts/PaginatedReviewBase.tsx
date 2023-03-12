@@ -76,7 +76,7 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
     const categorize = (key: string | null) => {
         console.log('KEY: ' + key);
         console.log('selected: ' + imageKeyMap);
-        const dest = `/review/categorize?keys=${key === null ? getCheckImageKeys().join(',') : key}`;
+        const dest = `/portal/review/categorize?keys=${key === null ? getCheckImageKeys().join(',') : key}`;
         console.log('Dest: ' + dest);
         router.push(dest);
     };
