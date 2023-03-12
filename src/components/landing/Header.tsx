@@ -76,22 +76,17 @@ export function Header() {
             <Container>
                 <nav className="relative z-50 flex justify-between">
                     <div className="flex items-center md:gap-x-12">
-                        <h2 className="font-extrabold">Qwerky Studio</h2>
-                        {/* <Link href="#" aria-label="Home">
-                            <Logo className="h-10 w-auto" />
-                        </Link> */}
+                        <h1 className="font-extrabold">Qwerky Studio</h1>
                         <div className="hidden md:flex md:gap-x-6">
                             <NavLink href="#features">Features</NavLink>
                             <NavLink href="#faq">Faqs</NavLink>
-                            {/* <NavLink href="#testimonials">Testimonials</NavLink> */}
-                            {/* <NavLink href="#pricing">Pricing</NavLink> */}
                         </div>
                     </div>
                     <div className="flex items-center gap-x-5 md:gap-x-8">
                         <div className="hidden md:block">
                             <NavLink href="/login">Sign in</NavLink>
                         </div>
-                        <Button href="/register" color="blue" variant={'outline'} className={''}>
+                        <Button href="/register">
                             Get started today
                         </Button>
                         <div className="-mr-1 md:hidden">

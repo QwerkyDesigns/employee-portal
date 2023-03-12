@@ -16,25 +16,28 @@ import Container from '../container/Container';
 const features: FeatureType[] = [
     {
         title: 'Create',
-        description: 'Create artwork for your images using our proprietery image gen wizard',
+        description:
+            "Use our powerful image generation wizard to easily create custom graphics for your products. Whether you're an artist or a designer, our intuitive interface makes it easy to bring your vision to life.",
         image: wizard,
         imageUrl: undefined
     },
     {
         title: 'Upload',
-        description: 'Manage all of your text generation needs - from copywriting to prompt engineering.',
+        description:
+            'Manage all of your text generation needs - from copywriting to prompt engineering. With Qwerky Studio, you can upload your own text and use our AI-powered tools to generate engaging content in seconds.',
         image: upload,
         imageUrl: undefined
     },
     {
         title: 'Manage',
-        description: 'We might be able integrate audio services',
+        description: 'Manage your artwork from a centralized location. Keep the images you like, archive the rest.',
         image: review,
         imageUrl: undefined
     },
     {
         title: 'Integrate',
-        description: 'Send your artwork whereever you need to - for example your online store',
+        description:
+            'Send your artwork wherever you need to - for example, your online store. With Qwerky Studio, you can easily export your designs to your online store or any other platform you choose.',
         image: send,
         imageUrl: undefined
     }
@@ -84,7 +87,7 @@ export function PrimaryFeatures() {
             <Container className="relative">
                 <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
                     <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">
-                        All of your creative generation needs in one place.
+                        All of your artwork generation needs in one place
                     </h2>
                     {/* <p className="mt-6 text-lg tracking-tight text-blue-100">Every single AI service you could ever want</p> */}
                 </div>
