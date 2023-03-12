@@ -15,6 +15,4 @@ export class ImageSet {
     public GetAll() {
         return this.imageSet;
     }
-
-    // public GetImageSetMeta
 }

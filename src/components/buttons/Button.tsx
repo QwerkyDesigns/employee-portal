@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, ReactElement } from 'react';
-import Link from 'next/link';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 
 const baseStyles: Record<'solid' | 'outline', string> = {
     solid: 'group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2',
@@ -25,6 +25,7 @@ export function Button({
     className,
     href,
     disabled,
+    onClick,
     ...props
 }: {
     disabled?: boolean;
@@ -35,13 +36,18 @@ export function Button({
     onClick?: MouseEventHandler;
     [key: string]: any;
 }): ReactElement {
-    className = clsx(baseStyles[variant], variantStyles[variant][color], className);
+    const router = useRouter();
 
-    return href !== undefined ? (
-        <button disabled={disabled} className={className}>
-            <Link href={href} className={className} {...props} />
-        </button>
-    ) : (
-        <button disabled={disabled} className={className} {...props} />
-    );
+    const onClickInner = (e: any) => {
+        if (href) {
+            router.push(href);
+        } else {
+            if (onClick) {
+                onClick(e);
+            }
+        }
+    };
+
+    const updatedClassName = clsx(baseStyles[variant], variantStyles[variant][color], className);
+    return <button onClick={onClickInner} disabled={disabled} className={updatedClassName} {...props}></button>;
 }

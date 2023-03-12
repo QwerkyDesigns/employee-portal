@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
-import AxiosClient from './AxiosClient';
+import AxiosClient from './axiosClient';
 
 const CONFIG: AxiosRequestConfig = {
     baseURL: '/api'

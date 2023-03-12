@@ -4,6 +4,7 @@ import frontendClient from '@/lib/client/frontendClient';
 import { UnCategorizedImageMeta, GetAllUntransferredResponse } from '@/lib/controllers/GetAllUntransferredController';
 import { ImageOrigin } from '@/lib/enums/ImageOrigin';
 import { batch } from '@/lib/utils/batch';
+import { PresignedUrlWithMeta } from '@/types/sharedTypes';
 import { Checkbox, NumberInput, Pagination, Text } from '@mantine/core';
 import { IconArrowBigTop } from '@tabler/icons';
 import { useRouter } from 'next/router';
@@ -28,12 +29,12 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
     useEffect(() => {
         (async () => {
             const res = await frontendClient.get<GetAllUntransferredResponse>(`review/get-all-untransferred?origin=${origin}`);
-            const filteredImageMetas = res.imageMetas.filter((x) => !x.key.endsWith('meta.txt'));
+            const filteredImageMetas = res.imageMetas.filter((x: PresignedUrlWithMeta) => !x.key.endsWith('meta.txt'));
 
-            const batches = batch(filteredImageMetas, showNumber);
+            const batches = batch(filteredImageMetas, showNumber) as PresignedUrlWithMeta[][];
 
             const initialKeyMap: ImageKeyMap = {};
-            filteredImageMetas.forEach((meta) => {
+            filteredImageMetas.forEach((meta: PresignedUrlWithMeta) => {
                 initialKeyMap[meta.key] = false;
             });
 
@@ -59,11 +60,11 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
         await frontendClient.post<{}, {}>(`archive/move-to-archive?imageKeys=${key === null ? getCheckImageKeys().join(',') : key}`);
 
         const res = await frontendClient.get<GetAllUntransferredResponse>(`review/get-all-untransferred?origin=${origin}`);
-        const filteredImageMetas = res.imageMetas.filter((x) => !x.key.endsWith('meta.txt'));
-        const batches = batch(filteredImageMetas);
+        const filteredImageMetas = res.imageMetas.filter((x: PresignedUrlWithMeta) => !x.key.endsWith('meta.txt'));
+        const batches = batch(filteredImageMetas) as UnCategorizedImageMeta[][];
 
         const initialKeyMap: ImageKeyMap = {};
-        filteredImageMetas.forEach((meta) => {
+        filteredImageMetas.forEach((meta: PresignedUrlWithMeta) => {
             initialKeyMap[meta.key] = false;
         });
 
@@ -74,15 +75,12 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
     };
 
     const categorize = (key: string | null) => {
-        console.log('KEY: ' + key);
-        console.log('selected: ' + imageKeyMap);
         const dest = `/portal/review/categorize?keys=${key === null ? getCheckImageKeys().join(',') : key}`;
-        console.log('Dest: ' + dest);
         router.push(dest);
     };
 
     const getCheckImageKeys = () => {
-        return Object.keys(imageKeyMap).filter((key) => imageKeyMap[key]);
+        return Object.keys(imageKeyMap).filter((key: string) => imageKeyMap[key]);
     };
 
     return (

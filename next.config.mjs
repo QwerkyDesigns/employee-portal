@@ -7,7 +7,11 @@ import withMDX from '@next/mdx';
  * @constraint {{import('next').NextConfig}}
  */
 function defineNextConfig(config) {
-    return withMDX(config);
+    return config;
+    // if (process.env.NODE_ENV === 'development') {
+    //     return config;
+    // }
+    // return withMDX(config);
 }
 
 export default defineNextConfig({

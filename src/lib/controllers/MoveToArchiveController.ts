@@ -1,15 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getBody, getQuery } from 'nextjs-backend-helpers';
+import { getQuery } from 'nextjs-backend-helpers';
 import { StatusCodes } from '../enums/StatusCodes';
 import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
 import ArgumentError from '../errors/bad-request/ArgumentError';
-import UnCategorizedImagesStore from '../stores/UncategorizedImagesStore';
-import ArchivedImagesStore from '../stores/ArchivedImagesStore';
+import { MoveFileFromThisUncategorizedContainerTo } from '../stores/uncategorizedCreatedImagesStore/MoveFileFromThisContainerTo';
+import { archiveStoreBucket } from '../stores/archivedImageStore/archivedImageStoreConstants';
 
 class MoveToArchiveController extends AuthenticatedBaseController {
-    private uncategorizedS3BucketRepository = new UnCategorizedImagesStore();
-    private archiveStore = new ArchivedImagesStore();
-
     constructor() {
         super();
 
@@ -22,7 +19,7 @@ class MoveToArchiveController extends AuthenticatedBaseController {
 
     async post(req: NextApiRequest, res: NextApiResponse<MoveToArchiveResponse>) {
         const { imageKeys } = getQuery<MoveToArchiveRequest>(req);
-        await this.uncategorizedS3BucketRepository.MoveFileFromThisContainerTo(this.archiveStore.bucketName, imageKeys);
+        await MoveFileFromThisUncategorizedContainerTo(archiveStoreBucket, imageKeys);
         return res.json({});
     }
 }

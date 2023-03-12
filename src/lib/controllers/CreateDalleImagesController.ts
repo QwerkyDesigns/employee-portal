@@ -3,15 +3,12 @@ import { getBody } from 'nextjs-backend-helpers';
 import { StatusCodes } from '../enums/StatusCodes';
 import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
 import ArgumentError from '../errors/bad-request/ArgumentError';
-import RepositoryOpenAi from '../repositories/DalleRepository';
 import { ImageSize } from '../enums/ImageSizes';
-import UnCategorizedImagesStore from '../stores/UncategorizedImagesStore';
-import { ImageLocationDetails } from '../stores/s3Core/S3Core';
+import RequestNewDalleImageSet from '../externalServices/dalle/RequestNewDalleImageSet';
+import SaveDalleUrlsToS3 from '../stores/uncategorizedCreatedImagesStore/SaveFromDalleToS3';
+import { ImageLocationDetails } from '@/types/sharedTypes';
 
 class CreateDalleImagesController extends AuthenticatedBaseController {
-    private RepositoryOpenAAI = new RepositoryOpenAi();
-    private s3Repository = new UnCategorizedImagesStore();
-
     constructor() {
         super();
 
@@ -33,9 +30,9 @@ class CreateDalleImagesController extends AuthenticatedBaseController {
             prompt = prompt.slice(0, 500);
         }
 
-        const response = await this.RepositoryOpenAAI.RequestNewImageSet(prompt, n, size);
+        const response = await RequestNewDalleImageSet(prompt, n, size);
 
-        const imageLocationdetails = await this.s3Repository.SaveDalleUrlsToS3(response.urls, response.metaData);
+        const imageLocationdetails = await SaveDalleUrlsToS3(response.urls, response.metaData);
         return res.json({
             details: imageLocationdetails
         });

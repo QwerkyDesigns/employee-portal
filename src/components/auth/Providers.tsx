@@ -74,7 +74,7 @@ export function Providers({ providers = [] }: { providers: CommonProviderOptions
     return (
         <>
             {Object.values(providers).map((provider) => {
-                if (provider.id === 'github' && env.NEXT_PUBLIC_OPERATING_ENVIRONMENT !== 'prod') {
+                if (provider.id === 'github' && env.NEXT_PUBLIC_IS_PROD === 'false') {
                     return <GithubProvider key={provider.id} provider={provider} />;
                 }
                 if (provider.id === 'credentials') {

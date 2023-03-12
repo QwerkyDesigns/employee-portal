@@ -1,6 +1,6 @@
+import { PresignedUrlWithMeta } from '@/types/sharedTypes';
 import { NextApiRequest, NextApiResponse } from 'next';
-import ArchivedImagesStore from '../stores/ArchivedImagesStore';
-import { PresignedUrlWithMeta } from '../stores/s3Core/S3Core';
+import { GetAllArchivedImages } from '../stores/archivedImageStore/GetAllArchivedImages';
 import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
 
 class GetAllArchivedController extends AuthenticatedBaseController {
@@ -9,10 +9,7 @@ class GetAllArchivedController extends AuthenticatedBaseController {
     }
 
     async get(req: NextApiRequest, res: NextApiResponse<GetAllArchivedResponse>) {
-        const repo = new ArchivedImagesStore();
-
-        const allViewingUrls = await repo.GetAllArchivedImages();
-
+        const allViewingUrls = await GetAllArchivedImages();
         return res.json({
             imageMetas: allViewingUrls
         });

@@ -1,14 +1,15 @@
 import stripeBackendClient from '@/lib/client/stripe';
-import env from '@/lib/environment/Environment';
-import { EnvironmentVariable } from '@/lib/environment/EnvironmentVariable';
 import { getSession, useSession } from 'next-auth/react';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import { AuthenticatedBaseController } from '../base/AuthenticatedBaseController';
 import Stripe from 'stripe';
 import { prisma } from '@/lib/client/prisma';
+import { env } from '@/env/server.mjs';
 
-const success_url = `${env.GetStringEnvironmentVarialble(EnvironmentVariable.HostUrl)}/portal/stripe/success`;
-const cancel_url = `${env.GetStringEnvironmentVarialble(EnvironmentVariable.HostUrl)}/portal/stripe/cancel`;
+const hostUrl = env.NEXTAUTH_URL;
+
+const success_url = `${hostUrl}/portal/stripe/success`;
+const cancel_url = `${hostUrl}/portal/stripe/cancel`;
 
 class StripeCheckoutSessionController extends AuthenticatedBaseController {
     constructor() {

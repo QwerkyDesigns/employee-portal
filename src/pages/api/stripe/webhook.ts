@@ -3,12 +3,15 @@ import { env } from '../../../env/server.mjs';
 import stripeBackendClient from '@/lib/client/stripe';
 import { getStripeHeader } from '@/lib/controllers/stripe/headers';
 import { handleWebhookEvent } from '@/lib/services/stripe/events/stripeWebhookEntryService';
+import { hasStripeHeader } from '@/lib/controllers/stripe/middleware';
 
 const webhookSecret = env.STRIPE_WEBHOOK_SECRET;
 // This is an unauthenticated stripe webhook controller
 // we'll add middleware on to this to reject any request that does not
 // contain the required headers from stripe
 const handler = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+    hasStripeHeader(req, res, () => null);
+
     if (req.method === 'POST') {
         const sig = getStripeHeader<string>(req);
 
