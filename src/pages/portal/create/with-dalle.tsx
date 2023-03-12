@@ -66,6 +66,7 @@ export default function CreateWithDallePage() {
                     >
                         <SliderInput value={value} setValue={setValue} />
                         <Select
+                            value={artStyle}
                             options={ArtStyles.sort()}
                             onChange={(val) => {
                                 if (val) {

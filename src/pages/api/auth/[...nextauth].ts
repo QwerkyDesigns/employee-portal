@@ -1,4 +1,4 @@
-import NextAuth, {  NextAuthOptions, User } from 'next-auth';
+import NextAuth, { NextAuthOptions, User } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 // import { prisma } from '@/lib/client/prisma';

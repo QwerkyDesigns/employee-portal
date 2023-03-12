@@ -1,4 +1,4 @@
-import { env } from './src/env/server.mjs';
+import withMDX from '@next/mdx';
 
 /**
  *
@@ -7,7 +7,7 @@ import { env } from './src/env/server.mjs';
  * @constraint {{import('next').NextConfig}}
  */
 function defineNextConfig(config) {
-    return config;
+    return withMDX(config);
 }
 
 export default defineNextConfig({
@@ -21,6 +21,7 @@ export default defineNextConfig({
         return config;
     },
     reactStrictMode: true,
+    pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     swcMinify: true,
     // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
     i18n: {

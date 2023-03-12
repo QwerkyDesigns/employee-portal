@@ -5,15 +5,15 @@ import { ChevronUpDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/soli
 import { navigation } from '../navigation';
 import { DashboardContextType, DashboardContext } from '@/lib/contexts/DashboardContext';
 import { useRouter } from 'next/router';
-import { DashboardProps } from './MainDashboardLayout';
 import DashboardInnerHeader from '../DashboardInnerHeader';
 import { signOut } from 'next-auth/react';
+import { DashboardProps } from '@/types/sharedTypes';
 
 function classNames({ classes = [] }: { classes?: any[] } = {}) {
     return classes.filter(Boolean).join(' ');
 }
 
-export const AlternateLayout = ({ pageName, session, children }: DashboardProps) => {
+export const InnerDashboardLayout = ({ pageName, session, children }: DashboardProps) => {
     const { currentFunds, setSideBarOpen, sideBarOpen } = useContext<DashboardContextType>(DashboardContext);
     const router = useRouter();
     const currentRoute = router.route;
@@ -66,7 +66,9 @@ export const AlternateLayout = ({ pageName, session, children }: DashboardProps)
                                     </div>
                                 </Transition.Child>
                                 <div className="flex flex-shrink-0 items-center px-4">
-                                    <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=purple&shade=500" alt="Your Company" />
+                                    <h2 className="text-2xl font-extrabold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+                                        Creator Studio
+                                    </h2>
                                 </div>
                                 <div className="mt-5 h-0 flex-1 overflow-y-auto">
                                     <nav className="px-2">
@@ -97,9 +99,11 @@ export const AlternateLayout = ({ pageName, session, children }: DashboardProps)
                                             ))}
                                         </div>
                                         <div className="mt-8">
-                                            <h3 className="px-3 text-sm font-medium text-gray-500" id="mobile-teams-headline">
-                                                Terms and Conditions
-                                            </h3>
+                                            <a href="/tsAndCs">
+                                                <h3 className="px-3 text-sm font-medium text-gray-500" id="mobile-teams-headline">
+                                                    Terms and Conditions
+                                                </h3>
+                                            </a>
                                         </div>
                                     </nav>
                                 </div>
@@ -161,7 +165,7 @@ export const AlternateLayout = ({ pageName, session, children }: DashboardProps)
                                     <Menu.Item>
                                         {({ active }) => (
                                             <a
-                                                href="#"
+                                                href="/portal/account"
                                                 className={classNames({
                                                     classes: [active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']
                                                 })}
@@ -241,9 +245,11 @@ export const AlternateLayout = ({ pageName, session, children }: DashboardProps)
                         </div>
                         <div className="mt-8">
                             {/* Secondary navigation */}
-                            <h3 className="px-3 text-sm font-medium text-gray-500" id="desktop-teams-headline">
-                                Terms and Conditions
-                            </h3>
+                            <a href="/tsAndCs">
+                                <h3 className="px-3 text-sm font-medium text-gray-500" id="desktop-teams-headline">
+                                    Terms and Conditions
+                                </h3>
+                            </a>
                         </div>
                     </nav>
                 </div>
@@ -382,7 +388,7 @@ export const AlternateLayout = ({ pageName, session, children }: DashboardProps)
                 </div>
                 <main className="flex-1">
                     <DashboardInnerHeader currentFunds={currentFunds} />
-                    {children}
+                    <div className="mx-4">{children}</div>
                 </main>
             </div>
         </div>

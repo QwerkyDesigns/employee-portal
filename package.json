@@ -20,7 +20,7 @@
         "db:dev:reset": "dotenv -e ./scripts/.env.external -- npx prisma migrate reset",
         "db:dev:refresh": "npm run db:dev:reset && npm run db:dev:migrate && npm run setup-db",
         "setup-db": "node scripts/setup-database.js",
-        "delete_node_modules": "npm i   -g rimraf && rimraf node_modules",
+        "delete_node_modules": "npm i -g rimraf && rimraf node_modules",
         "dev-setup": "npm run delete_node_modules && docker compose up --build -d && npm run db:dev:refresh"
     },
     "dependencies": {
@@ -38,7 +38,10 @@
         "@mantine/notifications": "^5.10.2",
         "@mantine/prism": "^5.10.2",
         "@mantine/tiptap": "^5.10.2",
+        "@mdx-js/loader": "^2.3.0",
+        "@mdx-js/react": "^2.3.0",
         "@next/font": "13.1.5",
+        "@next/mdx": "^13.2.4",
         "@prisma/client": "^4.11.0",
         "@stripe/stripe-js": "^1.48.0",
         "@tabler/icons": "1.119.0",

@@ -1,79 +1,22 @@
-import { Illustration } from '@/components/errorpages/Illustration';
-import { DashboardLayout } from '@/components/layouts/DashboardLayout';
-import { createStyles, Container, Title, Text, Button, Group } from '@mantine/core';
-import Link from 'next/link';
-
-const useStyles = createStyles((theme) => ({
-    root: {
-        paddingTop: 80,
-        paddingBottom: 80
-    },
-
-    inner: {
-        position: 'relative'
-    },
-
-    image: {
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        left: 0,
-        zIndex: 0,
-        opacity: 0.75
-    },
-
-    content: {
-        paddingTop: 220,
-        position: 'relative',
-        zIndex: 1,
-
-        [theme.fn.smallerThan('sm')]: {
-            paddingTop: 120
-        }
-    },
-
-    title: {
-        fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-        textAlign: 'center',
-        fontWeight: 900,
-        fontSize: 38,
-
-        [theme.fn.smallerThan('sm')]: {
-            fontSize: 32
-        }
-    },
-
-    description: {
-        maxWidth: 540,
-        margin: 'auto',
-        marginTop: theme.spacing.xl,
-        marginBottom: theme.spacing.xl * 1.5
-    }
-}));
-
-export default function NothingFoundBackground() {
-    const { classes } = useStyles();
-
+export default function FourOhFour() {
     return (
-        <DashboardLayout pageName="Page not found">
-            <Container className={classes.root}>
-                <div className={classes.inner}>
-                    <Illustration className={classes.image} />
-                    <div className={classes.content}>
-                        <Title className={classes.title}>Sorry! This page doesn&lsquo;t actually exist!</Title>
-
-                        <Text color="dimmed" size="lg" align="center" className={classes.description}>
-                            Page you are trying to open does not exist. You may have mistyped the address, or the page has been moved to another URL. If you
-                            think this is an error contact support.
-                        </Text>
-                        <Group position="center">
-                            <Link href="/">
-                                <Button size="md">Take me back to home page</Button>
-                            </Link>
-                        </Group>
-                    </div>
+        <main className="grid min-h-full place-items-center bg-white py-24 px-6 sm:py-32 lg:px-8">
+            <div className="text-center">
+                <p className="text-base font-semibold text-indigo-600">404</p>
+                <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">Page not found</h1>
+                <p className="mt-6 text-base leading-7 text-gray-600">Sorry, we couldn’t find the page you’re looking for.</p>
+                <div className="mt-10 flex items-center justify-center gap-x-6">
+                    <a
+                        href="/"
+                        className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    >
+                        Go back home
+                    </a>
+                    {/* <a href="/" className="text-sm font-semibold text-gray-900">
+                        Contact support <span aria-hidden="true">&rarr;</span>
+                    </a> */}
                 </div>
-            </Container>
-        </DashboardLayout>
+            </div>
+        </main>
     );
 }

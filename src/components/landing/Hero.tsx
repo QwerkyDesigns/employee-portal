@@ -19,11 +19,10 @@ export function Hero() {
                 </span>{' '}
                 for everyone
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">There is an abundance of artificial intelligence services out there.</p>
-            <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">We will connect you to all of them.</p>
+            <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">Generating the artwork is the hard part. We'll help you with that.</p>
             <div className="mt-10 flex justify-center gap-x-6">
                 <Button href="/register" variant={'solid'} color={'slate'} className={''}>
-                    Get $2 UDS free to start!
+                    Get 100 free credits to start!
                 </Button>
                 <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" variant="outline" color={'slate'} className={''}>
                     <svg aria-hidden="true" className="h-3 w-3 flex-none fill-blue-600 group-active:fill-current">

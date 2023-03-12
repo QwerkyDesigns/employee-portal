@@ -6,9 +6,8 @@ import { ParsedUrlQuery } from 'querystring';
 import frontendClient from '@/lib/client/frontendClient';
 import { GetCurrentFundsResponse } from '@/lib/controllers/GetCurrentFundsController';
 import { DashboardContext } from '@/lib/contexts/DashboardContext';
-import { MainDashboardLayout } from './dashboard/core/MainDashboardLayout';
 import AccessDenied from '../errorpages/AccessDenied';
-import { AlternateLayout } from './dashboard/core/AlternateLayout';
+import { InnerDashboardLayout } from './dashboard/core/InnerDashboardLayout';
 
 export function DashboardLayout({ pageName, children }: { pageName: string; children: React.ReactNode }) {
     const [sideBarOpen, setSideBarOpen] = useState(false);
@@ -24,6 +23,7 @@ export function DashboardLayout({ pageName, children }: { pageName: string; chil
     useEffect(() => {
         (async () => {
             const response = await frontendClient.get<GetCurrentFundsResponse>('account/funds/available');
+            console.log(response);
             if (response) {
                 setCurrentFunds(response.currentFunds);
             } else {
@@ -34,7 +34,9 @@ export function DashboardLayout({ pageName, children }: { pageName: string; chil
 
     return session ? (
         <DashboardContext.Provider value={{ currentFunds, sideBarOpen, setSideBarOpen: sideBarSetter }}>
-            <AlternateLayout pageName={pageName} session={session}>{children}</AlternateLayout>
+            <InnerDashboardLayout pageName={pageName} session={session}>
+                {children}
+            </InnerDashboardLayout>
         </DashboardContext.Provider>
     ) : (
         <AccessDenied />

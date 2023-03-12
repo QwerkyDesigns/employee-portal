@@ -1,4 +1,4 @@
-import { PaintBrushIcon, DocumentMagnifyingGlassIcon, ArrowUpOnSquareIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline';
+import { PaintBrushIcon, DocumentMagnifyingGlassIcon, ArrowUpOnSquareIcon, ClipboardDocumentCheckIcon, DocumentCheckIcon } from '@heroicons/react/24/outline';
 
 type NavItems = {
     name: string;
@@ -8,7 +8,7 @@ type NavItems = {
 };
 const navItems: NavItems[] = [
     {
-        name: 'Design Wizard',
+        name: 'Create New Artwork',
         href: '/portal/create/image-wizard',
         icon: PaintBrushIcon
     },
@@ -31,7 +31,7 @@ const navItems: NavItems[] = [
     {
         name: 'Send images to your stores',
         href: '/portal/review/categorize',
-        icon: DocumentMagnifyingGlassIcon
+        icon: DocumentCheckIcon
     }
 ];
 

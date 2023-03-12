@@ -4,39 +4,53 @@ import { Tab } from '@headlessui/react';
 import clsx from 'clsx';
 
 import backgroundImage from './images/background-features.jpg';
-import screenshotExpenses from './images/screenshots/expenses.png';
-import screenshotPayroll from './images/screenshots/payroll.png';
-import screenshotReporting from './images/screenshots/reporting.png';
-import screenshotVatReturns from './images/screenshots/vat-returns.png';
+
+import wizard from './images/wizard.png';
+import upload from './images/upload.png';
+import review from './images/review.png';
+import send from './images/send.png';
+import explode from './images/explode.jpg';
+
 import Container from '../container/Container';
 
 const features: FeatureType[] = [
     {
-        title: 'Image',
-        description: 'Create and manage images for your online store.',
-        image: screenshotPayroll
+        title: 'Create',
+        description: 'Create artwork for your images using our proprietery image gen wizard',
+        image: wizard,
+        imageUrl: undefined
     },
     {
-        title: 'Text',
+        title: 'Upload',
         description: 'Manage all of your text generation needs - from copywriting to prompt engineering.',
-        image: screenshotExpenses
+        image: upload,
+        imageUrl: undefined
     },
     {
-        title: 'Audio',
+        title: 'Manage',
         description: 'We might be able integrate audio services',
-        image: screenshotVatReturns
+        image: review,
+        imageUrl: undefined
     },
     {
-        title: 'Apply your own styles',
-        description: 'Are you an artist? Upload your work and generate images in your own style.',
-        image: screenshotReporting
+        title: 'Integrate',
+        description: 'Send your artwork whereever you need to - for example your online store',
+        image: send,
+        imageUrl: undefined
     }
+    // {
+    //     title: 'Apply your own style',
+    //     description: 'Are you an artist? Upload your work and generate images in your own style.',
+    //     image: explode,
+    //     imageUrl: undefined
+    // }
 ];
 
 type FeatureType = {
     title: string;
     description: string;
-    image: StaticImageData;
+    image: StaticImageData | null;
+    imageUrl: string | undefined;
 };
 
 export function PrimaryFeatures() {
@@ -72,7 +86,7 @@ export function PrimaryFeatures() {
                     <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">
                         All of your creative generation needs in one place.
                     </h2>
-                    <p className="mt-6 text-lg tracking-tight text-blue-100">Every single AI service you could ever want</p>
+                    {/* <p className="mt-6 text-lg tracking-tight text-blue-100">Every single AI service you could ever want</p> */}
                 </div>
                 <Tab.Group
                     as="div"
@@ -128,7 +142,7 @@ export function PrimaryFeatures() {
                                         <div className="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-blue-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
                                             <Image
                                                 className="w-full"
-                                                src={feature.image}
+                                                src={feature.image ?? feature.imageUrl ?? ''}
                                                 alt=""
                                                 priority
                                                 sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
