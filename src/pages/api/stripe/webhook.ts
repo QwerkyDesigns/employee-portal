@@ -3,7 +3,7 @@ import { env } from '../../../env/server.mjs';
 import stripeBackendClient from '@/lib/client/stripe';
 import { getStripeHeader } from '@/lib/controllers/stripe/headers';
 import { handleWebhookEvent } from '@/lib/services/stripe/events/stripeWebhookEntryService';
-import { hasStripeHeader } from '@/lib/controllers/stripe/middleware.js';
+import { hasStripeHeader } from '@/lib/controllers/stripe/middleware';
 
 const webhookSecret = env.STRIPE_WEBHOOK_SECRET;
 // This is an unauthenticated stripe webhook controller

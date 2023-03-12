@@ -22,7 +22,7 @@ export const serverSchema = z.object({
     STRIPE_WEBHOOK_SECRET: z.string(),
     DATABASE_URL: z.string(),
     IMAGE_STORE_BUCKET: z.string(),
-    ARCHIVE_STORE_BUCKET: z.string()
+    ARCHIVE_STORE_BUCKET: z.string(),
 });
 
 /**
@@ -32,16 +32,16 @@ export const serverSchema = z.object({
  */
 export const clientSchema = z.object({
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
-    NEXT_PUBLIC_OPERATING_ENVIRONMENT: z.string()
+    NEXT_PUBLIC_IS_PROD: z.string()
 });
 
 /**
  * You can't destruct `process.env` as a regular object, so you have to do
  * it manually here. This is because Next.js evaluates this at build time,
- * and only used environment variables are included in the build.
+ * and only used environment variables that are included in the build.
  * @type {{ [k in keyof z.infer<typeof clientSchema>]: z.infer<typeof clientSchema>[k] | undefined }}
  */
 export const clientEnv = {
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-    NEXT_PUBLIC_OPERATING_ENVIRONMENT: process.env.NEXT_PUBLIC_OPERATING_ENVIRONMENT
+    NEXT_PUBLIC_IS_PROD: process.env.NEXT_PUBLIC_IS_PROD
 };

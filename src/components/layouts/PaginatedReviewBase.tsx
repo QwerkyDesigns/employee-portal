@@ -4,6 +4,7 @@ import frontendClient from '@/lib/client/frontendClient';
 import { UnCategorizedImageMeta, GetAllUntransferredResponse } from '@/lib/controllers/GetAllUntransferredController';
 import { ImageOrigin } from '@/lib/enums/ImageOrigin';
 import { batch } from '@/lib/utils/batch';
+import { PresignedUrlWithMeta } from '@/types/sharedTypes';
 import { Checkbox, NumberInput, Pagination, Text } from '@mantine/core';
 import { IconArrowBigTop } from '@tabler/icons';
 import { useRouter } from 'next/router';
@@ -28,7 +29,7 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
     useEffect(() => {
         (async () => {
             const res = await frontendClient.get<GetAllUntransferredResponse>(`review/get-all-untransferred?origin=${origin}`);
-            const filteredImageMetas = res.imageMetas.filter((x) => !x.key.endsWith('meta.txt'));
+            const filteredImageMetas = res.imageMetas.filter((x: PresignedUrlWithMeta) => !x.key.endsWith('meta.txt'));
 
             const batches = batch(filteredImageMetas, showNumber);
 
