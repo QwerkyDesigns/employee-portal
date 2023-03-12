@@ -3,8 +3,8 @@ import { PaddedImage } from '@/components/images/PaddedImage';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import frontendClient from '@/lib/client/frontendClient';
 import { GetAllArchivedResponse } from '@/lib/controllers/GetAllArchivedImagesController';
-import { PresignedUrlWithMeta } from '@/lib/stores/s3Core/S3Core';
 import { batch } from '@/lib/utils/batch';
+import { PresignedUrlWithMeta } from '@/types/sharedTypes';
 import { Checkbox, NumberInput, Pagination } from '@mantine/core';
 import { IconArrowBigTop } from '@tabler/icons';
 import { useRouter } from 'next/router';
@@ -18,7 +18,6 @@ type ImageKeyMap = {
 
 export default function AllArchivedPage() {
     const router = useRouter();
-
     const [imageUrlPages, setImageUrlPages] = useState<PresignedUrlWithMeta[][]>([]);
     const [page, setPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(0);

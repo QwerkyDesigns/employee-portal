@@ -2,7 +2,7 @@ const areas = [
     {
         id: 0,
         title: 'Terms and Conditions',
-        href: '/legal/termsAndConditions',
+        href: '/legal/TermsAndConditions',
         description: 'Navigate to learn about our Terms and Conditions'
     },
     {

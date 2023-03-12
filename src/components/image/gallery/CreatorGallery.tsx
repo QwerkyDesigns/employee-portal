@@ -1,5 +1,5 @@
 import { PaddedImage } from '@/components/images/PaddedImage';
-import { ImageLocationDetails } from '@/lib/stores/s3Core/S3Core';
+import { ImageLocationDetails } from '@/types/sharedTypes';
 import { useState } from 'react';
 
 export type BasicGalleryProps = {

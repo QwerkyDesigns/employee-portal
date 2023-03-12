@@ -3,19 +3,69 @@ import { getBody } from 'nextjs-backend-helpers';
 import { StatusCodes } from '../enums/StatusCodes';
 import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
 import ArgumentError from '../errors/bad-request/ArgumentError';
-import UnCategorizedImagesStore from '../stores/UncategorizedImagesStore';
-import PrintifyRepository, { PrintifyImageResource } from '../repositories/PrintifyRepository';
-import ArchivedImagesStore from '../stores/ArchivedImagesStore';
+import { PrintifyImageResource } from '../externalServices/printify/UploadImageToPrintify';
+import UploadImageToPrintify from '../externalServices/printify/UploadImageToPrintify';
+import createPresignedUrlForViewing from '../stores/s3Core/createPresignedUrlForViewing';
+import { imageStoreBucket } from '../stores/uncategorizedCreatedImagesStore/imageStoreConstants';
+import { MoveFileFromThisUncategorizedContainerTo } from '../stores/uncategorizedCreatedImagesStore/MoveFileFromThisContainerTo';
+import { archiveStoreBucket } from '../stores/archivedImageStore/archivedImageStoreConstants';
+import PrintifyError from '../errors/application-errors/PrintifyError';
+import { getSession } from 'next-auth/react';
+import { prisma } from '../client/prisma';
+import printifyClient from '../client/printifyClient';
+import { AxiosInstance } from 'axios';
+import PrintifyApiKeyNotRegisteredError from '../errors/bad-request/PrintifyApiKeyNotRegisteredError';
+
+// this file is a bit of a special snowflake.
+// We'll need to find a better way to deal with integration in general - and the ui will need to accomodate.
+// Imagine we've got a user that wants to send their creations to multiple places - we should support that I
+// would think. What other ideas / thoughts can you come up with?
+
+const TryGetPrintifyApi = async (emailAddres: string): Promise<string | undefined> => {
+    const account = await prisma.account.findUnique({
+        where: {
+            email: emailAddres
+        }
+    });
+
+    const externalServicesRecordId = account?.externalServicesId;
+    if (externalServicesRecordId === null) return undefined;
+    const record = await prisma.externalServices.findUnique({
+        where: {
+            id: externalServicesRecordId
+        }
+    });
+    const apiKey = record?.printifyApiKey;
+    return apiKey;
+};
 
 class CategorizeAndUploadController extends AuthenticatedBaseController {
-    private uncategorizedS3BucketRepository = new UnCategorizedImagesStore();
-    private archiveStore = new ArchivedImagesStore();
+    private printifyClient: AxiosInstance = null!;
 
-    private shopifyRepository = new PrintifyRepository();
     constructor() {
         super();
 
+        this.before(async (req, res) => {
+            const session = await getSession({ req });
+
+            const userEmail = session?.user?.email;
+            if (userEmail) {
+                const apiKey = await TryGetPrintifyApi(userEmail);
+                if (apiKey) {
+                    this.printifyClient = printifyClient(apiKey);
+                    return;
+                }
+            }
+            throw new PrintifyApiKeyNotRegisteredError('Your account does not have a registered Printify Api Key. Please set one in your account settings.');
+        });
+
         this.rescue(ArgumentError, (error, request, response) => {
+            response.status(StatusCodes.InvalidRequest).json({
+                errors: [error.message]
+            });
+        });
+
+        this.rescue(PrintifyApiKeyNotRegisteredError, (error, request, response) => {
             response.status(StatusCodes.InvalidRequest).json({
                 errors: [error.message]
             });
@@ -27,18 +77,18 @@ class CategorizeAndUploadController extends AuthenticatedBaseController {
 
         const imageKeyList = imageKeys.split(',');
         const productNamesList = productNames.split(',');
-        console.log(productNames);
         const results: PrintifyImageResource[] = [];
+
+        // TODO: make concurrent
         for (let i = 0; i < imageKeyList.length; i++) {
             const imageKey = imageKeyList[i];
             const productName = productNamesList[i];
-            const preSignedUrl = await this.uncategorizedS3BucketRepository.createPresignedUrlForViewing(imageKey);
-            console.log('presigned: ' + preSignedUrl);
+            const preSignedUrl = await createPresignedUrlForViewing(imageStoreBucket, imageKey);
 
             // post a request to printify (need to create a printify repository)
-            const response = await this.shopifyRepository.UploadImageToShopify(productName, preSignedUrl);
-            if (response === null) throw new Error('NULL RESPONSE');
-            await this.uncategorizedS3BucketRepository.MoveFileFromThisContainerTo(this.archiveStore.bucketName, imageKey);
+            const response = await UploadImageToPrintify(productName, preSignedUrl, this.printifyClient);
+            if (response === null) throw new PrintifyError('Failed to get a response from Printify');
+            await MoveFileFromThisUncategorizedContainerTo(archiveStoreBucket, imageKey);
             results.push({
                 id: response.id,
                 file_name: response.file_name,

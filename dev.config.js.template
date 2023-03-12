@@ -1,4 +1,5 @@
 module.exports = {
   "_comment": "Fill this in with actual values",
-  "email": "dummy"
+  "email": "dummy",
+  "printifyApiKey": "dummy"
 }

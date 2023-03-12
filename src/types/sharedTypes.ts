@@ -15,3 +15,20 @@ export type ArtistStyleMeta = {
     imageUrl: string;
     wiki: string;
 };
+
+// S3 related types
+export type CoreFile = { name: string; data: any; contentType: string };
+export type ImageLocationDetails = {
+    presignedUrl: string;
+    name: string;
+};
+
+export type PresignedUrlWithMeta = {
+    url: string;
+    key: string;
+};
+
+export type S3GetObjectRequest = {
+    Bucket: string;
+    Key: string;
+};

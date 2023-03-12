@@ -7,19 +7,19 @@ const faqs = [
     [
         {
             question: 'Can I create artwork for my products?',
-            answer: 'Heck yes you can!'
+            answer: 'Absolutely! Our intuitive interface makes it easy to create high-quality designs for any product.'
         }
     ],
     [
         {
             question: 'Can I export my artwork directly to my online store for creating products?',
-            answer: 'You better believe it!'
+            answer: 'You bet! With Qwerky Studio, you can export your designs directly to your online store, so you can start selling your products right away.'
         }
     ],
     [
         {
             question: 'How do I create artwork in Qwerky Studio?',
-            answer: 'Easy! You can use our image generation wizard and we will even help you generate ideas for your products!'
+            answer: 'Creating artwork in Qwerky Studio is easy! Just use our image generation wizard to create your design, and our team will provide you with tips and tricks for making your product stand out.'
         }
     ]
 ];

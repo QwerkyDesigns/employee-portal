@@ -2,14 +2,13 @@ import { SliderInput } from '@/components/sliders/slider';
 import { ImageSize } from '@/lib/enums/ImageSizes';
 import { useState } from 'react';
 import { CreateDalleImagesResponse, CreateDalleImagesRequest } from '@/lib/controllers/CreateDalleImagesController';
-import { ImageLocationDetails } from '@/lib/stores/s3Core/S3Core';
 import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner';
 import Select from '@/components/select/Select';
 import TextArea from '@/components/text/TextArea';
-import { unpackChangeEvent } from '@/lib/decorators/EventChangeDecorator';
 import CreatorGallery from '@/components/image/gallery/CreatorGallery';
 import frontendClient from '@/lib/client/frontendClient';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
+import { ImageLocationDetails } from '@/types/sharedTypes';
 
 export const ArtStyles = [
     'hyperrealism',
@@ -33,6 +32,10 @@ export const ArtStyles = [
     'digital pastel art',
     ''
 ];
+
+const unpackChangeEvent = (e: any) => {
+    if (e && e.target) return e.target.value;
+};
 
 export default function CreateWithDallePage() {
     const [value, setValue] = useState<number>(1);

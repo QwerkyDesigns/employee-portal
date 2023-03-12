@@ -14,15 +14,15 @@ export const serverSchema = z.object({
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
     OPENAI_API_KEY: z.string(),
-    OPERATING_ENVIRONMENT: z.string(),
     AWS_ACCESS_KEY_ID: z.string(),
     AWS_SECRET_ACCESS_KEY: z.string(),
     AWS_REGION: z.string(),
-    PRINTIFY_API_KEY: z.string(),
     STRIPE_DEVICE_NAME: z.string(),
     STRIPE_API_KEY: z.string(),
     STRIPE_WEBHOOK_SECRET: z.string(),
-    DATABASE_URL: z.string()
+    DATABASE_URL: z.string(),
+    IMAGE_STORE_BUCKET: z.string(),
+    ARCHIVE_STORE_BUCKET: z.string()
 });
 
 /**

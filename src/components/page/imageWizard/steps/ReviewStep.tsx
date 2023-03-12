@@ -3,7 +3,7 @@ import { NumberSelector } from '@/components/sliders/NumberSelector';
 import frontendClient from '@/lib/client/frontendClient';
 import { CreateDalleImagesRequest, CreateDalleImagesResponse } from '@/lib/controllers/CreateDalleImagesController';
 import { ImageSize } from '@/lib/enums/ImageSizes';
-import { ImageLocationDetails } from '@/lib/stores/s3Core/S3Core';
+import { ImageLocationDetails } from '@/types/sharedTypes';
 import { useState } from 'react';
 
 export const ReviewStep = () => {

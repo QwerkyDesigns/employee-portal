@@ -1,9 +1,7 @@
-import { Button, Select } from '@mantine/core';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { Button } from '../buttons/Button';
 import { headerLinkGroups, unGroupedHeaderLinks } from './headerLinks';
-import { Text } from '@mantine/core';
-import { NormalButton } from '../buttons/NormalButton';
 
 export const NavItems = () => {
     const router = useRouter();
@@ -13,29 +11,25 @@ export const NavItems = () => {
             {unGroupedHeaderLinks.map((hl, i) => {
                 return (
                     <Link key={hl.label} href={hl.value}>
-                        <Text fw={700} fz="lg">
-                            {hl.label}
-                        </Text>
+                        <h3>{hl.label}</h3>
                     </Link>
                 );
             })}
             {Object.keys(headerLinkGroups).map((name, i) => {
                 return (
                     <div key={name} className="flex flex-col justify-center text-center">
-                        <Text className="underline" fz="lg" fw={700}>
-                            {name}
-                        </Text>
+                        <h3 className="underline">{name}</h3>
                         {headerLinkGroups[name].map((g, i) => {
                             return (
                                 <div key={g.value}>
-                                    <NormalButton
+                                    <Button
                                         onClick={(e) => {
                                             e.preventDefault();
                                             router.push(g.value);
                                         }}
                                     >
                                         {g.label}
-                                    </NormalButton>
+                                    </Button>
                                 </div>
                             );
                         })}
