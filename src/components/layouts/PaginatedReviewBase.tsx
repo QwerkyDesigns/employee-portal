@@ -64,7 +64,7 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
         const batches = batch(filteredImageMetas);
 
         const initialKeyMap: ImageKeyMap = {};
-        filteredImageMetas.forEach((meta) => {
+        filteredImageMetas.forEach((meta: PresignedUrlWithMeta) => {
             initialKeyMap[meta.key] = false;
         });
 
