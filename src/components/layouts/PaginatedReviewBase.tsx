@@ -34,7 +34,7 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
             const batches = batch(filteredImageMetas, showNumber);
 
             const initialKeyMap: ImageKeyMap = {};
-            filteredImageMetas.forEach((meta) => {
+            filteredImageMetas.forEach((meta: PresignedUrlWithMeta) => {
                 initialKeyMap[meta.key] = false;
             });
 
@@ -60,7 +60,7 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
         await frontendClient.post<{}, {}>(`archive/move-to-archive?imageKeys=${key === null ? getCheckImageKeys().join(',') : key}`);
 
         const res = await frontendClient.get<GetAllUntransferredResponse>(`review/get-all-untransferred?origin=${origin}`);
-        const filteredImageMetas = res.imageMetas.filter((x) => !x.key.endsWith('meta.txt'));
+        const filteredImageMetas = res.imageMetas.filter((x: PresignedUrlWithMeta) => !x.key.endsWith('meta.txt'));
         const batches = batch(filteredImageMetas);
 
         const initialKeyMap: ImageKeyMap = {};
@@ -75,15 +75,12 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
     };
 
     const categorize = (key: string | null) => {
-        console.log('KEY: ' + key);
-        console.log('selected: ' + imageKeyMap);
         const dest = `/portal/review/categorize?keys=${key === null ? getCheckImageKeys().join(',') : key}`;
-        console.log('Dest: ' + dest);
         router.push(dest);
     };
 
     const getCheckImageKeys = () => {
-        return Object.keys(imageKeyMap).filter((key) => imageKeyMap[key]);
+        return Object.keys(imageKeyMap).filter((key: string) => imageKeyMap[key]);
     };
 
     return (
