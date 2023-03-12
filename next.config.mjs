@@ -7,7 +7,7 @@ import withMDX from '@next/mdx';
  * @constraint {{import('next').NextConfig}}
  */
 function defineNextConfig(config) {
-    return config;
+    return withMDX(config);
 }
 
 export default defineNextConfig({
