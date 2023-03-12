@@ -31,7 +31,7 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
             const res = await frontendClient.get<GetAllUntransferredResponse>(`review/get-all-untransferred?origin=${origin}`);
             const filteredImageMetas = res.imageMetas.filter((x: PresignedUrlWithMeta) => !x.key.endsWith('meta.txt'));
 
-            const batches = batch(filteredImageMetas, showNumber);
+            const batches = batch(filteredImageMetas, showNumber) as PresignedUrlWithMeta[][];
 
             const initialKeyMap: ImageKeyMap = {};
             filteredImageMetas.forEach((meta: PresignedUrlWithMeta) => {
