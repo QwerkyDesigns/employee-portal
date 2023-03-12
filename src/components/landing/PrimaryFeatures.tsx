@@ -37,7 +37,7 @@ const features: FeatureType[] = [
         description: 'Send your artwork whereever you need to - for example your online store',
         image: send,
         imageUrl: undefined
-    },
+    }
     // {
     //     title: 'Apply your own style',
     //     description: 'Are you an artist? Upload your work and generate images in your own style.',

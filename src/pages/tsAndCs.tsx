@@ -43,7 +43,9 @@ export default function TsAndCs() {
                     ))}
                 </div>
                 <div className="mt-24" />
-                <a className="mt-24 border-t-2" href="/">Return Home</a>
+                <a className="mt-24 border-t-2" href="/">
+                    Return Home
+                </a>
             </div>
         </div>
     );

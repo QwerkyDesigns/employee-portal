@@ -23,7 +23,7 @@ export function DashboardLayout({ pageName, children }: { pageName: string; chil
     useEffect(() => {
         (async () => {
             const response = await frontendClient.get<GetCurrentFundsResponse>('account/funds/available');
-            console.log(response)
+            console.log(response);
             if (response) {
                 setCurrentFunds(response.currentFunds);
             } else {

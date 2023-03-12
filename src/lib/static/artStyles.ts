@@ -1,4 +1,4 @@
-import { ArtistStyleMeta } from "@/types/sharedTypes";
+import { ArtistStyleMeta } from '@/types/sharedTypes';
 
 export const artStyleNames = [
     '',
@@ -128,7 +128,7 @@ export const artistStyleMap: ArtistStyleMeta[] = [
         artistName: 'Richard Estes',
         imageUrl: '/artists/richard_estes.png',
         wiki: 'https://en.wikipedia.org/wiki/Richard_Estes'
-    },
+    }
     // { style: 'Art Nouveau', artistName: 'Alphonse Mucha', imageUrl: '/artists/Alphonse_Mucha.png', wiki: '' },
     // { style: 'Classicism', artistName: 'Nicolas Poussin', imageUrl: '/artists/Nicolas_Poussin.png', wiki: '' },
     // { style: 'Conceptual Art', artistName: 'Marcel Duchamp', imageUrl: '/artists/Marcel_Duchamp.png', wiki: '' },
@@ -220,7 +220,7 @@ export const artistStyleMap: ArtistStyleMeta[] = [
     // { style: 'Graffiti Art', artistName: 'Banksy', imageUrl: '', wiki: '' },
     // { style: 'Japanese Art', artistName: 'Hokusai', imageUrl: '', wiki: '' },
     // { style: 'Mannerism', artistName: 'Michelangelo', imageUrl: '', wiki: '' },
- 
+
     // { style: 'Art Deco', artistName: 'Tamara de Lempicka', imageUrl: '', wiki: '' },
     // { style: 'Baroque', artistName: 'Peter Paul Rubens', imageUrl: '', wiki: '' },
     // { style: 'Gothic Art', artistName: 'Giotto di Bondone', imageUrl: '', wiki: '' },
