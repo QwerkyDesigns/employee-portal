@@ -177,13 +177,13 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                     <div />
                 )}
                 <div className="flex-1" />
-                {currentStep < wizardSteps.length && showProceedButton ? (
+                {currentStep < wizardSteps.length - 1 && showProceedButton ? (
                     <div>
                         <Button
                             onClick={() => {
                                 console.log(currentStep);
                                 console.log(wizardSteps.length);
-                                if (currentStep >= wizardSteps.length) return;
+                                if (currentStep >= wizardSteps.length - 1) return;
 
                                 const current = wizardSteps[currentStep];
                                 current.status = Status.completed;
