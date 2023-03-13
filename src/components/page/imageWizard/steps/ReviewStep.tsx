@@ -1,38 +1,70 @@
 import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner';
-import { NumberSelector } from '@/components/sliders/NumberSelector';
+import Divider from '@/components/dividers/Divider';
+import CreatorGallery from '@/components/image/gallery/CreatorGallery';
+import Select from '@/components/select/Select';
 import frontendClient from '@/lib/client/frontendClient';
+import { ImageWizardContextType, ImageWizardContext } from '@/lib/contexts/ImageWizardContext';
 import { CreateDalleImagesRequest, CreateDalleImagesResponse } from '@/lib/controllers/CreateDalleImagesController';
 import { ImageSize } from '@/lib/enums/ImageSizes';
 import { ImageLocationDetails } from '@/types/sharedTypes';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 export const ReviewStep = () => {
     const [value, setValue] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
-    const [currentFinalSubmission, setCurrentFinalSubmission] = useState<string>('');
     const [recentlyUploadedImages, setRecentlyUploadedImages] = useState<ImageLocationDetails[]>([]);
-    const [artStyle, setArtStyle] = useState<string>('');
+    const { compilePrompt, textPrompts, artStyles } = useContext<ImageWizardContextType>(ImageWizardContext);
+    const [finalPrompt, setFinalPrompt] = useState<string>('');
+
+    useEffect(() => {
+        const currentFinalSubmission = textPrompts.finalPrompt;
+        console.log(currentFinalSubmission);
+        const artist = artStyles.artist?.artistName;
+        const artStyleName = artStyles.style;
+        const styleWorking = `in the style of ${artist}${artStyleName.length > 0 ? ` mixed with ${artStyleName}` : ''}`;
+
+        const final = (currentFinalSubmission.trim() + ' ' + styleWorking).trim();
+        console.log(final);
+        setFinalPrompt(final);
+    }, []);
+
+    const submitToCreateImages = async () => {
+        if (finalPrompt.trim() === '') return;
+        setLoading(true);
+        const res = await frontendClient.post<CreateDalleImagesRequest, CreateDalleImagesResponse>('create/dalle', {
+            n: value,
+            size: ImageSize.large,
+            prompt: finalPrompt
+        });
+        setRecentlyUploadedImages(res.details);
+        setLoading(false);
+    };
 
     return (
-        <>
-            <NumberSelector value={value} setValue={setValue} label="Choose how many images you would like to create" />
-            <div style={{ height: '3rem' }} />
-            <ButtonWithSpinner
-                loading={loading}
-                onClick={async () => {
-                    if (currentFinalSubmission.trim() === '') return;
-                    setLoading(true);
-                    const res = await frontendClient.post<CreateDalleImagesRequest, CreateDalleImagesResponse>('create/dalle', {
-                        n: value,
-                        size: ImageSize.large,
-                        prompt: (currentFinalSubmission.trim() + ' ' + artStyle).trim()
-                    });
-                    setRecentlyUploadedImages(res.details);
-                    setLoading(false);
-                }}
-            >
-                Submit to create new images
-            </ButtonWithSpinner>
-        </>
+        <div>
+            <div className="flex w-full flex-row items-center justify-between">
+                <div>
+                    <Select
+                        options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+                        onChange={(e: any) => setValue(e.target.value)}
+                        value={value}
+                        label="Choose how many images you would like to create"
+                    />
+                </div>
+                <div className="flex flex-col justify-center">
+                    <span className="mb-4 text-center font-extrabold">Your prompt</span>
+                    <span className="text-center">{finalPrompt}</span>
+                </div>
+                <div>
+                    <ButtonWithSpinner loading={loading} onClick={submitToCreateImages}>
+                        Submit to create new images (3 credits)
+                    </ButtonWithSpinner>
+                </div>
+            </div>
+            <Divider text="" />
+            <div aria-label="right side of the screen" className="flex-grow  bg-blue-300 p-4">
+                {recentlyUploadedImages && <CreatorGallery details={recentlyUploadedImages} />}
+            </div>
+        </div>
     );
 };

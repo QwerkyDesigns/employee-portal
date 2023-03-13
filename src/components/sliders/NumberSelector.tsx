@@ -1,6 +1,6 @@
 import { SetState } from '@/types/sharedTypes';
 
-export const NumberSelector = ({ value, setValue, label }: { label: string; value: number; setValue: SetState<number> }) => {
+export const NumberSelector = ({ value, setValue, label, maxValue = 10 }: { label: string; value: number; setValue: SetState<number>; maxValue?: number }) => {
     return (
         <div className="custom-number-input h-10 w-32">
             <label htmlFor="custom-input-number" className="w-full text-sm font-semibold text-gray-700">
@@ -21,13 +21,13 @@ export const NumberSelector = ({ value, setValue, label }: { label: string; valu
                 </button>
                 <input
                     type="number"
-                    className="text-md md:text-basecursor-default flex w-full items-center bg-gray-300 text-center font-semibold text-gray-700 outline-none hover:text-black focus:text-black  focus:outline-none"
+                    className="text-md md:text-basecursor-default font-semi`bo`ld flex w-full items-center border-none bg-gray-300 text-center text-gray-700 outline-none hover:text-black focus:text-black  focus:outline-none"
                     name="custom-input-number"
                     value={value}
                 ></input>
                 <button
                     onClick={() => {
-                        if (value < 10) {
+                        if (value < maxValue) {
                             const newVal = value + 1;
                             setValue(newVal);
                         }

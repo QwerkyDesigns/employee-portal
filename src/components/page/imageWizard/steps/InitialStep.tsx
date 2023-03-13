@@ -23,7 +23,7 @@ export const InitialStep = () => {
                 <div className="mt-12 mb-12 flex w-full flex-col justify-center">
                     <TextArea
                         value={textPrompts.whatDoYouWantToBuild}
-                        label="What artwork would you like to create today?"
+                        label="Describe for us what you'd like to create..."
                         onChange={(e) => {
                             if (setTextPrompts) {
                                 setTextPrompts((cur) => {

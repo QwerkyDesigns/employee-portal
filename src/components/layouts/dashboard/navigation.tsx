@@ -28,11 +28,11 @@ const navItems: NavItems[] = [
         icon: DocumentMagnifyingGlassIcon
     },
 
-    {
-        name: 'Send images to your stores',
-        href: '/portal/review/categorize',
-        icon: DocumentCheckIcon
-    }
+    // {
+    //     name: 'Send images to your stores',
+    //     href: '/portal/review/categorize',
+    //     icon: DocumentCheckIcon
+    // }
 ];
 
 export const navigation = (currentRoute: string) => {
