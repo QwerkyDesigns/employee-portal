@@ -1,6 +1,6 @@
-# Welcome to the Qwerky Designs Backend Spike project
+# Welcome to Qwerky Studio
 
-This app intended to facilitate image coordination between various AI image generators, as well as a site builder store such as SquareSpace
+This app intended to facilitate image coordination between various AI image generators, as well as a site builder store such as SquareSpace. This is a living project and we're not 100% sure of its direction, but the motivation came from me wanting to set up a squarespace store to sell products that featured artwork I'd created using Dall-E. From there, its anyone's guess. But Im' sure we can make something interesting out of it 🛩️
 
 ## Development
 
