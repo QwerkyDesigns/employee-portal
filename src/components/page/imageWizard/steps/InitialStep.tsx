@@ -1,3 +1,4 @@
+import { Button } from '@/components/buttons/Button';
 import TextArea from '@/components/text/TextArea';
 import { ImageWizardContextType, ImageWizardContext, TextPrompts } from '@/lib/contexts/ImageWizardContext';
 import { useContext, useEffect, useState } from 'react';
@@ -7,23 +8,23 @@ export const InitialStep = () => {
     useEffect(() => {
         if (setShowProceedButton) {
             setShowProceedButton(
-                textPrompts.whatDoYouWantToBuild.length > 0 &&
-                    textPrompts.whatTypeOfProduct.length > 0 &&
-                    textPrompts.whoIsTheProductTargetedAt.length > 0 &&
-                    textPrompts.howDoesThisProductStandOut.length > 0
+                textPrompts.whatDoYouWantToBuild.length > 0
+                // &&
+                // textPrompts.whatTypeOfProduct.length > 0 &&
+                // textPrompts.whoIsTheProductTargetedAt.length > 0 &&
+                // textPrompts.howDoesThisProductStandOut.length > 0
             );
         }
-    }, [textPrompts.whatDoYouWantToBuild, textPrompts.whatTypeOfProduct, textPrompts.whoIsTheProductTargetedAt, textPrompts.howDoesThisProductStandOut]);
+    }, [textPrompts.whatDoYouWantToBuild]); //, textPrompts.whatTypeOfProduct, textPrompts.whoIsTheProductTargetedAt, textPrompts.howDoesThisProductStandOut]);
 
     return (
         <div aria-label="left side of the screen" className="mx-auto flex w-full flex-col border-r-indigo-400">
             <div className="w-full">
-                <div className="mt-12 mb-12 flex w-full justify-center">
+                <div className="mt-12 mb-12 flex w-full flex-col justify-center">
                     <TextArea
                         value={textPrompts.whatDoYouWantToBuild}
-                        label="What would you like to create today?"
+                        label="What artwork would you like to create today?"
                         onChange={(e) => {
-                            console.log(e.target.value);
                             if (setTextPrompts) {
                                 setTextPrompts((cur) => {
                                     return { ...cur, whatDoYouWantToBuild: e.target.value } as TextPrompts;
@@ -31,13 +32,13 @@ export const InitialStep = () => {
                             }
                         }}
                     />
+                    <Button className="float-left m-2 w-1/4">Help me generate ideas</Button>
                 </div>
                 <div className="mt-12 mb-12 flex w-full justify-center">
                     <TextArea
                         value={textPrompts.whatTypeOfProduct}
                         label="What type of product are you creating?"
                         onChange={(e) => {
-                            console.log(e.target.value);
                             if (setTextPrompts) {
                                 setTextPrompts((cur) => {
                                     return { ...cur, whatTypeOfProduct: e.target.value } as TextPrompts;
@@ -51,7 +52,6 @@ export const InitialStep = () => {
                         value={textPrompts.whoIsTheProductTargetedAt}
                         label="Who is this product targeted at?"
                         onChange={(e) => {
-                            console.log(e.target.value);
                             if (setTextPrompts) {
                                 setTextPrompts((cur) => {
                                     return { ...cur, whoIsTheProductTargetedAt: e.target.value } as TextPrompts;
@@ -65,7 +65,6 @@ export const InitialStep = () => {
                         value={textPrompts.howDoesThisProductStandOut}
                         label="How does this product stand out?"
                         onChange={(e) => {
-                            console.log(e.target.value);
                             if (setTextPrompts) {
                                 setTextPrompts((cur) => {
                                     return { ...cur, howDoesThisProductStandOut: e.target.value } as TextPrompts;
