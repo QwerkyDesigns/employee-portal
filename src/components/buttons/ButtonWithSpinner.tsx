@@ -9,7 +9,7 @@ export type ButtonWithSpinnerProps = {
 
 export const ButtonWithSpinner = ({ children, loading, onClick, icon, disabled, variant = 'solid' }: ButtonWithSpinnerProps) => {
     return (
-        <>
+        <div>
             {variant === 'solid' && (
                 <button
                     onClick={onClick}
@@ -69,6 +69,6 @@ export const ButtonWithSpinner = ({ children, loading, onClick, icon, disabled, 
                     {loading ? 'Loading...' : children}
                 </button>
             )}
-        </>
+        </div>
     );
 };

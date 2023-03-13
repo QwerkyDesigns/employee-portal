@@ -100,9 +100,6 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
             <nav aria-label="Progress">
                 <ol role="list" className="divide-y divide-gray-300 rounded-md border border-gray-300 md:flex md:divide-y-0">
                     {wizardSteps.map((step, stepIdx) => {
-                        // const shouldGoGreen = stepIdx === currentStep;
-                        // const shouldGoDarkSlate = wizardSteps[stepIdx].status === Status.completed;
-                        // const currentColor = shouldGoGreen ? 'bg-green' : shouldGoDarkSlate ? 'bg-slate-500' : 'bg-slate-100';
                         const shouldDisable = !showProceedButton;
                         return (
                             <li key={step.name} className={`relative md:flex md:flex-1`}>
@@ -124,10 +121,10 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                                         className={`flex items-center px-6 py-4 text-sm font-medium ${shouldDisable ? 'pointer-events-none' : ''}`}
                                         aria-current="step"
                                     >
-                                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-indigo-600">
-                                            <span className="text-indigo-600">{step.id}</span>
+                                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-4 border-indigo-600">
+                                            <span className=" text-indigo-600">{step.id}</span>
                                         </span>
-                                        <span className="ml-4 text-sm font-medium text-indigo-600">{step.name}</span>
+                                        <span className="ml-4 text-sm text-indigo-600 ">{step.name}</span>
                                     </a>
                                 ) : (
                                     <a
@@ -138,7 +135,7 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                                             <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-300 group-hover:border-gray-400">
                                                 <span className="text-gray-500 group-hover:text-gray-900">{step.id}</span>
                                             </span>
-                                            <span className="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">{step.name}</span>
+                                            <span className="ml-4 text-sm font-extrabold text-gray-500 underline group-hover:text-gray-900">{step.name}</span>
                                         </span>
                                     </a>
                                 )}
@@ -213,7 +210,7 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                 {currentStep === 0 && <InitialStep />}
                 {currentStep === 1 && <ChooseArtStyle />}
                 {currentStep === 2 && <RefineStep />}
-                {currentStep === 2 && <ReviewStep />}
+                {currentStep === 3 && <ReviewStep />}
             </section>
         </>
     );
@@ -233,6 +230,11 @@ export function ImageCreationWizard() {
         style: '',
         artist: undefined
     });
+
+    const compilePrompt = () => {
+        return textPrompts.whatDoYouWantToBuild;
+    };
+
     return (
         <ImageWizardContext.Provider
             value={{
@@ -243,7 +245,8 @@ export function ImageCreationWizard() {
                 textPrompts,
                 setTextPrompts,
                 artStyles,
-                setArtStyles
+                setArtStyles,
+                compilePrompt
             }}
         >
             <Container>
