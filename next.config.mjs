@@ -12,7 +12,7 @@ function defineNextConfig(config) {
     // if (process.env.NODE_ENV === 'development') {
     //     return config;
     // }
-// }
+}
 
 export default defineNextConfig({
     webpack: (config, { dev }) => {
