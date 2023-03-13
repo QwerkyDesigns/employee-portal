@@ -224,7 +224,8 @@ export function ImageCreationWizard() {
         whatDoYouWantToBuild: '',
         whatTypeOfProduct: '',
         whoIsTheProductTargetedAt: '',
-        howDoesThisProductStandOut: ''
+        howDoesThisProductStandOut: '',
+        finalPrompt: ''
     });
     const [artStyles, setArtStyles] = useState<ArtStyles>({
         style: '',
