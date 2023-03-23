@@ -1,15 +1,11 @@
 import { AuthenticatedBaseController } from '@/lib/controllers/base/AuthenticatedBaseController';
 import S3 from 'aws-sdk/clients/s3';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { GetPresignedPostUrl } from '../stores/uncategorizedCreatedImagesStore/GetPresignedPostUrl';
+import { getPresignedPostUrl } from '../stores/uncategorizedCreatedImagesStore/GetPresignedPostUrl';
 
 export class GetPresignedPost extends AuthenticatedBaseController {
-    constructor() {
-        super();
-    }
-
-    async post(req: NextApiRequest, res: NextApiResponse) {
-        const result = await GetPresignedPostUrl();
+    async post(_req: NextApiRequest, res: NextApiResponse) {
+        const result = await getPresignedPostUrl();
         return res.json({ ...result });
     }
 }

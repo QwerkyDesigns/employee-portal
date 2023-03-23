@@ -7,7 +7,7 @@ export type DalleResponse = {
     metaData: ImageBatchMetaData;
 };
 
-export default async function RequestNewDalleImageSet(prompt: string, n: number, size: ImageSize): Promise<DalleResponse> {
+export async function requestNewDalleImageSet(prompt: string, n: number, size: ImageSize): Promise<DalleResponse> {
     const response = await openApiClient.createImage({
         prompt: prompt,
         n: n,

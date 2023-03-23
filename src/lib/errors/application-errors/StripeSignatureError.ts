@@ -1,7 +1,2 @@
-class StripeSignatureError extends Error {
-    constructor(message: string) {
-        super(message);
-    }
-}
+export default class StripeSignatureError extends Error {}
 
-export default StripeSignatureError;

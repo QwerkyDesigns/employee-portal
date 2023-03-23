@@ -5,7 +5,7 @@ import createPresignedUrlForPosting from '../s3Core/createPresignedUrlForPosting
 import createPresignedUrlForViewing from '../s3Core/createPresignedUrlForViewing';
 import { imageStoreBucket } from './imageStoreConstants';
 
-export async function GetPresignedPostUrl(): Promise<{
+export async function getPresignedPostUrl(): Promise<{
     presignedUrlForUploading: S3.PresignedPost;
     presignedForViewing: string;
 }> {

@@ -8,11 +8,11 @@ export class AuthenticatedBaseController extends Controller {
     constructor() {
         super();
 
-        this.rescue(Error, (error, request, response) => {
+        this.rescue(Error, (error, _request, response) => {
             response.status(StatusCodes.ServerError).json(errors([error.message]));
         });
 
-        this.before(async (req: NextApiRequest, res: NextApiResponse) => {
+        this.before(async (req: NextApiRequest, _res: NextApiResponse) => {
             const session = await getSession({ req });
 
             if (!session) {
@@ -20,7 +20,7 @@ export class AuthenticatedBaseController extends Controller {
             }
         });
 
-        this.rescue(UnAuthenticatedError, (error, request, response) => {
+        this.rescue(UnAuthenticatedError, (error, _request, response) => {
             response.status(StatusCodes.NotAuthorized).json({
                 errors: [error.name, error.message]
             });

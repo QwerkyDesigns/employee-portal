@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getBody } from 'nextjs-backend-helpers';
+import { errors, getBody } from 'nextjs-backend-helpers';
 import { StatusCodes } from '../enums/StatusCodes';
 import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
 import ArgumentError from '../errors/bad-request/ArgumentError';
 import { PrintifyImageResource } from '../externalServices/printify/UploadImageToPrintify';
-import UploadImageToPrintify from '../externalServices/printify/UploadImageToPrintify';
+import uploadImageToPrintify from '../externalServices/printify/UploadImageToPrintify';
 import createPresignedUrlForViewing from '../stores/s3Core/createPresignedUrlForViewing';
 import { imageStoreBucket } from '../stores/uncategorizedCreatedImagesStore/imageStoreConstants';
-import { MoveFileFromThisUncategorizedContainerTo } from '../stores/uncategorizedCreatedImagesStore/MoveFileFromThisContainerTo';
+import { moveFileFromThisUncategorizedContainerTo } from '../stores/uncategorizedCreatedImagesStore/MoveFileFromThisContainerTo';
 import { archiveStoreBucket } from '../stores/archivedImageStore/archivedImageStoreConstants';
 import PrintifyError from '../errors/application-errors/PrintifyError';
 import { getSession } from 'next-auth/react';
@@ -21,7 +21,7 @@ import PrintifyApiKeyNotRegisteredError from '../errors/bad-request/PrintifyApiK
 // Imagine we've got a user that wants to send their creations to multiple places - we should support that I
 // would think. What other ideas / thoughts can you come up with?
 
-const TryGetPrintifyApi = async (emailAddres: string): Promise<string | undefined> => {
+const tryGetPrintifyApi = async (emailAddres: string): Promise<string | undefined> => {
     const account = await prisma.account.findUnique({
         where: {
             email: emailAddres
@@ -45,30 +45,31 @@ class CategorizeAndUploadController extends AuthenticatedBaseController {
     constructor() {
         super();
 
-        this.before(async (req, res) => {
+        this.before(async (req, _res, stop) => {
             const session = await getSession({ req });
 
             const userEmail = session?.user?.email;
             if (userEmail) {
-                const apiKey = await TryGetPrintifyApi(userEmail);
+                const apiKey = await tryGetPrintifyApi(userEmail);
                 if (apiKey) {
                     this.printifyClient = printifyClient(apiKey);
                     return;
                 }
             }
+            stop()
             throw new PrintifyApiKeyNotRegisteredError('Your account does not have a registered Printify Api Key. Please set one in your account settings.');
         });
 
         this.rescue(ArgumentError, (error, request, response) => {
-            response.status(StatusCodes.InvalidRequest).json({
-                errors: [error.message]
-            });
+            response.status(StatusCodes.InvalidRequest).json(errors([
+                error.message
+            ]));
         });
 
         this.rescue(PrintifyApiKeyNotRegisteredError, (error, request, response) => {
-            response.status(StatusCodes.InvalidRequest).json({
-                errors: [error.message]
-            });
+            response.status(StatusCodes.InvalidRequest).json(errors([
+                error.message
+            ]));
         });
     }
 
@@ -86,9 +87,9 @@ class CategorizeAndUploadController extends AuthenticatedBaseController {
             const preSignedUrl = await createPresignedUrlForViewing(imageStoreBucket, imageKey);
 
             // post a request to printify (need to create a printify repository)
-            const response = await UploadImageToPrintify(productName, preSignedUrl, this.printifyClient);
+            const response = await uploadImageToPrintify(productName, preSignedUrl, this.printifyClient);
             if (response === null) throw new PrintifyError('Failed to get a response from Printify');
-            await MoveFileFromThisUncategorizedContainerTo(archiveStoreBucket, imageKey);
+            await moveFileFromThisUncategorizedContainerTo(archiveStoreBucket, imageKey);
             results.push({
                 id: response.id,
                 file_name: response.file_name,

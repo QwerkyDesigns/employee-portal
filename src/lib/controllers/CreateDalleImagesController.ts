@@ -1,21 +1,21 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getBody } from 'nextjs-backend-helpers';
+import { errors, getBody } from 'nextjs-backend-helpers';
 import { StatusCodes } from '../enums/StatusCodes';
 import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
 import ArgumentError from '../errors/bad-request/ArgumentError';
 import { ImageSize } from '../enums/ImageSizes';
-import RequestNewDalleImageSet from '../externalServices/dalle/RequestNewDalleImageSet';
-import SaveDalleUrlsToS3 from '../stores/uncategorizedCreatedImagesStore/SaveFromDalleToS3';
+import { requestNewDalleImageSet } from '../externalServices/dalle/RequestNewDalleImageSet';
+import { saveDalleUrlsToS3 } from '../stores/uncategorizedCreatedImagesStore/SaveFromDalleToS3';
 import { ImageLocationDetails } from '@/types/sharedTypes';
 
 class CreateDalleImagesController extends AuthenticatedBaseController {
     constructor() {
         super();
 
-        this.rescue(ArgumentError, (error, request, response) => {
-            response.status(StatusCodes.InvalidRequest).json({
-                errors: [error.message]
-            });
+        this.rescue(ArgumentError, (error, _request, response) => {
+            response.status(StatusCodes.InvalidRequest).json(errors([
+                error.message
+            ]));
         });
     }
 
@@ -30,9 +30,9 @@ class CreateDalleImagesController extends AuthenticatedBaseController {
             prompt = prompt.slice(0, 500);
         }
 
-        const response = await RequestNewDalleImageSet(prompt, n, size);
+        const response = await requestNewDalleImageSet(prompt, n, size);
+        const imageLocationdetails = await saveDalleUrlsToS3(response.urls, response.metaData);
 
-        const imageLocationdetails = await SaveDalleUrlsToS3(response.urls, response.metaData);
         return res.json({
             details: imageLocationdetails
         });

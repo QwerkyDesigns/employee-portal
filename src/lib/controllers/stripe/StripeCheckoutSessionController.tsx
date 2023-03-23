@@ -5,6 +5,7 @@ import { AuthenticatedBaseController } from '../base/AuthenticatedBaseController
 import Stripe from 'stripe';
 import { prisma } from '@/lib/client/prisma';
 import { env } from '@/env/server.mjs';
+import { Logger } from 'nextjs-backend-helpers';
 
 const hostUrl = env.NEXTAUTH_URL;
 
@@ -12,10 +13,6 @@ const success_url = `${hostUrl}/portal/stripe/success`;
 const cancel_url = `${hostUrl}/portal/stripe/cancel`;
 
 class StripeCheckoutSessionController extends AuthenticatedBaseController {
-    constructor() {
-        super();
-    }
-
     async post(req: NextApiRequest, res: NextApiResponse<StripeCheckoutSessionResponse>) {
         const session = await getSession({ req });
         const userEmail = session?.user?.email;
@@ -41,7 +38,9 @@ class StripeCheckoutSessionController extends AuthenticatedBaseController {
             });
             return res.json({ session: checkoutSession });
         } catch (err) {
-            console.log('Error attempting to create a checkout session. No charge was made.');
+            Logger.error({
+                message: 'Error attempting to create a checkout session. No charge was made.'
+            })
             return;
         }
     }
