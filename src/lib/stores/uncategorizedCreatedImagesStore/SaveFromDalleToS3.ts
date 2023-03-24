@@ -12,7 +12,7 @@ import { S3 } from 'aws-sdk';
 
 // These are a mess. Thought I'd want meta data - was trying to avoid databases -- its time to move the meta to the DB (along with file locations)
 // and simplify the heck out of this.
-export default async function SaveDalleUrlsToS3(urls: string[], metaData: ImageBatchMetaData, tags: S3.Tag[] = []) {
+export async function saveDalleUrlsToS3(urls: string[], metaData: ImageBatchMetaData, tags: S3.Tag[] = []) {
     const data: ImageLocationDetails[] = [];
 
     const imageSet = new ImageSet();
@@ -27,7 +27,7 @@ export default async function SaveDalleUrlsToS3(urls: string[], metaData: ImageB
         const tags: S3.Tag[] = [{ Key: 'DownloadDate', Value: timeStampString }];
         const imageTransfer = new ImageTransfer(imageData, imageName, contentType, tags);
 
-        const imageLocationDetails = await SaveDalleImageFileToS3(imageTransfer);
+        const imageLocationDetails = await saveDalleImageFileToS3(imageTransfer);
 
         data.push(imageLocationDetails);
         imageElement++;
@@ -41,7 +41,7 @@ export default async function SaveDalleUrlsToS3(urls: string[], metaData: ImageB
     return data;
 }
 
-async function SaveDalleImageFileToS3(imageTransfer: ImageTransfer) {
+async function saveDalleImageFileToS3(imageTransfer: ImageTransfer) {
     const finalUploadOptions = { ...uploadOptions, tags: imageTransfer.tags };
     const imageName = imageTransfer.imageName.getFileName();
     const data = Buffer.from(imageTransfer.arrayBuffer);

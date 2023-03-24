@@ -7,10 +7,6 @@ import createPresignedUrlForViewing from '../stores/s3Core/createPresignedUrlFor
 import { imageStoreBucket } from '../stores/uncategorizedCreatedImagesStore/imageStoreConstants';
 
 class GetImageByKeyController extends AuthenticatedBaseController {
-    constructor() {
-        super();
-    }
-
     async get(req: NextApiRequest, res: NextApiResponse<GetSingleImageUrlResponse>) {
         const { keys } = getQuery<{ keys: string }>(req);
         const { keys: parsedKey } = queryString.parse(`keys=${keys}`);

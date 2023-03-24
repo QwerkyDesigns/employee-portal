@@ -17,7 +17,7 @@ export type PrintifyImageUploadRequestPayload = {
     url: string;
 };
 
-export default async function UploadImageToPrintify(fileName: string, url: string, printifyClient: AxiosInstance) {
+export default async function uploadImageToPrintify(fileName: string, url: string, printifyClient: AxiosInstance) {
     const payload: PrintifyImageUploadRequestPayload = {
         file_name: fileName,
         url
