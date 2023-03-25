@@ -5,7 +5,7 @@ import { CheckIcon } from '@heroicons/react/24/solid';
 import { SetState } from '@/types/sharedTypes';
 import { InitialStep } from './steps/InitialStep';
 import { RefineStep } from './steps/RefineStep';
-import { ReviewStep } from './steps/ReviewStep';
+import { CreateStep } from './steps/CreateStep';
 import { Button } from '@/components/buttons/Button';
 import Container from '@/components/container/Container';
 import { ChooseArtStyle } from './steps/ChooseArtStyle';
@@ -16,6 +16,13 @@ enum Status {
     completed
 }
 
+const StepNames = {
+    Initial: 'Initial',
+    Refine: 'Refine',
+    ChooseArtStyles: 'Choose Art Styles',
+    Create: 'Create!'
+};
+
 export type WizardStep = {
     id: number;
     name: string | any;
@@ -25,27 +32,25 @@ export type WizardStep = {
 const wizardSteps: WizardStep[] = [
     {
         id: 0,
-        name: 'Initial',
+        name: StepNames.Initial,
         summary: "Provide a simple description of what you'd like to create. We'll refine this if necessary",
         status: Status.incomplete
     },
     {
         id: 1,
-        name: 'Choose Art Styles',
-        summary: 'You can make your artwork in the style of well known artists',
-        status: Status.incomplete
-    },
-
-    {
-        id: 2,
-        name: 'Refine',
+        name: StepNames.Refine,
         summary: "The image generation process isn't perfect, and sometimes we need to give it additional information",
         status: Status.incomplete
     },
-
+    {
+        id: 2,
+        name: StepNames.ChooseArtStyles,
+        summary: 'You can make your artwork in the style of well known artists',
+        status: Status.incomplete
+    },
     {
         id: 3,
-        name: 'Review',
+        name: StepNames.Create,
         summary:
             "Lets have a look at your results! You may select from these some actions to take, such as publish to your storefront. You'll be able to review these later as well.",
         status: Status.incomplete
@@ -204,10 +209,10 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                 )}
             </section>
             <section>
-                {currentStep === 0 && <InitialStep />}
-                {currentStep === 1 && <ChooseArtStyle />}
-                {currentStep === 2 && <RefineStep />}
-                {currentStep === 3 && <ReviewStep />}
+                {currentStep === wizardSteps.filter((x) => x.name === StepNames.Initial)[0].id && <InitialStep />}
+                {currentStep === wizardSteps.filter((x) => x.name === StepNames.Refine)[0].id && <RefineStep />}
+                {currentStep === wizardSteps.filter((x) => x.name === StepNames.ChooseArtStyles)[0].id && <ChooseArtStyle />}
+                {currentStep === wizardSteps.filter((x) => x.name === StepNames.Create)[0].id && <CreateStep />}
             </section>
         </>
     );

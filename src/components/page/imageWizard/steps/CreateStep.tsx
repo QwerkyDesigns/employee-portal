@@ -9,11 +9,11 @@ import { ImageSize } from '@/lib/enums/ImageSizes';
 import { ImageLocationDetails } from '@/types/sharedTypes';
 import { useContext, useEffect, useState } from 'react';
 
-export const ReviewStep = () => {
+export const CreateStep = () => {
     const [value, setValue] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
     const [recentlyUploadedImages, setRecentlyUploadedImages] = useState<ImageLocationDetails[]>([]);
-    const { compilePrompt, textPrompts, artStyles } = useContext<ImageWizardContextType>(ImageWizardContext);
+    const { textPrompts, artStyles } = useContext<ImageWizardContextType>(ImageWizardContext);
     const [finalPrompt, setFinalPrompt] = useState<string>('');
 
     useEffect(() => {
@@ -42,7 +42,7 @@ export const ReviewStep = () => {
 
     return (
         <div>
-            <div className="flex w-full flex-row items-center justify-between">
+            <div className="mb-2 flex w-full flex-row items-center justify-between">
                 <div>
                     <Select
                         options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
@@ -61,10 +61,14 @@ export const ReviewStep = () => {
                     </ButtonWithSpinner>
                 </div>
             </div>
-            <Divider text="" />
-            <div aria-label="right side of the screen" className="flex-grow  bg-blue-300 p-4">
-                {recentlyUploadedImages && <CreatorGallery details={recentlyUploadedImages} />}
-            </div>
+            {recentlyUploadedImages.length > 0 && (
+                <>
+                    <Divider text="" />
+                    <div aria-label="right side of the screen" className="mt-2 flex-grow bg-blue-300 p-4">
+                        <CreatorGallery details={recentlyUploadedImages} />
+                    </div>
+                </>
+            )}
         </div>
     );
 };

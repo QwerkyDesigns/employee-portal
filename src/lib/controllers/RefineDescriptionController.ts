@@ -17,27 +17,18 @@ class GenerateTextController extends AuthenticatedBaseController {
     }
 
     async post(req: NextApiRequest, res: NextApiResponse) {
-        console.log('-=========={API1}============');
-        const { prompt } = getBody<GenerateTextRequest>(req);
-        console.log(prompt);
-        console.log('-=========={API2}============');
-        const generatedText = await requestNewGeneratedText(prompt);
-        console.log(generatedText);
-        console.log('-=========={API3}============');
-        const textChoices = generatedText.map((x) => x.text ?? '').filter((x) => x !== '');
-        console.log(textChoices);
-        console.log('-========={APIE}=============');
-
-        return res.json({ choices: textChoices });
+        const { prompt } = getBody<GenerateIdeasRequest>(req);
+        const generatedIdeas = await requestNewGeneratedText(prompt);
+        return res.json({ ideas: generatedIdeas });
     }
 }
 
-export type GenerateTextRequest = {
+export type GenerateIdeasRequest = {
     prompt: string;
 };
 
-export type GenerateTextResponse = {
-    choices: string[];
+export type GenerateIdeasResponse = {
+    ideas: string[];
 };
 
 export default GenerateTextController;

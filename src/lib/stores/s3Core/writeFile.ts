@@ -28,8 +28,15 @@ export default async function writeFile(
         throw new S3UploadError(`Error: ${err}... ${JSON.stringify(data)}`);
     };
 
-    await s3Client.upload(params, uploadOptions, callback).promise();
-    const presignedUrlForViewing = await createPresignedUrlForViewing(bucket, key);
+    try {
 
-    return { name: file.name, presignedUrl: presignedUrlForViewing };
+        console.log("ATTEMPTING UPLOAD RMO QISZWRD");
+        await s3Client.upload(params, uploadOptions, callback).promise();
+        const presignedUrlForViewing = await createPresignedUrlForViewing(bucket, key);
+        return { name: file.name, presignedUrl: presignedUrlForViewing };
+    } catch (err: any) {
+        console.log("|||||||||||||||||||||||||||");
+        console.log(err);
+        return { name: '', presignedUrl: '' };
+    }
 }

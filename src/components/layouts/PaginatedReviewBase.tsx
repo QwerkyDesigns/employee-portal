@@ -28,8 +28,8 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
 
     useEffect(() => {
         (async () => {
-            const res = await frontendClient.get<GetAllUntransferredResponse>(`review/get-all-untransferred?origin=${origin}`);
-            const filteredImageMetas = res.imageMetas.filter((x: PresignedUrlWithMeta) => !x.key.endsWith('meta.txt'));
+            const { imageMetas } = await frontendClient.get<GetAllUntransferredResponse>(`review/get-all-untransferred?origin=${origin}`);
+            const filteredImageMetas = imageMetas.filter((x: PresignedUrlWithMeta) => !x.key.endsWith('meta.txt'));
 
             const batches = batch(filteredImageMetas, showNumber) as PresignedUrlWithMeta[][];
 

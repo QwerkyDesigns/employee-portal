@@ -1,25 +1,27 @@
 import { Button } from '@/components/buttons/Button';
+import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner';
 import TextArea from '@/components/text/TextArea';
 import TextInput from '@/components/text/TextInput';
 import frontendClient from '@/lib/client/frontendClient';
 import { ImageWizardContextType, ImageWizardContext, TextPrompts } from '@/lib/contexts/ImageWizardContext';
-import { GenerateIdeasRequest, GenerateIdeasResponse } from '@/lib/controllers/GenerateIdeasController';
+import { GenerateTextRequest, GenerateTextResponse } from '@/lib/controllers/GenerateIdeasController';
 import { calculateTextGenerationCost } from '@/lib/serviceCosts/openAiCosts';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 const formatPrompt = (prompt: string) => {
     const trimmedPrompt = prompt.trim();
     if (trimmedPrompt.trim().length === 0) {
-        return 'Can you provide some interesting ideas that would produce visually interesting images if provided to an image generation AI? These ideas need to be reasonably detailed and no longer than 50 words';
+        return 'Provide 5 interesting original ideas that would produce visually interesting images if provided to an image generation AI? These ideas need to be reasonably detailed and no longer than 50 words';
     }
 
-    return `Can you provide some interesting ideas that would produce visually interesting images if provided to an image generation AI related to: ${trimmedPrompt}`;
+    return `Provide 5 interesting original ideas that would produce visually interesting images if provided to an image generation AI related to: ${trimmedPrompt}`;
 };
 
 export const InitialStep = () => {
     const { setShowProceedButton, textPrompts, setTextPrompts } = useContext<ImageWizardContextType>(ImageWizardContext);
     const [currentCost, setCurrentCost] = useState<number>(0);
     const [helpGenIdeasPrompt, setHelpGenIdeasPrompt] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
     useEffect(() => {
         if (setShowProceedButton) {
             setShowProceedButton(textPrompts.whatDoYouWantToBuild.length > 0);
@@ -35,16 +37,29 @@ export const InitialStep = () => {
     };
 
     const onGenerateIdeasClick = async () => {
-        const prompt = formatPrompt(helpGenIdeasPrompt);
-        console.log('------------');
-        console.log(prompt);
-        const response = await frontendClient.post<GenerateIdeasRequest, GenerateIdeasResponse>('create/generate-ideas', { prompt });
-        console.log("THE BIT RESPONGS");
-        console.log(response);
-        if (setTextPrompts) {
-            setTextPrompts((cur) => {
-                return { ...cur, whatDoYouWantToBuild: response.ideas[0] };
-            });
+        setLoading(true);
+        try {
+            const prompt = formatPrompt(helpGenIdeasPrompt);
+            const response = await frontendClient.post<GenerateTextRequest, GenerateTextResponse>('create/text-completion', { prompt });
+            const firstChoice = response.choices[0];
+            console.log(firstChoice);
+            if (setTextPrompts) {
+                setTextPrompts((cur) => {
+                    return {
+                        ...cur,
+                        whatDoYouWantToBuild:
+                            'Here are a few ideas you might find reasonable: \n' +
+                            firstChoice
+                                .trim()
+                                .split('\n')
+                                .filter((x: string) => x.trim().length > 0 && x !== '.' && x !== 'each.')
+                                .join('\n')
+                    };
+                });
+            }
+        } catch {
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -64,9 +79,9 @@ export const InitialStep = () => {
                         }}
                     />
                     <div className="space-around flex flex-row">
-                        <Button onClick={onGenerateIdeasClick} className="float-left m-2 w-1/4">
+                        <ButtonWithSpinner onClick={onGenerateIdeasClick} className="float-left m-2" loading={loading}>
                             Help me generate ideas (Current Cost: ${currentCost})
-                        </Button>
+                        </ButtonWithSpinner>
                         <TextInput onChange={onGenIdeasPromptChange} value={helpGenIdeasPrompt} />
                     </div>
                 </div>
