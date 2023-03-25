@@ -14,10 +14,10 @@
         "prettify": "npx prettier -w --config ./prettier.config.js .",
         "bootstrap": "npm ci && cp -n ./dev.config.js.template ./dev.config.js; cp -n ./.env.development.template ./.env.development; true",
         "setup": "npm run bootstrap && npm run db:dev:reset && npm run setup-db",
-        "update": "rm -rf ./node_modules && db:dev:migrate && npm run bootstrap",
+        "update": "rm -rf ./node_modules && npm run bootstrap && npm run db:dev:migrate ",
         "server": "dotenv -e .env.production npm start",
-        "db:dev:migrate": "dotenv -e ./scripts/.env.external -- npx prisma migrate dev",
-        "db:dev:reset": "dotenv -e ./scripts/.env.external -- npx prisma migrate reset",
+        "db:dev:migrate": "npx dotenv -e ./scripts/.env.external -- npx prisma migrate dev",
+        "db:dev:reset": "npx dotenv -e ./scripts/.env.external -- npx prisma migrate reset",
         "db:dev:refresh": "npm run db:dev:reset && npm run db:dev:migrate && npm run setup-db",
         "setup-db": "node scripts/setup-database.js",
         "delete_node_modules": "npm i -g rimraf && rimraf node_modules",
@@ -92,7 +92,7 @@
         "autoprefixer": "^10.4.13",
         "cross-env": "^7.0.3",
         "dotenv": "^16.0.3",
-        "dotenv-cli": "^7.0.0",
+        "dotenv-cli": "^7.1.0",
         "eslint": "8.26.0",
         "eslint-config-next": "13.0.2",
         "postcss": "^8.4.21",
@@ -102,5 +102,5 @@
         "readline-sync": "^1.4.10",
         "tailwindcss": "^3.2.7",
         "uuid": "^9.0.0"
-    } 
+    }
 }

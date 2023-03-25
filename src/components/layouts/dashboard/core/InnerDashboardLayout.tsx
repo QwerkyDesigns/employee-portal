@@ -13,7 +13,7 @@ function classNames({ classes = [] }: { classes?: any[] } = {}) {
     return classes.filter(Boolean).join(' ');
 }
 
-export const InnerDashboardLayout = ({ pageName, session, children }: DashboardProps) => {
+export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
     const { currentFunds, setSideBarOpen, sideBarOpen } = useContext<DashboardContextType>(DashboardContext);
     const router = useRouter();
     const currentRoute = router.route;
@@ -388,7 +388,7 @@ export const InnerDashboardLayout = ({ pageName, session, children }: DashboardP
                 </div>
                 <main className="flex-1">
                     <DashboardInnerHeader currentFunds={currentFunds} />
-                    <div className="mx-4">{children}</div>
+                    <div className="px-4 bg-white">{children}</div>
                 </main>
             </div>
         </div>
