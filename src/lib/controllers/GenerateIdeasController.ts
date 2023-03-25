@@ -3,12 +3,9 @@ import { getBody } from 'nextjs-backend-helpers';
 import { StatusCodes } from '../enums/StatusCodes';
 import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
 import ArgumentError from '../errors/bad-request/ArgumentError';
-import { ImageSize } from '../enums/ImageSizes';
-import RequestNewDalleImageSet from '../externalServices/dalle/RequestNewDalleImageSet';
-import SaveDalleUrlsToS3 from '../stores/uncategorizedCreatedImagesStore/SaveFromDalleToS3';
-import { ImageLocationDetails } from '@/types/sharedTypes';
+import requestNewGeneratedText from '../externalServices/openAi/chatgpt/requestNewText';
 
-class GenerateIdeasController extends AuthenticatedBaseController {
+class GenerateTextController extends AuthenticatedBaseController {
     constructor() {
         super();
 
@@ -21,12 +18,14 @@ class GenerateIdeasController extends AuthenticatedBaseController {
 
     async post(req: NextApiRequest, res: NextApiResponse) {
         const { prompt } = getBody<GenerateIdeasRequest>(req);
+        console.log('heeeeeeeeres the prompt!--------------------');
+        console.log(prompt);
+        const generatedIdeas = await requestNewGeneratedText(prompt);
+        console.log('generated Ideas: ');
+        console.log(generatedIdeas);
 
-        const response = await RequestNewDalleImageSet(prompt, n, size);
-
-        const imageLocationdetails = await SaveDalleUrlsToS3(response.urls, response.metaData);
         return res.json({
-            details: imageLocationdetails
+            ideas: generatedIdeas
         });
     }
 }
@@ -39,4 +38,4 @@ export type GenerateIdeasResponse = {
     ideas: string[];
 };
 
-export default GenerateIdeasController;
+export default GenerateTextController;

@@ -1,6 +1,6 @@
 import openApiClient from '@/lib/client/openApiClient';
 import { ImageBatchMetaData } from '@/types/ImageBatchmetaData';
-import { ImageSize } from '../../enums/ImageSizes';
+import { ImageSize } from '../../../enums/ImageSizes';
 
 export type DalleResponse = {
     urls: string[];

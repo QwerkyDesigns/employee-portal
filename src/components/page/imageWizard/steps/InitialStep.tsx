@@ -3,8 +3,18 @@ import TextArea from '@/components/text/TextArea';
 import TextInput from '@/components/text/TextInput';
 import frontendClient from '@/lib/client/frontendClient';
 import { ImageWizardContextType, ImageWizardContext, TextPrompts } from '@/lib/contexts/ImageWizardContext';
+import { GenerateIdeasRequest, GenerateIdeasResponse } from '@/lib/controllers/GenerateIdeasController';
 import { calculateTextGenerationCost } from '@/lib/serviceCosts/openAiCosts';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
+
+const formatPrompt = (prompt: string) => {
+    const trimmedPrompt = prompt.trim();
+    if (trimmedPrompt.trim().length === 0) {
+        return 'Can you provide some interesting ideas that would produce visually interesting images if provided to an image generation AI? These ideas need to be reasonably detailed and no longer than 50 words';
+    }
+
+    return `Can you provide some interesting ideas that would produce visually interesting images if provided to an image generation AI related to: ${trimmedPrompt}`;
+};
 
 export const InitialStep = () => {
     const { setShowProceedButton, textPrompts, setTextPrompts } = useContext<ImageWizardContextType>(ImageWizardContext);
@@ -25,7 +35,17 @@ export const InitialStep = () => {
     };
 
     const onGenerateIdeasClick = async () => {
-        const response = await frontendClient.post<{}, {}>('create/generate-ideas');
+        const prompt = formatPrompt(helpGenIdeasPrompt);
+        console.log('------------');
+        console.log(prompt);
+        const response = await frontendClient.post<GenerateIdeasRequest, GenerateIdeasResponse>('create/generate-ideas', { prompt });
+        console.log("THE BIT RESPONGS");
+        console.log(response);
+        if (setTextPrompts) {
+            setTextPrompts((cur) => {
+                return { ...cur, whatDoYouWantToBuild: response.ideas[0] };
+            });
+        }
     };
 
     return (
