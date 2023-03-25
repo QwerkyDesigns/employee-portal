@@ -1,21 +1,32 @@
 import { Button } from '@/components/buttons/Button';
 import TextArea from '@/components/text/TextArea';
+import TextInput from '@/components/text/TextInput';
+import frontendClient from '@/lib/client/frontendClient';
 import { ImageWizardContextType, ImageWizardContext, TextPrompts } from '@/lib/contexts/ImageWizardContext';
-import { useContext, useEffect, useState } from 'react';
+import { calculateTextGenerationCost } from '@/lib/serviceCosts/openAiCosts';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 export const InitialStep = () => {
     const { setShowProceedButton, textPrompts, setTextPrompts } = useContext<ImageWizardContextType>(ImageWizardContext);
+    const [currentCost, setCurrentCost] = useState<number>(0);
+    const [helpGenIdeasPrompt, setHelpGenIdeasPrompt] = useState<string>('');
     useEffect(() => {
         if (setShowProceedButton) {
-            setShowProceedButton(
-                textPrompts.whatDoYouWantToBuild.length > 0
-                // &&
-                // textPrompts.whatTypeOfProduct.length > 0 &&
-                // textPrompts.whoIsTheProductTargetedAt.length > 0 &&
-                // textPrompts.howDoesThisProductStandOut.length > 0
-            );
+            setShowProceedButton(textPrompts.whatDoYouWantToBuild.length > 0);
         }
-    }, [textPrompts.whatDoYouWantToBuild]); //, textPrompts.whatTypeOfProduct, textPrompts.whoIsTheProductTargetedAt, textPrompts.howDoesThisProductStandOut]);
+    }, [textPrompts.whatDoYouWantToBuild]);
+
+    const onGenIdeasPromptChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const text = e.target.value;
+        setHelpGenIdeasPrompt(text);
+
+        const computedCost = calculateTextGenerationCost(text.split(' ').length);
+        setCurrentCost(computedCost);
+    };
+
+    const onGenerateIdeasClick = async () => {
+        const response = await frontendClient.post<{}, {}>('create/generate-ideas');
+    };
 
     return (
         <div aria-label="left side of the screen" className="mx-auto flex w-full flex-col border-r-indigo-400">
@@ -32,7 +43,12 @@ export const InitialStep = () => {
                             }
                         }}
                     />
-                    <Button className="float-left m-2 w-1/4">Help me generate ideas</Button>
+                    <div className="space-around flex flex-row">
+                        <Button onClick={onGenerateIdeasClick} className="float-left m-2 w-1/4">
+                            Help me generate ideas (Current Cost: ${currentCost})
+                        </Button>
+                        <TextInput onChange={onGenIdeasPromptChange} value={helpGenIdeasPrompt} />
+                    </div>
                 </div>
                 <div className="mt-12 mb-12 flex w-full justify-center">
                     <TextArea

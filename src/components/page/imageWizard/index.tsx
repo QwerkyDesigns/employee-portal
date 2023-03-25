@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React, { FC, useContext, useState } from 'react';
 import { ArtStyles, ImageWizardContext, ImageWizardContextType, TextPrompts } from '@/lib/contexts/ImageWizardContext';
 import { CheckIcon } from '@heroicons/react/24/solid';
-import { ArtistStyleMeta, SetState } from '@/types/sharedTypes';
+import { SetState } from '@/types/sharedTypes';
 import { InitialStep } from './steps/InitialStep';
 import { RefineStep } from './steps/RefineStep';
 import { ReviewStep } from './steps/ReviewStep';
@@ -122,7 +122,7 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                                         aria-current="step"
                                     >
                                         <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-4 border-indigo-600">
-                                            <span className=" text-indigo-600">{step.id}</span>
+                                            <span className=" text-indigo-600">{step.id + 1}</span>
                                         </span>
                                         <span className="ml-4 text-sm text-indigo-600 ">{step.name}</span>
                                     </a>
@@ -133,7 +133,7 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                                     >
                                         <span className="flex items-center px-6 py-4 text-sm font-medium">
                                             <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-300 group-hover:border-gray-400">
-                                                <span className="text-gray-500 group-hover:text-gray-900">{step.id}</span>
+                                                <span className="text-gray-500 group-hover:text-gray-900">{step.id + 1}</span>
                                             </span>
                                             <span className="ml-4 text-sm font-extrabold text-gray-500 underline group-hover:text-gray-900">{step.name}</span>
                                         </span>
@@ -181,10 +181,7 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                     <div>
                         <Button
                             onClick={() => {
-                                console.log(currentStep);
-                                console.log(wizardSteps.length);
                                 if (currentStep >= wizardSteps.length - 1) return;
-
                                 const current = wizardSteps[currentStep];
                                 current.status = Status.completed;
                                 if (setCurrentSteps !== undefined) {
