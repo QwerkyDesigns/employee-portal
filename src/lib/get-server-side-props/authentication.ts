@@ -13,7 +13,7 @@ export async function isAuthenticated(context: GetServerSidePropsContext<ParsedU
         return {
             redirect: {
                 permanent: false,
-                destination: '/401'
+                destination: '/login'
             }
         };
     }
