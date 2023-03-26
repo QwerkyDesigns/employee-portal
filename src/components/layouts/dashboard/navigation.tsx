@@ -26,7 +26,7 @@ const navItems: NavItems[] = [
         name: 'Review your Uploads',
         href: '/portal/review/uploads',
         icon: DocumentMagnifyingGlassIcon
-    },
+    }
 
     // {
     //     name: 'Send images to your stores',

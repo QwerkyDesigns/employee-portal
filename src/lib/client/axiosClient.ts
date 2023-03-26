@@ -23,7 +23,7 @@ export class AxiosClient implements IAxiosClient {
             return Promise.resolve(null as unknown as T);
         }
     }
-    
+
     async post<TIn, TOut>(url: string, payload?: TIn, config?: AxiosRequestConfig): Promise<TOut> {
         try {
             const response = (await this.client.post(url, payload, config)) as AxiosResponse<TOut>;
@@ -33,7 +33,7 @@ export class AxiosClient implements IAxiosClient {
             return Promise.resolve(null as unknown as TOut);
         }
     }
-    
+
     async put<TIn, TOut>(url: string, payload?: TIn, config?: AxiosRequestConfig): Promise<TOut> {
         try {
             const response = (await this.client.put(url, payload, config)) as AxiosResponse<TOut>;
@@ -43,7 +43,7 @@ export class AxiosClient implements IAxiosClient {
             return Promise.resolve(null as unknown as TOut);
         }
     }
-    
+
     async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
         try {
             const response = await this.client.delete(url, config);
