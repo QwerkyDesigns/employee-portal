@@ -10,6 +10,8 @@ import { IconArrowBigTop } from '@tabler/icons';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+export { getServerSideProps } from '@/lib/get-server-side-props/authentication';
+
 const DEFAULT_SHOW_NUMBER = 5;
 
 type ImageKeyMap = {
@@ -27,7 +29,7 @@ export default function AllArchivedPage() {
 
     useEffect(() => {
         (async () => {
-            const res = await frontendClient.get<GetAllArchivedResponse>(`archive/get-all-archived`);
+            const res = await frontendClient.get<GetAllArchivedResponse>('archive/get-all-archived');
             const filteredImageMetas = res.imageMetas.filter((x) => !x.key.endsWith('meta.txt'));
 
             const batches = batch(filteredImageMetas);
@@ -52,7 +54,7 @@ export default function AllArchivedPage() {
     };
     return (
         <DashboardLayout pageName="Archived Photos">
-            <div className="mt-4 mb-4 flex h-full flex-col items-center justify-center">
+            <div className="my-4 flex h-full flex-col items-center justify-center">
                 <Pagination
                     page={page}
                     onChange={(p) => {

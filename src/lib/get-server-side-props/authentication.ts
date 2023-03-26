@@ -1,11 +1,12 @@
 import { GetServerSidePropsContext, PreviewData } from 'next';
 import { getServerSession, Session } from 'next-auth';
-import { authOptions as nextAuthOptions } from '@/pages/api/auth/[...nextauth]';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { ParsedUrlQuery } from 'querystring';
 
 export const getServerAuthSession = async (ctx: { req: GetServerSidePropsContext['req']; res: GetServerSidePropsContext['res'] }) => {
-    return await getServerSession(ctx.req, ctx.res, nextAuthOptions);
+    return await getServerSession(ctx.req, ctx.res, authOptions);
 };
+
 export async function isAuthenticated(context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>, callback: (session: Session) => any) {
     const session = await getServerAuthSession(context);
 
@@ -18,5 +19,15 @@ export async function isAuthenticated(context: GetServerSidePropsContext<ParsedU
         };
     }
 
-    return callback(session);
+    return callback(session as any);
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) {
+    return await isAuthenticated(context, (session) => {
+        return {
+            props: {
+                session
+            }
+        };
+    });
 }

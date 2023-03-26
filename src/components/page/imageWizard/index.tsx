@@ -107,14 +107,14 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                     {wizardSteps.map((step, stepIdx) => {
                         const shouldDisable = !showProceedButton;
                         return (
-                            <li key={step.name} className={`relative md:flex md:flex-1`}>
+                            <li key={step.name} className={'relative md:flex md:flex-1'}>
                                 {step.status === Status.completed ? (
                                     <a
                                         onClick={() => setCurrentStep(stepIdx)}
                                         className={`group flex w-full items-center ${shouldDisable ? 'pointer-events-none' : ''}`}
                                     >
                                         <span className="flex items-center px-6 py-4 text-sm font-medium">
-                                            <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-600 group-hover:bg-indigo-800">
+                                            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-indigo-600 group-hover:bg-indigo-800">
                                                 <CheckIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                             </span>
                                             <span className="ml-4 text-sm font-medium text-gray-900">{step.name}</span>

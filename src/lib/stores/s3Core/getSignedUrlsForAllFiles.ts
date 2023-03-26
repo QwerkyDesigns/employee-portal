@@ -6,7 +6,7 @@ import createPresignedUrlForViewing from './createPresignedUrlForViewing';
 import listFiles from './listFiles';
 
 export default async function getSignedUrlsForAllFiles(bucket: string, prefix?: string): Promise<PresignedUrlWithMeta[]> {
-    let key = prefix ?? '';
+    const key = prefix ?? '';
     try {
         const fileObjects = await listFiles(bucket, prefix);
         const keys = fileObjects.map((obj) => obj.Key).filter((k) => k !== undefined && !key.endsWith('meta.txt')) as string[];

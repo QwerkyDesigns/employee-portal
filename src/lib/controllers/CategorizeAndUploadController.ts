@@ -56,20 +56,16 @@ class CategorizeAndUploadController extends AuthenticatedBaseController {
                     return;
                 }
             }
-            stop()
+            stop();
             throw new PrintifyApiKeyNotRegisteredError('Your account does not have a registered Printify Api Key. Please set one in your account settings.');
         });
 
         this.rescue(ArgumentError, (error, request, response) => {
-            response.status(StatusCodes.InvalidRequest).json(errors([
-                error.message
-            ]));
+            response.status(StatusCodes.InvalidRequest).json(errors([error.message]));
         });
 
         this.rescue(PrintifyApiKeyNotRegisteredError, (error, request, response) => {
-            response.status(StatusCodes.InvalidRequest).json(errors([
-                error.message
-            ]));
+            response.status(StatusCodes.InvalidRequest).json(errors([error.message]));
         });
     }
 

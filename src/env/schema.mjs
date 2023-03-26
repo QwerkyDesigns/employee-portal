@@ -22,7 +22,7 @@ export const serverSchema = z.object({
     STRIPE_WEBHOOK_SECRET: z.string(),
     DATABASE_URL: z.string(),
     IMAGE_STORE_BUCKET: z.string(),
-    ARCHIVE_STORE_BUCKET: z.string(),
+    ARCHIVE_STORE_BUCKET: z.string()
 });
 
 /**

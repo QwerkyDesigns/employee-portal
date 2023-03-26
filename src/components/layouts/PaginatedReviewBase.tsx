@@ -11,6 +11,8 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { DashboardLayout } from './DashboardLayout';
 
+export { getServerSideProps } from '@/lib/get-server-side-props/authentication';
+
 const DEFAULT_SHOW_NUMBER = 5;
 
 type ImageKeyMap = {
@@ -89,7 +91,7 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
                 <Text align="center">No uploaded images to review</Text>
             ) : (
                 <>
-                    <div className="mt-4 mb-4 flex h-full flex-col items-center justify-center">
+                    <div className="my-4 flex h-full flex-col items-center justify-center">
                         <Pagination
                             className="bottom-0 flex flex-row items-end justify-end"
                             title="Image pages"

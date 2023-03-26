@@ -6,7 +6,7 @@ import { Logger } from 'nextjs-backend-helpers';
 import listFiles from './listFiles';
 
 export default async function getAllFiles(bucket: string, prefix?: string): Promise<Buffer[]> {
-    let key = prefix ?? '';
+    const key = prefix ?? '';
     try {
         const fileObjects = await listFiles(bucket, prefix);
         const keys = fileObjects.map((fo) => fo.Key);

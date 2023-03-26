@@ -8,7 +8,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     return (
         <SessionProvider session={session}>
             <MantineProvider withGlobalStyles withNormalizeCSS>
-                <Component {...pageProps} />
+                <Component {...pageProps} session={session} />
             </MantineProvider>
         </SessionProvider>
     );

@@ -57,10 +57,10 @@ type FeatureType = {
 };
 
 export function PrimaryFeatures() {
-    let [tabOrientation, setTabOrientation] = useState('horizontal');
+    const [tabOrientation, setTabOrientation] = useState('horizontal');
 
     useEffect(() => {
-        let lgMediaQuery = window.matchMedia('(min-width: 1024px)');
+        const lgMediaQuery = window.matchMedia('(min-width: 1024px)');
 
         function onMediaQueryChange({ matches }: { matches: boolean }) {
             setTabOrientation(matches ? 'vertical' : 'horizontal');

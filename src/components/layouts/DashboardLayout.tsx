@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { isAuthenticated } from '@/lib/get-server-side-props/authentication';
-import { GetServerSidePropsContext, PreviewData } from 'next';
-import { ParsedUrlQuery } from 'querystring';
 import frontendClient from '@/lib/client/frontendClient';
 import { GetCurrentFundsResponse } from '@/lib/controllers/GetCurrentFundsController';
 import { DashboardContext } from '@/lib/contexts/DashboardContext';
@@ -23,7 +20,6 @@ export function DashboardLayout({ pageName, children }: { pageName: string; chil
     useEffect(() => {
         (async () => {
             const response = await frontendClient.get<GetCurrentFundsResponse>('account/funds/available');
-            console.log(response);
             if (response) {
                 setCurrentFunds(response.currentFunds);
             } else {
@@ -41,12 +37,4 @@ export function DashboardLayout({ pageName, children }: { pageName: string; chil
     ) : (
         <AccessDenied />
     );
-}
-
-export async function getServerSideProps(context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) {
-    return await isAuthenticated(context, (session) => ({
-        props: {
-            session
-        }
-    }));
 }

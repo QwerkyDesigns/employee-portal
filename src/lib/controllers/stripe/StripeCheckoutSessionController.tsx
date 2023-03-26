@@ -40,7 +40,7 @@ class StripeCheckoutSessionController extends AuthenticatedBaseController {
         } catch (err) {
             Logger.error({
                 message: 'Error attempting to create a checkout session. No charge was made.'
-            })
+            });
             return;
         }
     }

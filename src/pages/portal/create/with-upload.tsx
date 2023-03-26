@@ -1,8 +1,10 @@
 import { PngImageDropzone } from '@/components/transfers/UploadFiles';
 import { useState } from 'react';
 import Image from 'next/image';
-import { Loader, Progress } from '@mantine/core';
+import { Loader } from '@mantine/core';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
+
+export { getServerSideProps } from '@/lib/get-server-side-props/authentication';
 
 export default function UploadImages() {
     const [uploadedImages, setUploadedImages] = useState<string[]>([]);

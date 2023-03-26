@@ -11,8 +11,7 @@ class MoveToArchiveController extends AuthenticatedBaseController {
         super();
 
         this.rescue(ArgumentError, (error, request, response) => {
-            response.status(StatusCodes.InvalidRequest)
-                .json(errors([error.message]))
+            response.status(StatusCodes.InvalidRequest).json(errors([error.message]));
         });
     }
 

@@ -1,6 +1,8 @@
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { useRouter } from 'next/router';
 
+export { getServerSideProps } from '@/lib/get-server-side-props/authentication';
+
 export default function Success() {
     const router = useRouter();
 

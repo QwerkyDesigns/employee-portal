@@ -9,6 +9,8 @@ import { CreateImageCategorizationRequest, CreateImageCategorizationResponse } f
 import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 
+export { getServerSideProps } from '@/lib/get-server-side-props/authentication';
+
 export default function CategorizePage() {
     const router = useRouter();
     const { keys } = router.query;

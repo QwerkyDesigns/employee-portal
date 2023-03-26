@@ -65,7 +65,7 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                                         </button>
                                     </div>
                                 </Transition.Child>
-                                <div className="flex flex-shrink-0 items-center px-4">
+                                <div className="flex shrink-0 items-center px-4">
                                     <h2 className="text-2xl font-extrabold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
                                         Creator Studio
                                     </h2>
@@ -109,7 +109,7 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>
-                        <div className="w-14 flex-shrink-0" aria-hidden="true">
+                        <div className="w-14 shrink-0" aria-hidden="true">
                             {/* Dummy element to force sidebar to shrink to fit close icon */}
                         </div>
                     </div>
@@ -118,7 +118,7 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
 
             {/* Static sidebar for desktop */}
             <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-gray-200 lg:bg-gray-100 lg:pt-5 lg:pb-4">
-                <div className="flex flex-shrink-0 items-center px-6">
+                <div className="flex shrink-0 items-center px-6">
                     <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=purple&shade=500" alt="Your Company" />
                 </div>
                 {/* Sidebar component, swap this element with another sidebar if you like */}
@@ -129,13 +129,13 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                             <Menu.Button className="group w-full rounded-md bg-gray-100 px-3.5 py-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-100">
                                 <span className="flex w-full items-center justify-between">
                                     <span className="flex min-w-0 items-center justify-between space-x-3">
-                                        <img className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300" src={session?.user?.image ?? ''} alt="" />
+                                        <img className="h-10 w-10 shrink-0 rounded-full bg-gray-300" src={session?.user?.image ?? ''} alt="" />
                                         <span className="flex min-w-0 flex-1 flex-col">
                                             <span className="truncate text-sm font-medium text-gray-900">{session?.user?.name}</span>
                                             <span className="truncate text-sm text-gray-500">{session?.user?.email}</span>
                                         </span>
                                     </span>
-                                    <ChevronUpDownIcon className="h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                                    <ChevronUpDownIcon className="h-5 w-5 shrink-0 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
                                 </span>
                             </Menu.Button>
                         </div>
@@ -148,7 +148,7 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                             leaveFrom="transform opacity-100 scale-100"
                             leaveTo="transform opacity-0 scale-95"
                         >
-                            <Menu.Items className="absolute right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <Menu.Items className="absolute inset-x-0 z-10 mx-3 mt-1 origin-top divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                 <div className="py-1">
                                     <Menu.Item>
                                         {({ active }) => (
@@ -257,7 +257,7 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
             {/* Main column */}
             <div className="flex flex-col lg:pl-64">
                 {/* Search header */}
-                <div className="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white lg:hidden">
+                <div className="sticky top-0 z-10 flex h-16 shrink-0 border-b border-gray-200 bg-white lg:hidden">
                     <button
                         type="button"
                         className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 lg:hidden"
@@ -388,7 +388,7 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                 </div>
                 <main className="flex-1">
                     <DashboardInnerHeader currentFunds={currentFunds} />
-                    <div className="px-4 bg-white">{children}</div>
+                    <div className="bg-white px-4">{children}</div>
                 </main>
             </div>
         </div>

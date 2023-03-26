@@ -24,8 +24,8 @@ export function PngImageDropzone({ setUploadedImages, setLoading, ...props }: Pn
         if (filteredFiles.length === 0) return;
         const recentlyUploadedUrls: string[] = [];
         for (let i = 0; i < filteredFiles.length; i++) {
-            let currentFile = filteredFiles[i];
-            let { path: _, ...rest } = currentFile;
+            const currentFile = filteredFiles[i];
+            const { path: _, ...rest } = currentFile;
 
             console.info('starting presigned');
             const result = await frontendClient.post<{ fileName: string }, GetPresignedPostResponse>('create/presigned-posts', {

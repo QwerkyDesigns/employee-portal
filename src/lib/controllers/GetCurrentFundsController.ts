@@ -13,13 +13,13 @@ export class GetCurrentFundsController extends AuthenticatedBaseController {
             Logger.debug({
                 message: 'current funds',
                 currentFunds
-            })
+            });
             if (currentFunds) {
                 return res.json({ currentFunds });
             }
             throw new Error('CurrentFunds was undefined');
         }
-        throw new Error(`Could not find the user account for {emailAddress}`);
+        throw new Error('Could not find the user account for {emailAddress}');
     }
 }
 
