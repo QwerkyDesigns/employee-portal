@@ -59,7 +59,7 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
 
     const archive = async (key: string | null) => {
         setLoading(true);
-        await frontendClient.post<{}, {}>(`archive/move-to-archive?imageKeys=${key === null ? getCheckImageKeys().join(',') : key}`);
+        await frontendClient.post<object, object>(`archive/move-to-archive?imageKeys=${key === null ? getCheckImageKeys().join(',') : key}`);
 
         const res = await frontendClient.get<GetAllUntransferredResponse>(`review/get-all-untransferred?origin=${origin}`);
         const filteredImageMetas = res.imageMetas.filter((x: PresignedUrlWithMeta) => !x.key.endsWith('meta.txt'));

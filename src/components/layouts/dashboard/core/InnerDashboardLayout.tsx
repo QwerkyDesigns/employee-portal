@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import DashboardInnerHeader from '../DashboardInnerHeader';
 import { signOut } from 'next-auth/react';
 import { DashboardProps } from '@/types/sharedTypes';
+import Link from 'next/link';
 
 function classNames({ classes = [] }: { classes?: any[] } = {}) {
     return classes.filter(Boolean).join(' ');
@@ -99,11 +100,11 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                                             ))}
                                         </div>
                                         <div className="mt-8">
-                                            <a href="/tsAndCs">
+                                            <Link href="/tsAndCs">
                                                 <h3 className="px-3 text-sm font-medium text-gray-500" id="mobile-teams-headline">
                                                     Terms and Conditions
                                                 </h3>
-                                            </a>
+                                            </Link>
                                         </div>
                                     </nav>
                                 </div>
@@ -164,26 +165,26 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                                     </Menu.Item>
                                     <Menu.Item>
                                         {({ active }) => (
-                                            <a
+                                            <Link
                                                 href="/portal/account"
                                                 className={classNames({
                                                     classes: [active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']
                                                 })}
                                             >
                                                 Settings
-                                            </a>
+                                            </Link>
                                         )}
                                     </Menu.Item>
                                     <Menu.Item>
                                         {({ active }) => (
-                                            <a
+                                            <Link
                                                 href="/portal/stripe/payments/choose-top-up-method"
                                                 className={classNames({
                                                     classes: [active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']
                                                 })}
                                             >
                                                 Top Up your Funds
-                                            </a>
+                                            </Link>
                                         )}
                                     </Menu.Item>
                                 </div>
@@ -245,11 +246,11 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                         </div>
                         <div className="mt-8">
                             {/* Secondary navigation */}
-                            <a href="/tsAndCs">
+                            <Link href="/tsAndCs">
                                 <h3 className="px-3 text-sm font-medium text-gray-500" id="desktop-teams-headline">
                                     Terms and Conditions
                                 </h3>
-                            </a>
+                            </Link>
                         </div>
                     </nav>
                 </div>

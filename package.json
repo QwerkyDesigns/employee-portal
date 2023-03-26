@@ -9,7 +9,7 @@
         "build:prd": "dotenv -e .env.production -- next build",
         "cibuild": "next build",
         "start": "dotenv -e .env.production next start",
-        "lint": "dotenv -e .env.development next lint && npm run prettify",
+        "lint": "npx eslint ./src/**/*.ts* --fix && npm run prettify",
         "lint:fix": "npx eslint ./src/**/*.ts* --fix && npm run prettify",
         "prettify": "npx prettier -w --config ./prettier.config.js .",
         "bootstrap": "npm ci && cp -n ./dev.config.js.template ./dev.config.js; cp -n ./.env.development.template ./.env.development; true",

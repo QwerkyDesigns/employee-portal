@@ -26,6 +26,6 @@ export type MoveToArchiveRequest = {
     imageKeys: string;
 };
 
-export type MoveToArchiveResponse = {};
+export type MoveToArchiveResponse = object;
 
 export default MoveToArchiveController;

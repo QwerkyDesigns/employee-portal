@@ -46,7 +46,7 @@ class StripeCheckoutSessionController extends AuthenticatedBaseController {
     }
 }
 
-export type StripeCheckoutSessionRequest = {};
+export type StripeCheckoutSessionRequest = object;
 
 export type StripeCheckoutSessionResponse = {
     session: Stripe.Checkout.Session;

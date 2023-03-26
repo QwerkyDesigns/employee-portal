@@ -19,7 +19,9 @@ export function Hero() {
                 </span>{' '}
                 for everyone
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">Generating the artwork is the hard part. We'll help you with that.</p>
+            <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">
+                Generating the artwork is the hard part. We&apos;ll help you with that.
+            </p>
             <div className="mt-10 flex justify-center gap-x-6">
                 <Button href="/register" variant={'solid'} color={'slate'} className={''}>
                     Get 100 free credits to start!

@@ -21,19 +21,21 @@ export async function handleWebhookEvent(event: Stripe.Event, signature: string)
     });
 
     switch (event.type) {
-        case StripeEventsCustomBullshit.PaymentIntentSucceeded:
-            const paymentIntentSucceeded = event.data.object as Stripe.PaymentIntent;
-            const fundsAdded = paymentIntentSucceeded.amount;
-            const customerId = (paymentIntentSucceeded.customer ?? 'cus_NT3Q8CV9Ayl59L') as string; // in dev, this is null, so what to do?
-            updateUsageLimit(customerId, fundsAdded);
-            break;
+    case StripeEventsCustomBullshit.PaymentIntentSucceeded: {
+        const paymentIntentSucceeded = event.data.object as Stripe.PaymentIntent;
+        const fundsAdded = paymentIntentSucceeded.amount;
+        const customerId = (paymentIntentSucceeded.customer ?? 'cus_NT3Q8CV9Ayl59L') as string; // in dev, this is null, so what to do?
+        updateUsageLimit(customerId, fundsAdded);
+        break;
+    }
 
-        case StripeEventsCustomBullshit.PaymentIntentPaymentFailed:
-            break;
+    case StripeEventsCustomBullshit.PaymentIntentPaymentFailed: {
+        break;
 
         // TODO: ... handle other event types
+    }
 
-        default:
-            Logger.debug({ message: `Unhandled event type ${event.type}` });
+    default:
+        Logger.debug({ message: `Unhandled event type ${event.type}` });
     }
 }
