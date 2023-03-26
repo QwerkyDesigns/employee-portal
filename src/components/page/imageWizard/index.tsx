@@ -2,10 +2,10 @@ import clsx from 'clsx';
 import React, { FC, useContext, useState } from 'react';
 import { ArtStyles, ImageWizardContext, ImageWizardContextType, TextPrompts } from '@/lib/contexts/ImageWizardContext';
 import { CheckIcon } from '@heroicons/react/24/solid';
-import { ArtistStyleMeta, SetState } from '@/types/sharedTypes';
+import { SetState } from '@/types/sharedTypes';
 import { InitialStep } from './steps/InitialStep';
 import { RefineStep } from './steps/RefineStep';
-import { ReviewStep } from './steps/ReviewStep';
+import { CreateStep } from './steps/CreateStep';
 import { Button } from '@/components/buttons/Button';
 import Container from '@/components/container/Container';
 import { ChooseArtStyle } from './steps/ChooseArtStyle';
@@ -16,6 +16,13 @@ enum Status {
     completed
 }
 
+const StepNames = {
+    Initial: 'Initial',
+    Refine: 'Refine',
+    ChooseArtStyles: 'Choose Art Styles',
+    Create: 'Create!'
+};
+
 export type WizardStep = {
     id: number;
     name: string | any;
@@ -25,27 +32,25 @@ export type WizardStep = {
 const wizardSteps: WizardStep[] = [
     {
         id: 0,
-        name: 'Initial',
+        name: StepNames.Initial,
         summary: "Provide a simple description of what you'd like to create. We'll refine this if necessary",
         status: Status.incomplete
     },
     {
         id: 1,
-        name: 'Choose Art Styles',
-        summary: 'You can make your artwork in the style of well known artists',
-        status: Status.incomplete
-    },
-
-    {
-        id: 2,
-        name: 'Refine',
+        name: StepNames.Refine,
         summary: "The image generation process isn't perfect, and sometimes we need to give it additional information",
         status: Status.incomplete
     },
-
+    {
+        id: 2,
+        name: StepNames.ChooseArtStyles,
+        summary: 'You can make your artwork in the style of well known artists',
+        status: Status.incomplete
+    },
     {
         id: 3,
-        name: 'Review',
+        name: StepNames.Create,
         summary:
             "Lets have a look at your results! You may select from these some actions to take, such as publish to your storefront. You'll be able to review these later as well.",
         status: Status.incomplete
@@ -100,15 +105,14 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
             <nav aria-label="Progress">
                 <ol role="list" className="divide-y divide-gray-300 rounded-md border border-gray-300 md:flex md:divide-y-0">
                     {wizardSteps.map((step, stepIdx) => {
-                        const shouldGoGreen = stepIdx === currentStep;
-                        const shouldGoDarkSlate = wizardSteps[stepIdx].status === Status.completed;
-
-                        const currentColor = shouldGoGreen ? 'bg-green' : shouldGoDarkSlate ? 'bg-slate-500' : 'bg-slate-100';
-
+                        const shouldDisable = !showProceedButton;
                         return (
                             <li key={step.name} className={`relative md:flex md:flex-1`}>
                                 {step.status === Status.completed ? (
-                                    <a onClick={() => setCurrentStep(stepIdx)} className="group flex w-full items-center">
+                                    <a
+                                        onClick={() => setCurrentStep(stepIdx)}
+                                        className={`group flex w-full items-center ${shouldDisable ? 'pointer-events-none' : ''}`}
+                                    >
                                         <span className="flex items-center px-6 py-4 text-sm font-medium">
                                             <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-600 group-hover:bg-indigo-800">
                                                 <CheckIcon className="h-6 w-6 text-white" aria-hidden="true" />
@@ -117,19 +121,26 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                                         </span>
                                     </a>
                                 ) : step.status === Status.current ? (
-                                    <a onClick={() => setCurrentStep(stepIdx)} className="flex items-center px-6 py-4 text-sm font-medium" aria-current="step">
-                                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-indigo-600">
-                                            <span className="text-indigo-600">{step.id}</span>
+                                    <a
+                                        onClick={() => setCurrentStep(stepIdx)}
+                                        className={`flex items-center px-6 py-4 text-sm font-medium ${shouldDisable ? 'pointer-events-none' : ''}`}
+                                        aria-current="step"
+                                    >
+                                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-4 border-indigo-600">
+                                            <span className=" text-indigo-600">{step.id + 1}</span>
                                         </span>
-                                        <span className="ml-4 text-sm font-medium text-indigo-600">{step.name}</span>
+                                        <span className="ml-4 text-sm text-indigo-600 ">{step.name}</span>
                                     </a>
                                 ) : (
-                                    <a onClick={() => setCurrentStep(stepIdx)} className="group flex items-center w-full">
+                                    <a
+                                        onClick={() => setCurrentStep(stepIdx)}
+                                        className={`group flex w-full items-center ${shouldDisable ? 'pointer-events-none' : ''}`}
+                                    >
                                         <span className="flex items-center px-6 py-4 text-sm font-medium">
                                             <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-300 group-hover:border-gray-400">
-                                                <span className="text-gray-500 group-hover:text-gray-900">{step.id}</span>
+                                                <span className="text-gray-500 group-hover:text-gray-900">{step.id + 1}</span>
                                             </span>
-                                            <span className="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">{step.name}</span>
+                                            <span className="ml-4 text-sm font-extrabold text-gray-500 underline group-hover:text-gray-900">{step.name}</span>
                                         </span>
                                     </a>
                                 )}
@@ -171,14 +182,11 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                     <div />
                 )}
                 <div className="flex-1" />
-                {currentStep < wizardSteps.length && showProceedButton ? (
+                {currentStep < wizardSteps.length - 1 && showProceedButton ? (
                     <div>
                         <Button
                             onClick={() => {
-                                console.log(currentStep);
-                                console.log(wizardSteps.length);
-                                if (currentStep >= wizardSteps.length) return;
-
+                                if (currentStep >= wizardSteps.length - 1) return;
                                 const current = wizardSteps[currentStep];
                                 current.status = Status.completed;
                                 if (setCurrentSteps !== undefined) {
@@ -201,10 +209,10 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                 )}
             </section>
             <section>
-                {currentStep === 0 && <InitialStep />}
-                {currentStep === 1 && <ChooseArtStyle />}
-                {currentStep === 2 && <RefineStep />}
-                {currentStep === 2 && <ReviewStep />}
+                {currentStep === wizardSteps.filter((x) => x.name === StepNames.Initial)[0].id && <InitialStep />}
+                {currentStep === wizardSteps.filter((x) => x.name === StepNames.Refine)[0].id && <RefineStep />}
+                {currentStep === wizardSteps.filter((x) => x.name === StepNames.ChooseArtStyles)[0].id && <ChooseArtStyle />}
+                {currentStep === wizardSteps.filter((x) => x.name === StepNames.Create)[0].id && <CreateStep />}
             </section>
         </>
     );
@@ -218,12 +226,18 @@ export function ImageCreationWizard() {
         whatDoYouWantToBuild: '',
         whatTypeOfProduct: '',
         whoIsTheProductTargetedAt: '',
-        howDoesThisProductStandOut: ''
+        howDoesThisProductStandOut: '',
+        finalPrompt: ''
     });
     const [artStyles, setArtStyles] = useState<ArtStyles>({
         style: '',
         artist: undefined
     });
+
+    const compilePrompt = () => {
+        return textPrompts.whatDoYouWantToBuild;
+    };
+
     return (
         <ImageWizardContext.Provider
             value={{
@@ -234,7 +248,8 @@ export function ImageCreationWizard() {
                 textPrompts,
                 setTextPrompts,
                 artStyles,
-                setArtStyles
+                setArtStyles,
+                compilePrompt
             }}
         >
             <Container>

@@ -4,18 +4,16 @@ import { StatusCodes } from '../enums/StatusCodes';
 import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
 import ArgumentError from '../errors/bad-request/ArgumentError';
 import { ImageSize } from '../enums/ImageSizes';
-import { requestNewDalleImageSet } from '../externalServices/dalle/RequestNewDalleImageSet';
-import { saveDalleUrlsToS3 } from '../stores/uncategorizedCreatedImagesStore/SaveFromDalleToS3';
 import { ImageLocationDetails } from '@/types/sharedTypes';
+import { requestNewDalleImageSet } from '../externalServices/openAi/dalle/RequestNewDalleImageSet';
+import { saveDalleUrlsToS3 } from '../stores/uncategorizedCreatedImagesStore/SaveFromDalleToS3';
 
 class CreateDalleImagesController extends AuthenticatedBaseController {
     constructor() {
         super();
 
         this.rescue(ArgumentError, (error, _request, response) => {
-            response.status(StatusCodes.InvalidRequest).json(errors([
-                error.message
-            ]));
+            response.status(StatusCodes.InvalidRequest).json(errors([error.message]));
         });
     }
 

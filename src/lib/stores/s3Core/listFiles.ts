@@ -9,9 +9,11 @@ export default async function listFiles(bucket: string, prefix?: string): Promis
         Prefix: prefix ?? ''
     };
     try {
+        console.log(params);
         const response = await s3Client.listObjects(params).promise();
         return response.Contents ?? [];
     } catch (err) {
+        console.log(err);
         throw new S3DownloadError('Failed to list all objects', StatusCodes.ServerError);
     }
 }

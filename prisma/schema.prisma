@@ -38,3 +38,20 @@ model ExternalServices {
     printifyApiKey String    @unique
     Account        Account[]
 }
+
+model OriginalTextDescriptions {
+    id     Int    @id @default(autoincrement())
+    prompt String
+}
+
+model TextRefinements {
+    id            Int    @id @default(autoincrement())
+    refinedPrompt String
+    aiModelUsed   String
+}
+
+model Images {
+    id         Int    @id @default(autoincrement())
+    storageKey String @unique
+    promptUsed String
+}

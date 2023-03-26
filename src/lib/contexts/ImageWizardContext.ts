@@ -7,6 +7,7 @@ export type TextPrompts = {
     whatTypeOfProduct: string;
     whoIsTheProductTargetedAt: string;
     howDoesThisProductStandOut: string;
+    finalPrompt: string;
 };
 
 export type ArtStyles = {
@@ -23,6 +24,7 @@ export type ImageWizardContextType = {
     setTextPrompts: SetState<TextPrompts> | undefined;
     artStyles: ArtStyles;
     setArtStyles: SetState<ArtStyles> | undefined;
+    compilePrompt: (() => string) | undefined;
 };
 
 const defaultImageWizardContext: ImageWizardContextType = {
@@ -39,9 +41,11 @@ const defaultImageWizardContext: ImageWizardContextType = {
         whatDoYouWantToBuild: '',
         whatTypeOfProduct: '',
         whoIsTheProductTargetedAt: '',
-        howDoesThisProductStandOut: ''
+        howDoesThisProductStandOut: '',
+        finalPrompt: ''
     },
-    setTextPrompts: undefined
+    setTextPrompts: undefined,
+    compilePrompt: undefined
 };
 
 export const ImageWizardContext = createContext<ImageWizardContextType>(defaultImageWizardContext);

@@ -5,23 +5,24 @@ import ArgumentError from '../errors/bad-request/ArgumentError';
 import { ImageOrigin } from '../enums/ImageOrigin';
 import retrieveAllTransfers from '../stores/uncategorizedCreatedImagesStore/RetrieveAllTransfers';
 import { PresignedUrlWithMeta } from '@/types/sharedTypes';
+import { env } from '@/env/server.mjs';
+
+const parseImageOrigin = (originQueryParam: string) => {
+    switch (originQueryParam) {
+        case ImageOrigin.Dalle:
+            return ImageOrigin.Dalle;
+        case ImageOrigin.Upload:
+            return ImageOrigin.Upload;
+        default:
+            throw new ArgumentError(`Query must be provided, one of '${ImageOrigin.Dalle}' or '${ImageOrigin.Upload}'`);
+    }
+};
 
 class GetAllUntransferredController extends AuthenticatedBaseController {
-    parseImageOrigin = (originQueryParam: string) => {
-        switch (originQueryParam) {
-            case ImageOrigin.Dalle:
-                return ImageOrigin.Dalle;
-            case ImageOrigin.Upload:
-                return ImageOrigin.Upload;
-            default:
-                throw new ArgumentError(`Query must be provided, one of '${ImageOrigin.Dalle}' or '${ImageOrigin.Upload}'`);
-        }
-    };
-
     async get(req: NextApiRequest, res: NextApiResponse<GetAllUntransferredResponse>) {
         const { origin } = getQuery<{ origin: string }>(req);
-        const imageOrigin = this.parseImageOrigin(origin);
-        const allViewingUrls = await retrieveAllTransfers(imageOrigin);
+        const imageOrigin = parseImageOrigin(origin);
+        const allViewingUrls = await retrieveAllTransfers(env.IMAGE_STORE_BUCKET, imageOrigin);
         return res.json({ imageMetas: allViewingUrls });
     }
 }
