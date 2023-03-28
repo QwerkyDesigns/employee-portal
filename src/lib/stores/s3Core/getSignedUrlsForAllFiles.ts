@@ -6,7 +6,7 @@ import createPresignedUrlForViewing from './createPresignedUrlForViewing';
 import listFiles from './listFiles';
 
 export default async function getSignedUrlsForAllFiles(bucket: string, prefix?: string): Promise<PresignedUrlWithMeta[]> {
-    let key = prefix ?? '';
+    const key = prefix ?? '';
     try {
         const fileObjects = await listFiles(bucket, prefix);
         const keys = fileObjects.map((obj) => obj.Key).filter((k) => k !== undefined && !key.endsWith('meta.txt')) as string[];
@@ -25,6 +25,6 @@ export default async function getSignedUrlsForAllFiles(bucket: string, prefix?: 
         Logger.error({
             message: err as string
         });
-        throw new S3DownloadError(`Error retrieving presigned urls`, StatusCodes.ServerError);
+        throw new S3DownloadError('Error retrieving presigned urls', StatusCodes.ServerError);
     }
 }

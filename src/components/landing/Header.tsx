@@ -86,9 +86,7 @@ export function Header() {
                         <div className="hidden md:block">
                             <NavLink href="/login">Sign in</NavLink>
                         </div>
-                        <Button href="/register">
-                            Get started today
-                        </Button>
+                        <Button href="/register">Get started today</Button>
                         <div className="-mr-1 md:hidden">
                             <MobileNavigation />
                         </div>

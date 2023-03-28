@@ -1,4 +1,3 @@
-import { env } from '@/env/server.mjs';
 import axios, { AxiosInstance } from 'axios';
 
 const printifyClient = (apiKey: string): AxiosInstance =>

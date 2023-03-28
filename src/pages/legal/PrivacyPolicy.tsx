@@ -1,4 +1,4 @@
-import PrivacyPolicy from '../../components/page/legal/PrivacyPolicy.mdx';
+import { PrivacyPolicy } from "@/components/page/legal/PrivacyPolicy";
 
 export default function PrivacyPolicyPage() {
     return (

@@ -6,6 +6,16 @@ module.exports = {
     content: ['./src/**/*.{js,ts,jsx,tsx}'],
     theme: {
         extend: {
+            borderRadius: {
+                '4xl': '2rem'
+            },
+            fontFamily: {
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+                display: ['Lexend', ...defaultTheme.fontFamily.sans]
+            },
+            maxWidth: {
+                '2xl': '40rem'
+            },
             colors: {
                 primary: '#059DC0',
                 secondary: '#6AF2F0',
@@ -35,18 +45,7 @@ module.exports = {
             '8xl': ['6rem', { lineHeight: '1' }],
             '9xl': ['8rem', { lineHeight: '1' }]
         },
-        extend: {
-            borderRadius: {
-                '4xl': '2rem'
-            },
-            fontFamily: {
-                sans: ['Inter', ...defaultTheme.fontFamily.sans],
-                display: ['Lexend', ...defaultTheme.fontFamily.sans]
-            },
-            maxWidth: {
-                '2xl': '40rem'
-            }
-        }
+
     },
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')]
 };

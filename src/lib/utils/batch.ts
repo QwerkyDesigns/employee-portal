@@ -1,4 +1,4 @@
-export function batch<T>(batchable: T[], batchSize: number = 5): T[][] {
+export function batch<T>(batchable: T[], batchSize = 5): T[][] {
     const batches: T[][] = [];
     let currentBatch: T[] = [];
 

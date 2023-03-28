@@ -4,7 +4,7 @@ import Container from '../container/Container';
 export function Hero() {
     return (
         <Container className="pt-20 pb-16 text-center lg:pt-32">
-            <h1 className="mx-auto max-w-4xl font-display text-5xl font-medium tracking-tight text-slate-900 sm:text-7xl">
+            <h1 className="font-display mx-auto max-w-4xl text-5xl font-medium tracking-tight text-slate-900 sm:text-7xl">
                 Artwork{' '}
                 <span className="relative whitespace-nowrap text-blue-600">
                     <svg
@@ -19,7 +19,9 @@ export function Hero() {
                 </span>{' '}
                 for everyone
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">Generating the artwork is the hard part. We'll help you with that.</p>
+            <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">
+                Generating the artwork is the hard part. We&apos;ll help you with that.
+            </p>
             <div className="mt-10 flex justify-center gap-x-6">
                 <Button href="/register" variant={'solid'} color={'slate'} className={''}>
                     Get 100 free credits to start!

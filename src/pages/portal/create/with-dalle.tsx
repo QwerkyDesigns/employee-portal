@@ -10,6 +10,8 @@ import frontendClient from '@/lib/client/frontendClient';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { ImageLocationDetails } from '@/types/sharedTypes';
 
+export { getServerSideProps } from '@/lib/get-server-side-props/authentication';
+
 export const ArtStyles = [
     'hyperrealism',
     'photorealism',
@@ -80,16 +82,16 @@ export default function CreateWithDallePage() {
                     </div>
 
                     <div className="w-full">
-                        <div className="mt-12 mb-12 flex w-full justify-center">
+                        <div className="my-12 flex w-full justify-center">
                             <TextArea value={whatDoYouWantToBuild} label="What would you like to create today?" onChange={WhatDoYouWantToBuild} />
                         </div>
-                        <div className="mt-12 mb-12 flex w-full justify-center">
+                        <div className="my-12 flex w-full justify-center">
                             <TextArea value={whatTypeOfProduct} label="What type of product are you creating?" onChange={WhatTypeOfProduct} />
                         </div>
-                        <div className="mt-12 mb-12 flex w-full justify-center">
+                        <div className="my-12 flex w-full justify-center">
                             <TextArea value={whoIsTheProductTargetedAt} label="Who is this product targeted at?" onChange={WhoIsTheProductTargetedAt} />
                         </div>
-                        <div className="mt-12 mb-12 flex w-full justify-center">
+                        <div className="my-12 flex w-full justify-center">
                             <TextArea value={howDoesThisProductStandOut} label="How does this product stand out?" onChange={HowDoesThisProductStandOut} />
                         </div>
                     </div>
@@ -112,7 +114,7 @@ export default function CreateWithDallePage() {
                     </ButtonWithSpinner>
                     <div style={{ height: '3rem' }} />
                 </div>
-                <div aria-label="right side of the screen" className="flex-grow  bg-blue-300 p-4">
+                <div aria-label="right side of the screen" className="grow  bg-blue-300 p-4">
                     {recentlyUploadedImages && <CreatorGallery details={recentlyUploadedImages} />}
                 </div>
             </div>

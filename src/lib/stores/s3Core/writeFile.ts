@@ -29,13 +29,10 @@ export default async function writeFile(
     };
 
     try {
-
-        console.log("ATTEMPTING UPLOAD RMO QISZWRD");
         await s3Client.upload(params, uploadOptions, callback).promise();
         const presignedUrlForViewing = await createPresignedUrlForViewing(bucket, key);
         return { name: file.name, presignedUrl: presignedUrlForViewing };
     } catch (err: any) {
-        console.log("|||||||||||||||||||||||||||");
         console.log(err);
         return { name: '', presignedUrl: '' };
     }

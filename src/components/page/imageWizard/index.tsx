@@ -33,13 +33,13 @@ const wizardSteps: WizardStep[] = [
     {
         id: 0,
         name: StepNames.Initial,
-        summary: "Provide a simple description of what you'd like to create. We'll refine this if necessary",
+        summary: 'Provide a simple description of what you\'d like to create. We\'ll refine this if necessary',
         status: Status.incomplete
     },
     {
         id: 1,
         name: StepNames.Refine,
-        summary: "The image generation process isn't perfect, and sometimes we need to give it additional information",
+        summary: 'The image generation process isn\'t perfect, and sometimes we need to give it additional information',
         status: Status.incomplete
     },
     {
@@ -52,7 +52,7 @@ const wizardSteps: WizardStep[] = [
         id: 3,
         name: StepNames.Create,
         summary:
-            "Lets have a look at your results! You may select from these some actions to take, such as publish to your storefront. You'll be able to review these later as well.",
+            'Lets have a look at your results! You may select from these some actions to take, such as publish to your storefront. You\'ll be able to review these later as well.',
         status: Status.incomplete
     }
 ];
@@ -67,7 +67,7 @@ const WizardStep: FC<WizardStepProps> = ({ wizardStep, isActive, className, ...p
     return (
         <div className={clsx(className, !isActive && 'opacity-75 hover:opacity-100')} {...props}>
             <h3 className={clsx('mt-6 text-sm font-medium', isActive ? 'text-blue-600' : 'text-slate-600')}>{wizardStep.name}</h3>
-            <p className="mt-2 font-display text-xl text-slate-900">{wizardStep.summary}</p>
+            <p className="font-display mt-2 text-xl text-slate-900">{wizardStep.summary}</p>
         </div>
     );
 };
@@ -107,14 +107,14 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                     {wizardSteps.map((step, stepIdx) => {
                         const shouldDisable = !showProceedButton;
                         return (
-                            <li key={step.name} className={`relative md:flex md:flex-1`}>
+                            <li key={step.name} className={'relative md:flex md:flex-1'}>
                                 {step.status === Status.completed ? (
                                     <a
                                         onClick={() => setCurrentStep(stepIdx)}
                                         className={`group flex w-full items-center ${shouldDisable ? 'pointer-events-none' : ''}`}
                                     >
                                         <span className="flex items-center px-6 py-4 text-sm font-medium">
-                                            <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-600 group-hover:bg-indigo-800">
+                                            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-indigo-600 group-hover:bg-indigo-800">
                                                 <CheckIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                             </span>
                                             <span className="ml-4 text-sm font-medium text-gray-900">{step.name}</span>
@@ -126,7 +126,7 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                                         className={`flex items-center px-6 py-4 text-sm font-medium ${shouldDisable ? 'pointer-events-none' : ''}`}
                                         aria-current="step"
                                     >
-                                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-4 border-indigo-600">
+                                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-4 border-indigo-600">
                                             <span className=" text-indigo-600">{step.id + 1}</span>
                                         </span>
                                         <span className="ml-4 text-sm text-indigo-600 ">{step.name}</span>
@@ -137,7 +137,7 @@ function WizardDesktop({ wizardSteps, currentStep, setCurrentStep, setCurrentSte
                                         className={`group flex w-full items-center ${shouldDisable ? 'pointer-events-none' : ''}`}
                                     >
                                         <span className="flex items-center px-6 py-4 text-sm font-medium">
-                                            <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-300 group-hover:border-gray-400">
+                                            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-gray-300 group-hover:border-gray-400">
                                                 <span className="text-gray-500 group-hover:text-gray-900">{step.id + 1}</span>
                                             </span>
                                             <span className="ml-4 text-sm font-extrabold text-gray-500 underline group-hover:text-gray-900">{step.name}</span>

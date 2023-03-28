@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { createStyles, NumberInput, Slider } from '@mantine/core';
 import { SetState } from '@/types/sharedTypes';
 

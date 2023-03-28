@@ -18,7 +18,8 @@ class CreateDalleImagesController extends AuthenticatedBaseController {
     }
 
     async post(req: NextApiRequest, res: NextApiResponse) {
-        let { n, size, prompt } = getBody<CreateDalleImagesRequest>(req);
+        const { n, size } = getBody<CreateDalleImagesRequest>(req);
+        let { prompt } = getBody<CreateDalleImagesRequest>(req);
 
         if (n < 1 || n > 10) {
             throw new ArgumentError('You may only request up to 10 images');

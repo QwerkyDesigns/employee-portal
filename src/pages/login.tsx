@@ -40,10 +40,8 @@ const Home = ({ providers = [] }: { providers: CommonProviderOptions[] }) => {
 export async function getServerSideProps(): Promise<{
     props: { providers: any };
 }> {
-    const providers = await getProviders();
-
     return {
-        props: { providers }
+        props: { providers: await getProviders() }
     };
 }
 

@@ -1,4 +1,3 @@
-import { Button } from '@/components/buttons/Button';
 import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner';
 import TextArea from '@/components/text/TextArea';
 import TextInput from '@/components/text/TextInput';
@@ -26,7 +25,7 @@ export const InitialStep = () => {
         if (setShowProceedButton) {
             setShowProceedButton(textPrompts.whatDoYouWantToBuild.length > 0);
         }
-    }, [textPrompts.whatDoYouWantToBuild]);
+    }, [textPrompts.whatDoYouWantToBuild,setShowProceedButton]);
 
     const onGenIdeasPromptChange = (e: ChangeEvent<HTMLInputElement>) => {
         const text = e.target.value;
@@ -58,6 +57,7 @@ export const InitialStep = () => {
                 });
             }
         } catch {
+            // do nothing
         } finally {
             setLoading(false);
         }
@@ -66,7 +66,7 @@ export const InitialStep = () => {
     return (
         <div aria-label="left side of the screen" className="mx-auto flex w-full flex-col border-r-indigo-400">
             <div className="w-full">
-                <div className="mt-12 mb-12 flex w-full flex-col justify-center">
+                <div className="my-12 flex w-full justify-center">
                     <TextArea
                         value={textPrompts.whatDoYouWantToBuild}
                         label="Describe for us what you'd like to create..."
@@ -85,7 +85,7 @@ export const InitialStep = () => {
                         <TextInput onChange={onGenIdeasPromptChange} value={helpGenIdeasPrompt} />
                     </div>
                 </div>
-                <div className="mt-12 mb-12 flex w-full justify-center">
+                <div className="my-12 flex w-full justify-center">
                     <TextArea
                         value={textPrompts.whatTypeOfProduct}
                         label="What type of product are you creating?"
@@ -98,7 +98,7 @@ export const InitialStep = () => {
                         }}
                     />
                 </div>
-                <div className="mt-12 mb-12 flex w-full justify-center">
+                <div className="my-12 flex w-full justify-center">
                     <TextArea
                         value={textPrompts.whoIsTheProductTargetedAt}
                         label="Who is this product targeted at?"
@@ -111,7 +111,7 @@ export const InitialStep = () => {
                         }}
                     />
                 </div>
-                <div className="mt-12 mb-12 flex w-full justify-center">
+                <div className="my-12 flex w-full justify-center">
                     <TextArea
                         value={textPrompts.howDoesThisProductStandOut}
                         label="How does this product stand out?"

@@ -1,11 +1,11 @@
-import stripeBackendClient from '@/lib/client/stripe';
-import { getSession, useSession } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import { AuthenticatedBaseController } from '../base/AuthenticatedBaseController';
 import Stripe from 'stripe';
 import { prisma } from '@/lib/client/prisma';
 import { env } from '@/env/server.mjs';
 import { Logger } from 'nextjs-backend-helpers';
+import stripeBackendClient from '@/lib/client/stripe';
 
 const hostUrl = env.NEXTAUTH_URL;
 
@@ -40,13 +40,13 @@ class StripeCheckoutSessionController extends AuthenticatedBaseController {
         } catch (err) {
             Logger.error({
                 message: 'Error attempting to create a checkout session. No charge was made.'
-            })
+            });
             return;
         }
     }
 }
 
-export type StripeCheckoutSessionRequest = {};
+export type StripeCheckoutSessionRequest = object;
 
 export type StripeCheckoutSessionResponse = {
     session: Stripe.Checkout.Session;

@@ -2,6 +2,8 @@ import { NormalButton } from '@/components/buttons/NormalButton';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { useRouter } from 'next/router';
 
+export { getServerSideProps } from '@/lib/get-server-side-props/authentication';
+
 export default function ChooseTopUpMethod() {
     const router = useRouter();
 

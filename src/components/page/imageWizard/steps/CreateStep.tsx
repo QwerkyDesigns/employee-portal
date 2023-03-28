@@ -64,7 +64,7 @@ export const CreateStep = () => {
             {recentlyUploadedImages.length > 0 && (
                 <>
                     <Divider text="" />
-                    <div aria-label="right side of the screen" className="mt-2 flex-grow bg-blue-300 p-4">
+                    <div aria-label="right side of the screen" className="mt-2 grow bg-blue-300 p-4">
                         <CreatorGallery details={recentlyUploadedImages} />
                     </div>
                 </>

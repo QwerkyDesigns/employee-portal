@@ -1,5 +1,7 @@
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 
+export { getServerSideProps } from '@/lib/get-server-side-props/authentication';
+
 export function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
 }

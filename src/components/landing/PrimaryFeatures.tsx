@@ -9,7 +9,6 @@ import wizard from './images/wizard.png';
 import upload from './images/upload.png';
 import review from './images/review.png';
 import send from './images/send.png';
-import explode from './images/explode.jpg';
 
 import Container from '../container/Container';
 
@@ -17,7 +16,7 @@ const features: FeatureType[] = [
     {
         title: 'Create',
         description:
-            "Use our powerful image generation wizard to easily create custom graphics for your products. Whether you're an artist or a designer, our intuitive interface makes it easy to bring your vision to life.",
+            'Use our powerful image generation wizard to easily create custom graphics for your products. Whether you\'re an artist or a designer, our intuitive interface makes it easy to bring your vision to life.',
         image: wizard,
         imageUrl: undefined
     },
@@ -57,10 +56,10 @@ type FeatureType = {
 };
 
 export function PrimaryFeatures() {
-    let [tabOrientation, setTabOrientation] = useState('horizontal');
+    const [tabOrientation, setTabOrientation] = useState('horizontal');
 
     useEffect(() => {
-        let lgMediaQuery = window.matchMedia('(min-width: 1024px)');
+        const lgMediaQuery = window.matchMedia('(min-width: 1024px)');
 
         function onMediaQueryChange({ matches }: { matches: boolean }) {
             setTabOrientation(matches ? 'vertical' : 'horizontal');

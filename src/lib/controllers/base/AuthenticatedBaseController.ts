@@ -21,7 +21,7 @@ export class AuthenticatedBaseController extends Controller {
             const session = await getSession({ req });
 
             if (!session) {
-                throw new UnAuthenticatedError("You're not allowed to fking do that.");
+                throw new UnAuthenticatedError('You\'re not allowed to fking do that.');
             }
         });
 

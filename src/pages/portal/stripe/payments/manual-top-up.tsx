@@ -4,6 +4,8 @@ import frontendClient from '@/lib/client/frontendClient';
 import stripeFrontend from '@/lib/client/stripeFrontend';
 import { StripeCheckoutSessionRequest, StripeCheckoutSessionResponse } from '@/lib/controllers/stripe/StripeCheckoutSessionController';
 
+export { getServerSideProps } from '@/lib/get-server-side-props/authentication';
+
 export default function ChooseTopUpMethod() {
     const onClick = async () => {
         const response = await frontendClient.post<StripeCheckoutSessionRequest, StripeCheckoutSessionResponse>('stripe/create-checkout-session');

@@ -18,7 +18,7 @@ export default function ArtistStyleSelectionByImage({ artistStyles, selectCallba
                 <h2 className="sr-only">Artists</h2>
                 <div>
                     {artistStyles.map((artistMeta, i) => (
-                        <div onClick={() => selectCallback(artistMeta)} className="my-6 grid grid-cols-3 gap-y-10 gap-x-6 py-2 px-2 hover:bg-gray-500">
+                        <div key={i} onClick={() => selectCallback(artistMeta)} className="my-6 grid grid-cols-3 gap-y-10 gap-x-6 p-2 hover:bg-gray-500">
                             <h3 className="mt-4 text-sm text-gray-700">{artistMeta.artistName}</h3>
                             <p className="mt-1 text-lg font-medium text-gray-900">{artistMeta.style}</p>
                             <div className="aspect-w-1 aspect-h-1 xl:aspect-w-7 xl:aspect-h-8 w-full overflow-hidden rounded-lg bg-gray-200">
