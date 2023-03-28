@@ -9,7 +9,7 @@ export type DashboardContextType = {
 const defaultDashboardContext: DashboardContextType = {
     currentFunds: 0,
     sideBarOpen: true,
-    setSideBarOpen: (state: boolean) => null
+    setSideBarOpen: (_: boolean) => null
 };
 
 export const DashboardContext = createContext<DashboardContextType>(defaultDashboardContext);

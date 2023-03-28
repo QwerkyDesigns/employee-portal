@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Image, Loader } from '@mantine/core';
+import { Image } from '@mantine/core';
 import Zoom from 'react-medium-image-zoom';
 
 import 'react-medium-image-zoom/dist/styles.css';

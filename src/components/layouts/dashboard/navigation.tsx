@@ -1,4 +1,4 @@
-import { PaintBrushIcon, DocumentMagnifyingGlassIcon, ArrowUpOnSquareIcon, ClipboardDocumentCheckIcon, DocumentCheckIcon } from '@heroicons/react/24/outline';
+import { PaintBrushIcon, DocumentMagnifyingGlassIcon, ArrowUpOnSquareIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline';
 
 type NavItems = {
     name: string;

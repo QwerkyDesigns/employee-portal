@@ -25,7 +25,7 @@ export const RefineStep = () => {
                 return { ...cur, finalPrompt: currentPrompt };
             });
         }
-    }, []);
+    }, [compilePrompt, setTextPrompts]);
 
     const refineOnClick = async () => {
         setLoading(true);
@@ -46,6 +46,7 @@ export const RefineStep = () => {
                 setRefinementIdeas(lines);
             }
         } catch {
+            // do nothing
         } finally {
             setLoading(false);
         }

@@ -1,4 +1,4 @@
-import CookiesPolicy from '../../components/page/legal/CookiePolicy.mdx';
+import { CookiesPolicy } from "@/components/page/legal/CookiePolicy";
 
 export default function CoookiePolicyPage() {
     return (

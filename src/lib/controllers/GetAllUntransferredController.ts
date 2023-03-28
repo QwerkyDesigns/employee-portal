@@ -9,12 +9,12 @@ import { env } from '@/env/server.mjs';
 
 const parseImageOrigin = (originQueryParam: string) => {
     switch (originQueryParam) {
-        case ImageOrigin.Dalle:
-            return ImageOrigin.Dalle;
-        case ImageOrigin.Upload:
-            return ImageOrigin.Upload;
-        default:
-            throw new ArgumentError(`Query must be provided, one of '${ImageOrigin.Dalle}' or '${ImageOrigin.Upload}'`);
+    case ImageOrigin.Dalle:
+        return ImageOrigin.Dalle;
+    case ImageOrigin.Upload:
+        return ImageOrigin.Upload;
+    default:
+        throw new ArgumentError(`Query must be provided, one of '${ImageOrigin.Dalle}' or '${ImageOrigin.Upload}'`);
     }
 };
 

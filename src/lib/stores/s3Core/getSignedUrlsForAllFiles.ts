@@ -25,6 +25,6 @@ export default async function getSignedUrlsForAllFiles(bucket: string, prefix?: 
         Logger.error({
             message: err as string
         });
-        throw new S3DownloadError(`Error retrieving presigned urls`, StatusCodes.ServerError);
+        throw new S3DownloadError('Error retrieving presigned urls', StatusCodes.ServerError);
     }
 }

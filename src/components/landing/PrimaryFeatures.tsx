@@ -16,7 +16,7 @@ const features: FeatureType[] = [
     {
         title: 'Create',
         description:
-            "Use our powerful image generation wizard to easily create custom graphics for your products. Whether you're an artist or a designer, our intuitive interface makes it easy to bring your vision to life.",
+            'Use our powerful image generation wizard to easily create custom graphics for your products. Whether you\'re an artist or a designer, our intuitive interface makes it easy to bring your vision to life.',
         image: wizard,
         imageUrl: undefined
     },

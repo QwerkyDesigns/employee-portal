@@ -1,4 +1,3 @@
-import { Button } from '@/components/buttons/Button';
 import { ButtonWithSpinner } from '@/components/buttons/ButtonWithSpinner';
 import TextArea from '@/components/text/TextArea';
 import TextInput from '@/components/text/TextInput';
@@ -26,7 +25,7 @@ export const InitialStep = () => {
         if (setShowProceedButton) {
             setShowProceedButton(textPrompts.whatDoYouWantToBuild.length > 0);
         }
-    }, [textPrompts.whatDoYouWantToBuild]);
+    }, [textPrompts.whatDoYouWantToBuild,setShowProceedButton]);
 
     const onGenIdeasPromptChange = (e: ChangeEvent<HTMLInputElement>) => {
         const text = e.target.value;
@@ -58,6 +57,7 @@ export const InitialStep = () => {
                 });
             }
         } catch {
+            // do nothing
         } finally {
             setLoading(false);
         }
