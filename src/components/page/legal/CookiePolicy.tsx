@@ -1,7 +1,7 @@
 export const CookiesPolicy = () => {
 
     return <div>
-        {/* <p>
+        <p>
             # Qwerky Studio Cookie Policy
 
             ## What Are Cookies
@@ -82,6 +82,6 @@ export const CookiesPolicy = () => {
 
             However if you are still looking for more information then you can
             contact us by sending an email to paul.e.gradie@gmail.com.
-        </p> */}
+        </p>
     </div>
 }

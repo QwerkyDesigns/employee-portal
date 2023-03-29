@@ -20,16 +20,6 @@
             "@/*": ["./src/*"]
         }
     },
-    "include": [
-        "next-env.d.ts",
-        "**/*.ts",
-        "**/*.tsx",
-        // "tailwind.config.js",
-        // ".eslintrc.js",
-        // "dev.config.js",
-        // "postcss.config.js",
-        // "prettier.config.js",
-        // "setup-database.js"
-    ],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
     "exclude": ["node_modules"]
 }

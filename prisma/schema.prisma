@@ -8,24 +8,69 @@ datasource db {
 }
 
 model Account {
-    id                 Int               @id @default(autoincrement())
-    userName           String            @unique
-    email              String            @unique
-    password           String?
-    stripeCustomerId   String            @unique
-    usage              Usage?            @relation(fields: [usageId], references: [id])
-    externalServices   ExternalServices? @relation(fields: [externalServicesId], references: [id])
-    externalServicesId Int?
-    createdAt          DateTime          @default(now())
-    updatedAt          DateTime?         @updatedAt
-    usageId            Int?
+    id                         String               @id @default(cuid())
+    user                       User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId                     String
+    stripeCustomerId           String               @unique
+    usage                      Usage?               @relation(fields: [usageId], references: [id])
+    externalServices           ExternalServiceKeys? @relation(fields: [externalServicesId], references: [id])
+    externalServicesId         Int?
+    createdAt                  DateTime             @default(now())
+    updatedAt                  DateTime?            @updatedAt
+    usageId                    Int?
+    type                       String
+    provider                   String
+    providerAccountId          String
+    refresh_token              String?              @db.Text
+    access_token               String?              @db.Text
+    expires_at                 Int?
+    token_type                 String?
+    scope                      String?
+    id_token                   String?              @db.Text
+    session_state              String?
+    originalTextDescriptions   TextSubmissions[]
+    originalTextDescriptionsId Int?
+
+    @@unique([provider, providerAccountId])
+}
+
+model User {
+    id            String    @id @default(cuid())
+    name          String?
+    lastName      String?
+    password      String?
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime? @updatedAt
+}
+
+model Session {
+    id           String    @id @default(cuid())
+    sessionToken String    @unique
+    userId       String
+    expires      DateTime
+    user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime? @updatedAt
+}
+
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
 }
 
 model Usage {
     id             Int       @id @default(autoincrement())
+    Account        Account[]
     availableFunds Float
     updatedAt      DateTime? @updatedAt
-    Account        Account[]
 }
 
 model StripeWebhooks {
@@ -33,25 +78,37 @@ model StripeWebhooks {
     payloadSignature String @unique
 }
 
-model ExternalServices {
+model ExternalServiceKeys {
     id             Int       @id @default(autoincrement())
     printifyApiKey String    @unique
     Account        Account[]
 }
 
-model OriginalTextDescriptions {
-    id     Int    @id @default(autoincrement())
-    prompt String
+model TextSubmissions {
+    id              Int               @id @default(autoincrement())
+    Account         Account           @relation(fields: [accountId], references: [id], onDelete: Cascade)
+    accountId       String
+    originalPrompt  String
+    Refinements     TextRefinements[]
+    finalPromptForm String
+    createdAt       DateTime          @default(now())
+    updatedAt       DateTime?         @updatedAt
 }
 
 model TextRefinements {
-    id            Int    @id @default(autoincrement())
-    refinedPrompt String
-    aiModelUsed   String
+    id                Int             @id @default(autoincrement())
+    refinedPrompt     String
+    aiModelUsed       String
+    textSubmissions   TextSubmissions @relation(fields: [TextSubmissionsId], references: [id])
+    TextSubmissionsId Int
+    createdAt         DateTime        @default(now())
+    updatedAt         DateTime?       @updatedAt
 }
 
 model Images {
-    id         Int    @id @default(autoincrement())
-    storageKey String @unique
+    id         Int       @id @default(autoincrement())
+    storageKey String    @unique
     promptUsed String
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime? @updatedAt
 }

@@ -1,1 +1,1 @@
-environment="REPLACE_ME"
+environment="#{Environment}"

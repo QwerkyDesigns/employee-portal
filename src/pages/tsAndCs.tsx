@@ -4,19 +4,19 @@ const areas = [
     {
         id: 0,
         title: 'Terms and Conditions',
-        href: '/legal/TermsAndConditions',
+        href: 'legal/TermsAndConditions',
         description: 'Navigate to learn about our Terms and Conditions'
     },
     {
         id: 1,
         title: 'Privacy Policy',
-        href: '/legal/PrivacyPolicy',
+        href: 'legal/PrivacyPolicy',
         description: 'Navigate to learn about our Privacy Policy. Spoiler: We value your privacy, because we value our own.'
     },
     {
         id: 2,
         title: 'Cookie Policy',
-        href: '/legal/CookiePolicy',
+        href: 'legal/CookiePolicy',
         description: 'Navigate to learn about our Cookie Policy.'
     }
 ];

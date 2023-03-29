@@ -1,5 +1,8 @@
 module.exports = {
   "_comment": "Fill this in with actual values",
-  "email": "dummy",
-  "printifyApiKey": "dummy"
+  "email": "",
+  "name": "",
+  "password": "",
+  "stripeCustomerId": "cus_NT3Q8CV9Ayl59L",
+  "printifyApiKey": ""
 }

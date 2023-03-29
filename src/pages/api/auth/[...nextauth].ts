@@ -2,6 +2,7 @@ import NextAuth, { NextAuthOptions, User } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from '@/lib/client/prisma';
+import { compareCredentials } from '@/lib/utils/credentials/compareCredentials';
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -12,30 +13,32 @@ export const authOptions: NextAuthOptions = {
                 password: { label: 'Password', type: 'password' }
             },
             async authorize(credentials, req): Promise<User | null> {
-                let account = await prisma.account.findUnique({
+                let user = await prisma.user.findUnique({
                     where: {
-                        userName: credentials?.usernameOrEmail
+                        name: credentials?.usernameOrEmail
                     }
                 });
 
-                if (account === null) {
-                    account = await prisma.account.findUnique({
+                if (user === null) {
+                    user = await prisma.user.findUnique({
                         where: {
                             email: credentials?.usernameOrEmail
                         }
                     });
                 }
-                if (account === null) {
+                if (user === null) {
                     return null;
                 }
 
-                // TODO: encrypt this with salt. I have prior art for this available - later b4 prod tho
-                if (account?.password !== credentials?.password) {
+                if (user.password === null || credentials?.password === null) return null;
+                const result = compareCredentials(credentials!.password, user.password);
+
+                if (!result) {
                     return null;
                 }
 
-                const user: User = { id: account?.id.toString(), email: account?.email, name: account.userName };
-                return user;
+                const discoveredUser: User = { id: user?.id.toString(), email: user?.email, name: user.name };
+                return discoveredUser;
             }
         }),
         GithubProvider({

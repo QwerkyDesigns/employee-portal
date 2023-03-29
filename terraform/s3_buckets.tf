@@ -128,3 +128,28 @@ resource "aws_s3_bucket" "categorized_images" {
     mfa_delete = "false"
   }
 }
+
+# Deployment bucket
+resource "aws_s3_bucket" "deployment" {
+  bucket = "deployment_bucket-${var.environment}"
+  acl    = "private"
+
+  versioning {
+    enabled = true
+  }
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+  tags = {
+    Product = "QwerkyyDesigns"
+  }
+}
+
+output "deployment_bucket" {
+  value = aws_s3_bucket.deployment.name
+}

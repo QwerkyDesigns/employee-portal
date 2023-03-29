@@ -1,15 +1,9 @@
 name: 🪐 Build
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.yml'
-      - '**/.gitignore'
-      - 'assets/*'
-  push:
     paths-ignore:
       - '**/*.md'
       - '**/*.yml'
@@ -25,6 +19,12 @@ jobs:
         node-version: [18.14.2]
 
     steps:
+      - name: Set version
+        run: echo "VERSION=0.0.${{ github.run_number }}" >> $GITHUB_ENV
+
+      - name: Test version (write)
+        run: echo ${VERSION}
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -53,12 +53,22 @@ jobs:
         run: npm ci
 
       - name: Run CI build
-        env:
-          GITHUB_CLIENT_ID: dummy-value
-          GITHUB_CLIENT_SECRET: dummy-value
-          NEXTAUTH_URL: dummy-value
-          NEXTAUTH_SECRET: dummy-value
-          NODE_ENV: production
-          STRIPE_DEVICE_NAME: dummy-value
-          STRIPE_WEBHOOK_SECRET: dummy-value
         run: npm run cibuild
+
+
+      - name: Zip studio-build
+        run: zip -r studio-portal.${{ env.VERSION }}.zip ./studio_build
+
+      - name: Zip terraform
+        run: zip -r studio-portal-terraform.${{ env.VERSION }}.zip ./terraform
+
+      - name: Push a package to Octopus Deploy 🐙
+        uses: OctopusDeploy/push-package-action@v3
+        env:
+          OCTOPUS_URL: ${{ secrets.SERVER }}
+          OCTOPUS_API_KEY: ${{ secrets.API_KEY }}
+          OCTOPUS_SPACE: 'Default'
+        with:
+          packages: |
+            studio-portal.${{ env.VERSION }}.zip
+            studio-portal-terraform.zip 
