@@ -13,19 +13,12 @@ export const authOptions: NextAuthOptions = {
                 password: { label: 'Password', type: 'password' }
             },
             async authorize(credentials, req): Promise<User | null> {
-                let user = await prisma.user.findUnique({
+                if (credentials === null) return null;
+                const user = await prisma.user.findUnique({
                     where: {
-                        name: credentials?.usernameOrEmail
+                        email: credentials?.usernameOrEmail
                     }
                 });
-
-                if (user === null) {
-                    user = await prisma.user.findUnique({
-                        where: {
-                            email: credentials?.usernameOrEmail
-                        }
-                    });
-                }
                 if (user === null) {
                     return null;
                 }

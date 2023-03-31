@@ -10,18 +10,10 @@ import { RegistrationPayload, RegistrationRequest, RegistrationResponse } from '
 import { useRouter } from 'next/router';
 
 export default function Register() {
-    const [firstName, setFirstName] = useState<string>('');
-    const [lastName, setLastName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const router = useRouter();
 
-    const onFirstNameChange = (e: any) => {
-        setFirstName(e.target.value);
-    };
-    const onLastNameChange = (e: any) => {
-        setLastName(e.target.value);
-    };
     const onEmailChange = (e: any) => {
         setEmail(e.target.value);
     };
@@ -29,17 +21,19 @@ export default function Register() {
         setPassword(e.target.value);
     };
 
-    const submitRego = async () => {
+    const submitRego = async (e: any) => {
+        e.preventDefault();
         const payload: RegistrationPayload = {
-            firstName,
-            lastName,
             email,
             password
         };
 
-        const response = await frontendClient.post<RegistrationRequest, RegistrationResponse>('api/register', payload);
+        const response = await frontendClient.post<RegistrationRequest, RegistrationResponse>('account/register', payload);
+        console.log(response);
+
         if (response.isSuccess) {
-            router.push('/login');
+            console.log("Booyah")
+            //perhaps a router.push('/login'); or push to a confirmation page - where they will provide an emailed token
         }
     };
 
@@ -64,17 +58,7 @@ export default function Register() {
                         </p>
                     </div>
                 </div>
-                <form action="#" className="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2">
-                    <TextField
-                        onChange={onFirstNameChange}
-                        label="First name"
-                        id="first_name"
-                        name="first_name"
-                        type="text"
-                        autoComplete="given-name"
-                        required
-                    />
-                    <TextField onChange={onLastNameChange} label="Last name" id="last_name" name="last_name" type="text" autoComplete="family-name" required />
+                <div className="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2">
                     <TextField
                         onChange={onEmailChange}
                         className="col-span-full"
@@ -102,7 +86,7 @@ export default function Register() {
                             </span>
                         </Button>
                     </div>
-                </form>
+                </div>
             </AuthLayout>
         </>
     );

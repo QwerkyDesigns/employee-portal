@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+var bcrypt = require('bcryptjs');
 
 export default function hashPassword(password: string) {
     const hash = bcrypt.hashSync(password, 10);

@@ -10,9 +10,8 @@ const prisma = new PrismaClient({
     }
 });
 
-async function main() {
-    // Create a new user
-    const user = await prisma.user.create({
+prisma.user
+    .create({
         data: {
             name: config.name,
             email: config.email,
@@ -43,21 +42,38 @@ async function main() {
                 ]
             }
         }
-    });
-
-    console.log('Created user:', user);
-
-    // Create a new usage record for the user's account
-    const usage = await prisma.usage.create({
-        data: {
-            availableFunds: 100.0,
-            Account: {
-                connect: {
-                    id: user.accounts[0].id
+    })
+    .then((user) => {
+        console.log('Account Data stored in the database.');
+        prisma.account
+            .findFirst({
+                where: {
+                    userId: user.id
                 }
-            }
-        }
+            })
+            .then((account) => {
+                prisma.usage
+                    .create({
+                        data: {
+                            availableFunds: 100.0,
+                            Account: {
+                                connect: {
+                                    id: account.id
+                                }
+                            }
+                        }
+                    })
+                    .then(() => {
+                        console.log('Usage funds stored in the database.');
+                    })
+                    .catch((error) => {
+                        console.error('Failed to store usage data:', error);
+                    })
+                    .finally(() => {
+                        prisma.$disconnect();
+                    });
+            });
+    })
+    .catch((error) => {
+        console.error('Failed to store account data:', error);
     });
-
-    console.log('Created usage:', usage);
-}

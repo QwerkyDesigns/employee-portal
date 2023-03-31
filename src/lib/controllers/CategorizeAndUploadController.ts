@@ -13,24 +13,33 @@ import PrintifyError from '../errors/application-errors/PrintifyError';
 import { getSession } from 'next-auth/react';
 import { prisma } from '../client/prisma';
 import printifyClient from '../client/printifyClient';
-import { AxiosInstance } from 'axios';
 import PrintifyApiKeyNotRegisteredError from '../errors/bad-request/PrintifyApiKeyNotRegisteredError';
+import { AxiosInstance } from 'axios';
 
 // this file is a bit of a special snowflake.
 // We'll need to find a better way to deal with integration in general - and the ui will need to accomodate.
 // Imagine we've got a user that wants to send their creations to multiple places - we should support that I
 // would think. What other ideas / thoughts can you come up with?
 
-const tryGetPrintifyApi = async (emailAddres: string): Promise<string | undefined> => {
-    const account = await prisma.account.findUnique({
+const tryGetPrintifyApi = async (emailAddress: string): Promise<string | undefined> => {
+    const user = await prisma.user.findUnique({
         where: {
-            email: emailAddres
+            email: emailAddress
         }
     });
+    if (user === null) return undefined;
+
+    const accounts = await prisma.account.findMany({
+        where: {
+            userId: user.id
+        }
+    });
+    if (accounts.length !== 1) return undefined;
+    const account = accounts[0];
 
     const externalServicesRecordId = account?.externalServicesId;
     if (externalServicesRecordId === null) return undefined;
-    const record = await prisma.externalServices.findUnique({
+    const record = await prisma.externalServiceKeys.findUnique({
         where: {
             id: externalServicesRecordId
         }
