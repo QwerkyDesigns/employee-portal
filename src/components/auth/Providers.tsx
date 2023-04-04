@@ -11,6 +11,7 @@ import Divider from '../dividers/Divider';
 function handleSignin(provider: CommonProviderOptions) {
     return () => {
         signIn(provider.id, {
+            // callbackUrl: `${window.location.origin}/portal`
             callbackUrl: env.NEXT_PUBLIC_IS_PROD ? 'https://qwerkystudio.com/login' : `http://localhost:3000/login`
         });
     };
@@ -18,6 +19,7 @@ function handleSignin(provider: CommonProviderOptions) {
 
 function handlePasswordSignin(provider: CommonProviderOptions, usernameOrEmail: string, password: string) {
     return () => {
+        // signIn(provider.id, { callbackUrl: `${window.location.origin}/portal` });
         signIn(provider.id, {
             callbackUrl: env.NEXT_PUBLIC_IS_PROD ? 'https://qwerkystudio.com/login' : `http://localhost:3000/login`
  
