@@ -29,15 +29,15 @@ prisma.user
                     {
                         stripeCustomerId: config.stripeCustomerId,
                         type: 'default',
-                        provider: 'pasword',
+                        provider: 'password',
                         providerAccountId: 'account123',
-                        refresh_token: 'refreshtoken123',
-                        access_token: 'accesstoken123',
-                        expires_at: 1640966400, // UNIX timestamp for 2022-12-31 00:00:00 UTC
-                        token_type: 'bearer',
-                        scope: 'read write',
-                        id_token: 'idtoken123',
-                        session_state: 'sessionstate123'
+                        refresh_token: null,
+                        access_token: null,
+                        expires_at: null, // UNIX timestamp for 2022-12-31 00:00:00 UTC
+                        token_type: null,
+                        scope: 'read', // on account verification: 'read write'
+                        id_token: null,
+                        session_state: null
                     }
                 ]
             }

@@ -21,7 +21,7 @@
         "db:dev:refresh": "npm run db:dev:reset && npm run db:dev:migrate && npm run setup-db",
         "setup-db": "node scripts/setup-database.js",
         "delete_node_modules": "npm i -g rimraf && rimraf node_modules",
-        "dev-setup": "npm run delete_node_modules && docker compose up --build -d && npm run db:dev:refresh"
+        "dev-setup": "npm run delete_node_modules && docker compose up --build -d && npm i -D dotenv && npm run db:dev:refresh"
     },
     "dependencies": {
         "@emotion/react": "^11.10.5",
@@ -70,16 +70,15 @@
         "nextjs-backend-helpers": "^0.0.18-7",
         "openai": "^3.1.0",
         "postcss-focus-visible": "^6.0.4",
+        "prisma": "^4.12.0",
         "query-string": "^8.1.0",
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-icons": "^4.8.0",
         "react-medium-image-zoom": "^5.1.2",
         "react-query": "^3.39.3",
-        "rimraf": "^4.3.1",
         "stripe": "^11.13.0",
         "tailwindcss": "^3.2.1",
-        "typescript": "4.9.4",
         "zod": "^3.20.6"
     },
     "devDependencies": {
@@ -98,9 +97,10 @@
         "postcss": "^8.4.21",
         "prettier": "^2.7.1",
         "prettier-plugin-tailwindcss": "^0.1.13",
-        "prisma": "^4.12.0",
         "readline-sync": "^1.4.10",
+        "rimraf": "^4.3.1",
         "tailwindcss": "^3.2.7",
+        "typescript": "4.9.4",
         "uuid": "^9.0.0"
     }
 }

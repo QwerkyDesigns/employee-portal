@@ -29,8 +29,8 @@ export const authOptions: NextAuthOptions = {
                 if (!result) {
                     return null;
                 }
-
                 const discoveredUser: User = { id: user?.id.toString(), email: user?.email, name: user.name };
+                console.log(discoveredUser);
                 return discoveredUser;
             }
         }),
