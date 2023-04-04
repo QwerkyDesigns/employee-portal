@@ -38,8 +38,15 @@ async function getFunds(emailAddress: string): Promise<number | undefined> {
     });
 
     const account = user?.accounts[0];
-    
 
-    const currentFunds = account?.usage?.availableFunds;
+    const usageId = account?.usageId || undefined;
+
+    const usage = await prisma.usage.findUnique({
+        where: {
+            id: usageId
+        }
+    });
+
+    const currentFunds = usage?.availableFunds;
     return currentFunds;
 }
