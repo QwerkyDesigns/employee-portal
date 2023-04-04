@@ -25,6 +25,7 @@ export default defineNextConfig({
         locales: ['en'],
         defaultLocale: 'en'
     },
+    distDir: 'studio_build',
     images: {
         remotePatterns: [
             {
