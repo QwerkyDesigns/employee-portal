@@ -1,5 +1,3 @@
-import withMDX from '@next/mdx';
-
 /**
  *
  * @template {import('next').NextConfig} T
@@ -7,8 +5,7 @@ import withMDX from '@next/mdx';
  * @constraint {{import('next').NextConfig}}
  */
 function defineNextConfig(config) {
-    // return config;
-    return withMDX(config);
+    return config;
 }
 
 export default defineNextConfig({
@@ -22,12 +19,13 @@ export default defineNextConfig({
         return config;
     },
     reactStrictMode: true,
-    pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+    pageExtensions: ['ts', 'tsx', 'js', 'jsx'],
     swcMinify: true,
     i18n: {
         locales: ['en'],
         defaultLocale: 'en'
     },
+    distDir: 'studio_build',
     images: {
         remotePatterns: [
             {

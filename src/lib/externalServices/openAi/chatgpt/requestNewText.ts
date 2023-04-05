@@ -23,7 +23,7 @@ const models = ['text-davinci-003', 'gpt-3.5-turbo'];
 
 // TODO: research and configure - though these seem to work alright
 const requestDefault = {
-    model: models[0],
+    model: models[1],
     max_tokens: 2048,
     temperature: 0.9,
     presence_penalty: 0.6

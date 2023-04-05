@@ -44,8 +44,7 @@ module.exports = {
             '7xl': ['4.5rem', { lineHeight: '1.1' }],
             '8xl': ['6rem', { lineHeight: '1' }],
             '9xl': ['8rem', { lineHeight: '1' }]
-        },
-
+        }
     },
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')]
 };

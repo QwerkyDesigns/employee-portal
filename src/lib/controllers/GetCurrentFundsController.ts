@@ -28,15 +28,25 @@ export type GetCurrentFundsResponse = {
 };
 
 async function getFunds(emailAddress: string): Promise<number | undefined> {
-    const account = await prisma.account.findUnique({
+    const user = await prisma.user.findUnique({
         where: {
             email: emailAddress
         },
         include: {
-            usage: true
+            accounts: true
         }
     });
 
-    const currentFunds = account?.usage?.availableFunds;
+    const account = user?.accounts[0];
+
+    const usageId = account?.usageId || undefined;
+
+    const usage = await prisma.usage.findUnique({
+        where: {
+            id: usageId
+        }
+    });
+
+    const currentFunds = usage?.availableFunds;
     return currentFunds;
 }

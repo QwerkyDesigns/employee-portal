@@ -4,8 +4,39 @@ import { Button } from '@/components/buttons/Button';
 import Head from 'next/head';
 import Link from 'next/link';
 import { APP_NAME } from '../lib/constants';
+import { useState } from 'react';
+import frontendClient from '@/lib/client/frontendClient';
+import { RegistrationPayload, RegistrationRequest, RegistrationResponse } from '@/lib/controllers/RegisterAccountController';
+import { useRouter } from 'next/router';
 
 export default function Register() {
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const router = useRouter();
+
+    const onEmailChange = (e: any) => {
+        setEmail(e.target.value);
+    };
+    const onPasswordChange = (e: any) => {
+        setPassword(e.target.value);
+    };
+
+    const submitRego = async (e: any) => {
+        e.preventDefault();
+        const payload: RegistrationPayload = {
+            email,
+            password
+        };
+
+        const response = await frontendClient.post<RegistrationRequest, RegistrationResponse>('account/register', payload);
+        console.log(response);
+
+        if (response.isSuccess) {
+            console.log("Booyah")
+            //perhaps a router.push('/login'); or push to a confirmation page - where they will provide an emailed token
+        }
+    };
+
     return (
         <>
             <Head>
@@ -27,19 +58,35 @@ export default function Register() {
                         </p>
                     </div>
                 </div>
-                <form action="#" className="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2">
-                    <TextField label="First name" id="first_name" name="first_name" type="text" autoComplete="given-name" required />
-                    <TextField label="Last name" id="last_name" name="last_name" type="text" autoComplete="family-name" required />
-                    <TextField className="col-span-full" label="Email address" id="email" name="email" type="email" autoComplete="email" required />
-                    <TextField className="col-span-full" label="Password" id="password" name="password" type="password" autoComplete="new-password" required />
+                <div className="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2">
+                    <TextField
+                        onChange={onEmailChange}
+                        className="col-span-full"
+                        label="Email address"
+                        id="email"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        required
+                    />
+                    <TextField
+                        onChange={onPasswordChange}
+                        className="col-span-full"
+                        label="Password"
+                        id="password"
+                        name="password"
+                        type="password"
+                        autoComplete="new-password"
+                        required
+                    />
                     <div className="col-span-full">
-                        <Button type="submit" variant="solid" color="blue" className="w-full">
+                        <Button onClick={submitRego} type="submit" variant="solid" color="blue" className="w-full">
                             <span>
                                 Sign up <span aria-hidden="true">&rarr;</span>
                             </span>
                         </Button>
                     </div>
-                </form>
+                </div>
             </AuthLayout>
         </>
     );
