@@ -4,8 +4,9 @@ import { Popover, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import Container from '../container/Container';
 import { NavLink } from './NavLink';
-import { Logo } from './Logo';
 import { Button } from '../buttons/Button';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 function MobileNavLink({ href, children }: { href: string; children: React.ReactNode }) {
     return (
@@ -71,6 +72,7 @@ function MobileNavigation() {
 }
 
 export function Header() {
+    const router = useRouter();
     return (
         <header className="py-10">
             <Container>
@@ -84,7 +86,10 @@ export function Header() {
                     </div>
                     <div className="flex items-center gap-x-5 md:gap-x-8">
                         <div className="hidden md:block">
-                            <NavLink href="/login">Sign in</NavLink>
+                            <button onClick={() => router.push("/api/auth/signin")}> GO TO SIGNIN</button>
+
+                            {/* <button onClick={async () => await signIn('credentials', { callbackUrl: `${window.location.origin}/portal` })}>Sign in</button> */}
+                            {/* <NavLink href="/auth/signin">Sign in</NavLink> */}
                         </div>
                         <Button href="/register">Get started today</Button>
                         <div className="-mr-1 md:hidden">

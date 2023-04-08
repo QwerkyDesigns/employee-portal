@@ -3,55 +3,72 @@ import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from '@/lib/client/prisma';
 import { compareCredentials } from '@/lib/utils/credentials/compareCredentials';
+import { JWTOptions } from 'next-auth/jwt';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
 
-export const authOptions: NextAuthOptions = {
+export default NextAuth({
+    adapter: PrismaAdapter(prisma),
     providers: [
+        GithubProvider({
+            clientId: process.env.GITHUB_CLIENT_ID,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        }),
         CredentialsProvider({
-            name: 'Username or Email and Password',
+            name: 'credentials',
+            type: 'credentials',
             credentials: {
-                usernameOrEmail: { label: 'Username', type: 'text', placeholder: 'username or email' },
-                password: { label: 'Password', type: 'password' }
+                emailaddress: { label: 'Email', type: 'email', placeholder: 'Your email' },
+                password: { label: 'Password', type: 'password', placeholder: 'Your Password' }
             },
-            async authorize(credentials, req): Promise<User | null> {
-                if (credentials === null) return null;
-                const user = await prisma.user.findUnique({
-                    where: {
-                        email: credentials?.usernameOrEmail
-                    }
-                });
-                if (user === null) {
+            authorize: async (credentials): Promise<User | null> => {
+                if (credentials === null || credentials === undefined) {
                     return null;
                 }
 
-                if (user.password === null || credentials?.password === null) return null;
-                const result = compareCredentials(credentials!.password, user.password);
+                const email = credentials.emailaddress;
+                const password = credentials.password;
+                if (email === null || password === password) {
+                    return null;
+                }
+
+                const user = await prisma.user.findUnique({
+                    where: {
+                        email: credentials.emailaddress
+                    }
+                });
+                if (user === null || user.password === null) {
+                    return null;
+                }
+
+                const result = compareCredentials(credentials.password, user.password);
 
                 if (!result) {
                     return null;
                 }
-                const discoveredUser: User = { id: user?.id.toString(), email: user?.email, name: user.name };
-                console.log(discoveredUser);
-                return discoveredUser;
+                return user;
             }
-        }),
-        GithubProvider({
-            clientId: process.env.GITHUB_CLIENT_ID,
-            clientSecret: process.env.GITHUB_CLIENT_SECRET
         })
-        // GoogleProvider({
-        //   clientId: process.env.GOOGLE_ID,
-        //   clientSecret: process.env.GOOGLE_SECRET,
-        // }),
     ],
-    theme: {
-        colorScheme: 'light'
-    }
-    // callbacks: {
-    //   async jwt({ token }) {
-    //     token.userRole = "admin";
-    //     return token;
-    //   },
-    // },
-};
-
-export default NextAuth(authOptions);
+    callbacks: {
+        jwt: async ({ token, user }) => {
+            if (user) {
+                token.id = user.id;
+            }
+            return token;
+        },
+        session: ({ session, token }) => {
+            // if (token && session.id! !== undefined) {
+            //     session.id = token.id;
+            // }
+            return session;
+        }
+    },
+    secret: 'test',
+    session: {
+        strategy: 'jwt'
+    },
+    jwt: {
+        secret: 'test',
+        encryption: true
+    } as Partial<JWTOptions>
+});

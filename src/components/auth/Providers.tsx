@@ -7,23 +7,23 @@ import { env } from '@/env/client.mjs';
 import { TextField } from '@/components/landing/Fields';
 import Divider from '../dividers/Divider';
 
-
 function handleSignin(provider: CommonProviderOptions) {
-    return () => {
-        signIn(provider.id, {
-            // callbackUrl: `${window.location.origin}/portal`
-            callbackUrl: env.NEXT_PUBLIC_IS_PROD ? 'https://qwerkystudio.com/login' : `http://localhost:3000/login`
+    return async () => {
+        const res = await signIn(provider.id, {
+            redirect: false,
+            callbackUrl: `${window.location.origin}/portal`
         });
     };
 }
 
-function handlePasswordSignin(provider: CommonProviderOptions, usernameOrEmail: string, password: string) {
-    return () => {
-        // signIn(provider.id, { callbackUrl: `${window.location.origin}/portal` });
-        signIn(provider.id, {
-            callbackUrl: env.NEXT_PUBLIC_IS_PROD ? 'https://qwerkystudio.com/login' : `http://localhost:3000/login`
- 
-            });
+function handlePasswordSignin(provider: CommonProviderOptions, emailaddress: string, password: string) {
+    return async () => {
+        const res = await signIn(provider.id, {
+            emailaddress,
+            password,
+            redirect: false,
+            callbackUrl: `${window.location.origin}/portal`
+        });
     };
 }
 
@@ -71,7 +71,6 @@ function CredentialsProvider({ provider }: { provider: CommonProviderOptions }) 
                     </span>
                 </Button>
             </div>
-            <Divider text="Or" classNames="mb-12" />
         </div>
     );
 }
@@ -85,6 +84,7 @@ export function Providers({ providers = [] }: { providers: CommonProviderOptions
                 }
                 if (provider.id === 'credentials') {
                     return <CredentialsProvider key={provider.id} provider={provider} />;
+                    // <Divider text="Or" classNames="mb-12" />
                 }
 
                 return null;

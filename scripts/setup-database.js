@@ -18,10 +18,10 @@ prisma.user
             password: config.password,
             sessions: {
                 create: [
-                    {
-                        sessionToken: 'sessiontoken123',
-                        expires: new Date('2023-12-31T23:59:59Z')
-                    }
+                    // {
+                    //     sessionToken: 'sessiontoken123',
+                    //     expires: new Date('2023-12-31T23:59:59Z')
+                    // }
                 ]
             },
             accounts: {
