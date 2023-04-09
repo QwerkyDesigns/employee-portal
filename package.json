@@ -65,7 +65,7 @@
         "eslint-config-next": "13.1.5",
         "focus-visible": "^5.2.0",
         "next": "13.1.5",
-        "next-auth": "^4.20.1",
+        "next-auth": "^4.21.1",
         "next-s3-upload": "^0.2.9",
         "nextjs-backend-helpers": "^0.0.18-7",
         "openai": "^3.1.0",
