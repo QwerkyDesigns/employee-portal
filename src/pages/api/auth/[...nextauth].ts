@@ -8,6 +8,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { env } from '@/env/server.mjs';
 
 export default NextAuth({
+    secret: "testtesttesttesttesttesttest",
     adapter: PrismaAdapter(prisma),
     debug: true,
     providers: [
