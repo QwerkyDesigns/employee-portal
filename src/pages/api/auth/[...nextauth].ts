@@ -5,18 +5,26 @@ import { prisma } from '@/lib/client/prisma';
 import { compareCredentials } from '@/lib/utils/credentials/compareCredentials';
 import { JWTOptions } from 'next-auth/jwt';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { env } from '@/env/server.mjs';
+// import { env } from '@/env/server.mjs';
 
 export default NextAuth({
+    session: {
+        strategy: "jwt"
+    },
     secret: "testtesttesttesttesttesttest",
     adapter: PrismaAdapter(prisma),
     debug: true,
     providers: [
         GithubProvider({
-            clientId: env.GITHUB_CLIENT_ID,
-            clientSecret: env.GITHUB_CLIENT_SECRET
+            clientId: process.env.GITHUB_CLIENT_ID,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET
         })
-    ]
+    ],
+    callbacks: {
+        signIn({ user, account, profile, email, credentials}){
+            return "/portal"
+        }
+    }
 });
 //     CredentialsProvider({
 //         name: 'credentials',
