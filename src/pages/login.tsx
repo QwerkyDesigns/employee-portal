@@ -1,12 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
-import { getProviders } from 'next-auth/react';
+import { getProviders, useSession } from 'next-auth/react';
 import { CommonProviderOptions } from 'next-auth/providers';
 import { AuthLayout } from '@/components/auth/AuthLayout';
 import { Providers } from '@/components/auth/Providers';
 
 const Home = ({ providers = [] }: { providers: CommonProviderOptions[] }) => {
+    const { data: session } = useSession();
     return (
         <>
             <Head>
@@ -15,7 +16,7 @@ const Home = ({ providers = [] }: { providers: CommonProviderOptions[] }) => {
             <AuthLayout>
                 <div className="flex flex-col">
                     <Link href="/" aria-label="Home">
-                        Home
+                        {session ? 'Home' : "You're logged in Bitch, but go home"}
                     </Link>
                     <div className="mt-20">
                         <h2 className="text-lg font-semibold text-gray-900">Sign in to your account</h2>

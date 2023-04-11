@@ -86,10 +86,10 @@ export function Header() {
                     </div>
                     <div className="flex items-center gap-x-5 md:gap-x-8">
                         <div className="hidden md:block">
-                            <button onClick={() => router.push("/api/auth/signin")}> GO TO SIGNIN</button>
+                            {/* <button onClick={() => router.push("/api/auth/signin")}> GO TO SIGNIN</button> */}
 
                             {/* <button onClick={async () => await signIn('credentials', { callbackUrl: `${window.location.origin}/portal` })}>Sign in</button> */}
-                            {/* <NavLink href="/auth/signin">Sign in</NavLink> */}
+                            <NavLink href="/login">Sign in</NavLink>
                         </div>
                         <Button href="/register">Get started today</Button>
                         <div className="-mr-1 md:hidden">

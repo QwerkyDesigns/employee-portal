@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/buttons/Button';
 import { signIn } from 'next-auth/react';
-import { DiGithubBadge } from 'react-icons/di';
+import { DiGithubBadge, DiGoogleDrive } from 'react-icons/di';
 import { CommonProviderOptions } from 'next-auth/providers';
 import { env } from '@/env/client.mjs';
 import { TextField } from '@/components/landing/Fields';
 import Divider from '../dividers/Divider';
 
-function handleSignin(provider: CommonProviderOptions) {
+function handleCloudAuthSignin(provider: CommonProviderOptions) {
     return async () => {
-        const res = await signIn(provider.id, {
-            redirect: false,
-            callbackUrl: `${window.location.origin}/portal`
+        await signIn(provider.id, {
+            redirect: true,
+            callbackUrl: "http://localhost:3000/portal"
+            // callbackUrl: `${window.location.origin}/portal`
         });
     };
 }
 
 function handlePasswordSignin(provider: CommonProviderOptions, emailaddress: string, password: string) {
     return async () => {
-        const res = await signIn(provider.id, {
+        await signIn(provider.id, {
             emailaddress,
             password,
-            redirect: false,
+            redirect: true,
             callbackUrl: `${window.location.origin}/portal`
         });
     };
@@ -30,7 +31,7 @@ function handlePasswordSignin(provider: CommonProviderOptions, emailaddress: str
 function GithubProvider({ provider }: { provider: CommonProviderOptions }) {
     return (
         <div className="mb-12" key={provider.name}>
-            <Button variant="solid" color="blue" className="w-full" onClick={handleSignin(provider)}>
+            <Button variant="solid" color="blue" className="w-full" onClick={handleCloudAuthSignin(provider)}>
                 <span>
                     <DiGithubBadge className="-mt-1 inline" size={'2rem'} /> Sign in with {provider.name} <span aria-hidden="true">&rarr;</span>
                 </span>
@@ -38,6 +39,19 @@ function GithubProvider({ provider }: { provider: CommonProviderOptions }) {
         </div>
     );
 }
+
+function GooogleProvider({ provider }: { provider: CommonProviderOptions }) {
+    return (
+        <div className="mb-12" key={provider.name}>
+            <Button variant="solid" color="blue" className="w-full" onClick={handleCloudAuthSignin(provider)}>
+                <span>
+                    <DiGoogleDrive className="-mt-1 inline" size={'2rem'} /> Sign in with {provider.name} <span aria-hidden="true">&rarr;</span>
+                </span>
+            </Button>
+        </div>
+    );
+}
+
 
 function CredentialsProvider({ provider }: { provider: CommonProviderOptions }) {
     const [email, setEmail] = useState('');
@@ -82,9 +96,13 @@ export function Providers({ providers = [] }: { providers: CommonProviderOptions
                 if (provider.id === 'github' && env.NEXT_PUBLIC_IS_PROD === 'false') {
                     return <GithubProvider key={provider.id} provider={provider} />;
                 }
+
+                if (provider.id === 'google') {
+                    return <GooogleProvider key={provider.id} provider={provider} />;
+                }
+
                 if (provider.id === 'credentials') {
                     return <CredentialsProvider key={provider.id} provider={provider} />;
-                    // <Divider text="Or" classNames="mb-12" />
                 }
 
                 return null;

@@ -1,31 +1,52 @@
 import NextAuth, { NextAuthOptions, User } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
-import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from '@/lib/client/prisma';
-import { compareCredentials } from '@/lib/utils/credentials/compareCredentials';
-import { JWTOptions } from 'next-auth/jwt';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-// import { env } from '@/env/server.mjs';
+import { env } from '@/env/server.mjs';
+import { compareCredentials } from '@/lib/utils/credentials/compareCredentials';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { JWTOptions } from 'next-auth/jwt';
 
 export default NextAuth({
     session: {
-        strategy: "jwt"
+        strategy: 'jwt'
     },
-    secret: "testtesttesttesttesttesttest",
+    secret: env.NEXTAUTH_SECRET,
     adapter: PrismaAdapter(prisma),
     debug: true,
+    jwt: {
+        secret: env.JWT_SECRET,
+        encryption: true
+    } as Partial<JWTOptions>,
     providers: [
+        GoogleProvider({
+            clientId: env.GOOGLE_CLIENT_ID,
+            clientSecret: env.GOOGLE_CLIENT_SECRET
+        }),
         GithubProvider({
-            clientId: process.env.GITHUB_CLIENT_ID,
-            clientSecret: process.env.GITHUB_CLIENT_SECRET
+            clientId: env.GITHUB_CLIENT_ID,
+            clientSecret: env.GITHUB_CLIENT_SECRET
         })
     ],
     callbacks: {
-        signIn({ user, account, profile, email, credentials}){
-            return "/portal"
+        jwt: async ({ token, user }) => {
+            if (user) {
+                token.id = user.id;
+            }
+            return token;
+        },
+        session: ({ session, token }) => {
+            // @ts-ignore
+            if (token && session.id! !== undefined) {
+                // @ts-ignore
+                session.id = token.id;
+            }
+            return session;
         }
     }
 });
+
 //     CredentialsProvider({
 //         name: 'credentials',
 //         type: 'credentials',
