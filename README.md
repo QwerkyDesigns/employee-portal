@@ -47,3 +47,22 @@ npm run setup
 https://jameschambers.co.uk/nextjs-hot-reload-docker-development
 
 https://logfetch.com/next-stripe-cli-docker-integration/
+
+### Create a nextauth secret
+
+In a unix shell, run:
+
+```bash
+openssl rand -base64 32
+```
+
+### Create a jwt secret
+
+```bash
+
+npm i -g node-jose-tools
+
+jose newkey -s 512 -t oct -a HS512
+
+{"kty":"oct","kid":"KXoO1b0ICvab1DaFv9QQZzc-ovytffZL6jy10-Xwp5s","alg":"HS512","k":"afcxWrRByVGKegtf0VM257I_WCy_06qtG1lecV3HAQLyNPIwgrtLI9rXDDmcpVu8HI9ReiL0QOx90EUT4zA3cg"}
+```
