@@ -1,10 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
-import { getProviders, useSession } from 'next-auth/react';
+import { getProviders, signOut, useSession } from 'next-auth/react';
 import { CommonProviderOptions } from 'next-auth/providers';
 import { AuthLayout } from '@/components/auth/AuthLayout';
 import { Providers } from '@/components/auth/Providers';
+import { Button } from '@/components/buttons/Button';
 
 const Home = ({ providers = [] }: { providers: CommonProviderOptions[] }) => {
     const { data: session } = useSession();
@@ -15,9 +16,9 @@ const Home = ({ providers = [] }: { providers: CommonProviderOptions[] }) => {
             </Head>
             <AuthLayout>
                 <div className="flex flex-col">
-                    <Link href="/" aria-label="Home">
+                    <Button onClick={async () => signOut()} aria-label="Home">
                         {session ? 'Home' : "You're logged in Bitch, but go home"}
-                    </Link>
+                    </Button>
                     <div className="mt-20">
                         <h2 className="text-lg font-semibold text-gray-900">Sign in to your account</h2>
                         <p className="mt-2 text-sm text-gray-700">

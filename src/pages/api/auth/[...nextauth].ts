@@ -10,15 +10,12 @@ import { JWTOptions } from 'next-auth/jwt';
 
 export default NextAuth({
     session: {
-        strategy: 'jwt'
+        strategy: 'jwt',
+        maxAge: 30 * 24 * 60 * 60 // 30 days
     },
     secret: env.NEXTAUTH_SECRET,
     adapter: PrismaAdapter(prisma),
     debug: true,
-    jwt: {
-        secret: env.JWT_SECRET,
-        encryption: true
-    } as Partial<JWTOptions>,
     providers: [
         GoogleProvider({
             clientId: env.GOOGLE_CLIENT_ID,
