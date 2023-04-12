@@ -9,6 +9,7 @@ import { Button } from '@/components/buttons/Button';
 
 const Home = ({ providers = [] }: { providers: CommonProviderOptions[] }) => {
     const { data: session } = useSession();
+
     return (
         <>
             <Head>
@@ -16,9 +17,10 @@ const Home = ({ providers = [] }: { providers: CommonProviderOptions[] }) => {
             </Head>
             <AuthLayout>
                 <div className="flex flex-col">
-                    <Button onClick={async () => signOut()} aria-label="Home">
-                        {session ? 'Home' : "You're logged in Bitch, but go home"}
+                    <Button onClick={async () => signOut({ callbackUrl: `${window.location.origin}/` })} aria-label="Home">
+                        {session ? "Log out" : 'Home'}
                     </Button>
+
                     <div className="mt-20">
                         <h2 className="text-lg font-semibold text-gray-900">Sign in to your account</h2>
                         <p className="mt-2 text-sm text-gray-700">

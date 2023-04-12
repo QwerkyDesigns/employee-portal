@@ -4,9 +4,7 @@ import GithubProvider from 'next-auth/providers/github';
 import { prisma } from '@/lib/client/prisma';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { env } from '@/env/server.mjs';
-import { compareCredentials } from '@/lib/utils/credentials/compareCredentials';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { JWTOptions } from 'next-auth/jwt';
+
 
 export default NextAuth({
     session: {
@@ -80,26 +78,3 @@ export default NextAuth({
 //         }
 //     })
 // ],
-// callbacks: {
-//     jwt: async ({ token, user }) => {
-//         if (user) {
-//             token.id = user.id;
-//         }
-//         return token;
-//     },
-//     session: ({ session, token }) => {
-//         // if (token && session.id! !== undefined) {
-//         //     session.id = token.id;
-//         // }
-//         return session;
-//     }
-// },
-// secret: 'test',
-// session: {
-//     strategy: 'jwt'
-// },
-// jwt: {
-//     secret: 'test',
-//     encryption: true
-// } as Partial<JWTOptions>
-// });
