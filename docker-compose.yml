@@ -1,24 +1,6 @@
 version: '3.9'
 
 services:
-    # web:
-    #     image: studio-image
-    #     build:
-    #         context: .
-    #         dockerfile: Dockerfile
-    #     container_name: next-app
-    #     restart: always
-    #     volumes:
-    #         - ./:/app
-    #         - /app/node_modules
-    #         - /app/.next
-    #     ports:
-    #         - 3000:3000
-    #     networks:
-    #         - studio-network
-    #     env_file:
-    #         - ./.env.development
-
     stripe-cli:
         image: stripe/stripe-cli
         container_name: stripe-cli
