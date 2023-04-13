@@ -6,7 +6,7 @@ import { ImageOrigin } from '@/lib/enums/ImageOrigin';
 import { batch } from '@/lib/utils/batch';
 import { PresignedUrlWithMeta } from '@/types/sharedTypes';
 import { Checkbox, NumberInput, Pagination, Text } from '@mantine/core';
-import { IconArrowBigTop } from '@tabler/icons';
+// import { IconArrowBigTop } from '@tabler/icons';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { DashboardLayout } from './DashboardLayout';
@@ -148,7 +148,7 @@ export const PaginatedReviewBase = ({ origin }: { origin: ImageOrigin }) => {
                                             <PaddedImage key={meta.url} url={meta.url} />
                                             <div className="flex flex-row justify-evenly">
                                                 <ButtonWithSpinner
-                                                    icon={<IconArrowBigTop size={14} />}
+                                                    // icon={<IconArrowBigTop size={14} />}
                                                     loading={loading}
                                                     onClick={() => {
                                                         categorize(meta.key);

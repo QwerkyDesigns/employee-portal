@@ -16,20 +16,6 @@ export default defineNextConfig({
                 aggregateTimeout: 300
             };
         }
-
-        config.resolve.fallback = { fs: false };
-
-      
-
-        // config.resolve = {
-        //     ...config.resolve,
-        //     fallback: {
-        //         fs: false,
-        //         path: false,
-        //         os: false
-        //     }
-        // };
-
         return config;
     },
     reactStrictMode: true,

@@ -32,7 +32,6 @@ const requestDefault = {
 export default async function requestNewGeneratedText(prompt: string): Promise<CreateCompletionResponseChoicesInner[]> {
     const createCompletionRequest: CreateCompletionRequest = { prompt, ...requestDefault };
     try {
-        console.log(createCompletionRequest);
         const response = await openApiClient.createCompletion(createCompletionRequest);
         const data = response.data.choices as CreateCompletionResponseChoicesInner[];
         Logger.debug({ message: data[0].text ?? '' });
