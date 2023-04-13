@@ -9,8 +9,7 @@ export const getServerAuthSession = async (ctx: { req: GetServerSidePropsContext
 
 export async function isAuthenticated(context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>, callback: (session: Session) => any) {
     const session = await getServerAuthSession(context);
-    console.log("This session is BONKED" + session);
-    if (session === null) {
+    if (!session) {
         return {
             redirect: {
                 permanent: false,

@@ -7,8 +7,8 @@ function handleCloudAuthSignin(provider: CommonProviderOptions) {
     return async () => {
         await signIn(provider.id, {
             redirect: true,
-            callbackUrl: 'http://localhost:3000/portal'
-            // callbackUrl: `${window.location.origin}/portal`
+            // callbackUrl: 'http://localhost:3000/portal'
+            callbackUrl: `${window.location.origin}/portal`
         });
     };
 }

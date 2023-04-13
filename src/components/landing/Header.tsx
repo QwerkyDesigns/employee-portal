@@ -5,7 +5,6 @@ import clsx from 'clsx';
 import Container from '../container/Container';
 import { NavLink } from './NavLink';
 import { Button } from '../buttons/Button';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 function MobileNavLink({ href, children }: { href: string; children: React.ReactNode }) {
@@ -85,13 +84,7 @@ export function Header() {
                         </div>
                     </div>
                     <div className="flex items-center gap-x-5 md:gap-x-8">
-                        <div className="hidden md:block">
-                            {/* <button onClick={() => router.push("/api/auth/signin")}> GO TO SIGNIN</button> */}
-
-                            {/* <button onClick={async () => await signIn('credentials', { callbackUrl: `${window.location.origin}/portal` })}>Sign in</button> */}
-                            <NavLink href="/login">Sign in</NavLink>
-                        </div>
-                        <Button href="/register">Get started today</Button>
+                        <Button href="/login">Sign in or Get started today</Button>
                         <div className="-mr-1 md:hidden">
                             <MobileNavigation />
                         </div>

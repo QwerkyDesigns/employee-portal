@@ -8,6 +8,7 @@ import { useState } from 'react';
 import frontendClient from '@/lib/client/frontendClient';
 import { RegistrationPayload, RegistrationRequest, RegistrationResponse } from '@/lib/controllers/RegisterAccountController';
 import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
 
 export default function Register() {
     const [email, setEmail] = useState<string>('');
@@ -32,6 +33,7 @@ export default function Register() {
         console.log(response);
 
         if (response.isSuccess) {
+            await signIn('credentials', {callbackUrl: `${window.location.origin}/portal`});
             console.log("Booyah")
             //perhaps a router.push('/login'); or push to a confirmation page - where they will provide an emailed token
         }

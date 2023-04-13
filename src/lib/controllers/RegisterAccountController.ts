@@ -10,8 +10,8 @@ async function createUser(email: string, encryptedPassword: string) {
             data: {
                 email: email,
                 password: encryptedPassword,
-                sessions: {}
-            }
+               
+            }, 
         })
         .catch((error: any) => {
             console.error('Failed to store account data:', error);

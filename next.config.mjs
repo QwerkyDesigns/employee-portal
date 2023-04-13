@@ -9,7 +9,7 @@ function defineNextConfig(config) {
 }
 
 export default defineNextConfig({
-    webpack: (config, { dev }) => {
+    webpack: (config, { dev, isServer }) => {
         if (dev) {
             config.watchOptions = {
                 poll: 500,

@@ -16,9 +16,13 @@ export function Providers({ providers = [] }: { providers: CommonProviderOptions
                     return <GooogleProvider key={provider.id} provider={provider} />;
                 }
 
-                if (provider.id === 'credentials') {
-                    return <CredentialsProvider key={provider.id} provider={provider} />;
-                }
+                // TODO: The credentials provider doesn't actually work with the prisma adapter - so thats a pain.
+                // It will be much simpler (and apparently more secure)
+                // to not use the credentials provider at all if we intend to use the adapter.
+
+                // if (provider.id === 'credentials') {
+                //     return <CredentialsProvider key={provider.id} provider={provider} />;
+                // }
 
                 return null;
             })}
