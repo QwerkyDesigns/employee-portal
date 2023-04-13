@@ -9,13 +9,27 @@ function defineNextConfig(config) {
 }
 
 export default defineNextConfig({
-    webpack: (config, { dev }) => {
+    webpack: (config, { dev, isServer }) => {
         if (dev) {
             config.watchOptions = {
                 poll: 500,
                 aggregateTimeout: 300
             };
         }
+
+        config.resolve.fallback = { fs: false };
+
+      
+
+        // config.resolve = {
+        //     ...config.resolve,
+        //     fallback: {
+        //         fs: false,
+        //         path: false,
+        //         os: false
+        //     }
+        // };
+
         return config;
     },
     reactStrictMode: true,

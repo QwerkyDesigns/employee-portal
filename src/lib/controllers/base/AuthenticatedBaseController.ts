@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { Controller, errors } from 'nextjs-backend-helpers';
 import { StatusCodes } from '../../enums/StatusCodes';
 import UnAuthenticatedError from '../../errors/bad-request/UnAuthenticatedError';
-import { getSession } from 'next-auth/react';
-import S3DownloadError from '@/lib/errors/application-errors/S3DownloadError';
+import authOptions from "@/pages/api/auth/[...nextauth]"
+import { getServerSession } from 'next-auth';
 
 export class AuthenticatedBaseController extends Controller {
     constructor() {
@@ -17,12 +17,12 @@ export class AuthenticatedBaseController extends Controller {
         //     response.status(StatusCodes.ServerError).json(errors([error.message]));
         // });
 
-        this.before(async (req: NextApiRequest, _res: NextApiResponse) => {
-            const session = await getSession({ req });
-
-            if (!session) {
-                throw new UnAuthenticatedError('You\'re not allowed to fking do that.');
+        this.before(async (req: NextApiRequest, res: NextApiResponse) => {
+            const session = await getServerSession(req, res, authOptions);
+            if (session) {
+                return;
             }
+            throw new UnAuthenticatedError('You\'re not allowed to fking do that.');
         });
 
         this.rescue(UnAuthenticatedError, (error, _request, response) => {

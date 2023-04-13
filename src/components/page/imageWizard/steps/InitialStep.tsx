@@ -25,13 +25,13 @@ export const InitialStep = () => {
         if (setShowProceedButton) {
             setShowProceedButton(textPrompts.whatDoYouWantToBuild.length > 0);
         }
-    }, [textPrompts.whatDoYouWantToBuild,setShowProceedButton]);
+    }, [textPrompts.whatDoYouWantToBuild, setShowProceedButton]);
 
     const onGenIdeasPromptChange = (e: ChangeEvent<HTMLInputElement>) => {
         const text = e.target.value;
         setHelpGenIdeasPrompt(text);
 
-        const computedCost = calculateTextGenerationCost(text.split(' ').length);
+        const computedCost = calculateTextGenerationCost(text);
         setCurrentCost(computedCost);
     };
 
@@ -41,7 +41,6 @@ export const InitialStep = () => {
             const prompt = formatPrompt(helpGenIdeasPrompt);
             const response = await frontendClient.post<GenerateTextRequest, GenerateTextResponse>('create/text-completion', { prompt });
             const firstChoice = response.choices[0];
-            console.log(firstChoice);
             if (setTextPrompts) {
                 setTextPrompts((cur) => {
                     return {
@@ -66,7 +65,7 @@ export const InitialStep = () => {
     return (
         <div aria-label="left side of the screen" className="mx-auto flex w-full flex-col border-r-indigo-400">
             <div className="w-full">
-                <div className="my-12 flex w-full justify-center">
+                <div className="my-12 flex w-full flex-col justify-center">
                     <TextArea
                         value={textPrompts.whatDoYouWantToBuild}
                         label="Describe for us what you'd like to create..."
@@ -78,14 +77,19 @@ export const InitialStep = () => {
                             }
                         }}
                     />
-                    <div className="space-around flex flex-row">
-                        <ButtonWithSpinner onClick={onGenerateIdeasClick} className="float-left m-2" loading={loading}>
+                    <div className="space-around mt-2 flex w-full flex-row items-center">
+                        <ButtonWithSpinner onClick={onGenerateIdeasClick} className="m-2" loading={loading}>
                             Help me generate ideas (Current Cost: ${currentCost})
                         </ButtonWithSpinner>
-                        <TextInput onChange={onGenIdeasPromptChange} value={helpGenIdeasPrompt} />
+                        <div className="w-full">
+                            <label htmlFor="genIdeasPrompt" className="text-xs">
+                                Optional: Provide some thoughts
+                            </label>
+                            <TextInput id="genIdeasPrompt" onChange={onGenIdeasPromptChange} value={helpGenIdeasPrompt} />
+                        </div>
                     </div>
                 </div>
-                <div className="my-12 flex w-full justify-center">
+                {/* <div className="my-12 flex w-full justify-center">
                     <TextArea
                         value={textPrompts.whatTypeOfProduct}
                         label="What type of product are you creating?"
@@ -123,7 +127,7 @@ export const InitialStep = () => {
                             }
                         }}
                     />
-                </div>
+                </div> */}
             </div>
         </div>
     );

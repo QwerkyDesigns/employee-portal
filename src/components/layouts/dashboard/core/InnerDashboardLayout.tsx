@@ -32,9 +32,8 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <div className="fixed inset-0 bg-gray-600 bg-opacity/75" />
+                        <div className="bg-opacity/75 fixed inset-0 bg-gray-600" />
                     </Transition.Child>
-
                     <div className="fixed inset-0 z-40 flex">
                         <Transition.Child
                             as={Fragment}
@@ -45,7 +44,7 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                             leaveFrom="translate-x-0"
                             leaveTo="-translate-x-full"
                         >
-                            <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-white pt-5 pb-4">
+                            <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-white pb-4 pt-5">
                                 <Transition.Child
                                     as={Fragment}
                                     enter="ease-in-out duration-300"
@@ -55,7 +54,7 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                                     leaveFrom="opacity-100"
                                     leaveTo="opacity-0"
                                 >
-                                    <div className="absolute top-0 right-0 -mr-12 pt-2">
+                                    <div className="absolute right-0 top-0 -mr-12 pt-2">
                                         <button
                                             type="button"
                                             className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
@@ -118,9 +117,9 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
             </Transition.Root>
 
             {/* Static sidebar for desktop */}
-            <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-gray-200 lg:bg-gray-100 lg:pt-5 lg:pb-4">
+            <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-gray-200 lg:bg-gray-100 lg:pb-4 lg:pt-5">
                 <div className="flex shrink-0 items-center px-6">
-                    <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=purple&shade=500" alt="Your Company" />
+                    {/* <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=purple&shade=500" alt="Your Company" /> */}
                 </div>
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <div className="mt-5 flex h-0 flex-1 flex-col overflow-y-auto pt-1">
@@ -149,46 +148,34 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                             leaveFrom="transform opacity-100 scale-100"
                             leaveTo="transform opacity-0 scale-95"
                         >
-                            <Menu.Items className="absolute inset-x-0 z-10 mx-3 mt-1 origin-top divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity/5 focus:outline-none">
+                            <Menu.Items className="ring-opacity/5 absolute inset-x-0 z-10 mx-3 mt-1 origin-top divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black focus:outline-none">
                                 <div className="py-1">
                                     <Menu.Item>
                                         {({ active }) => (
                                             <a
-                                                href="#"
-                                                className={classNames({
-                                                    classes: [active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']
-                                                })}
-                                            >
-                                                View profile
-                                            </a>
-                                        )}
-                                    </Menu.Item>
-                                    <Menu.Item>
-                                        {({ active }) => (
-                                            <Link
                                                 href="/portal/account"
                                                 className={classNames({
                                                     classes: [active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']
                                                 })}
                                             >
                                                 Settings
-                                            </Link>
+                                            </a>
                                         )}
                                     </Menu.Item>
+                                </div>
+                                <div className="py-1">
                                     <Menu.Item>
                                         {({ active }) => (
-                                            <Link
+                                            <a
                                                 href="/portal/stripe/payments/choose-top-up-method"
                                                 className={classNames({
                                                     classes: [active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']
                                                 })}
                                             >
                                                 Top Up your Funds
-                                            </Link>
+                                            </a>
                                         )}
                                     </Menu.Item>
-                                </div>
-                                <div className="py-1">
                                     <Menu.Item>
                                         {({ active }) => (
                                             <a
@@ -206,7 +193,8 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                                     <Menu.Item>
                                         {({ active }) => (
                                             <a
-                                                href="#"
+                                                onClick={async () => await signOut({callbackUrl: `${window.location.origin}/login`})}
+                                                
                                                 className={classNames({
                                                     classes: [active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']
                                                 })}
@@ -269,7 +257,7 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                     </button>
                     <div className="flex flex-1 justify-between px-4 sm:px-6 lg:px-8">
                         <div className="flex flex-1">
-                            <form className="flex w-full md:ml-0" action="#" method="GET">
+                            {/* <form className="flex w-full md:ml-0" action="#" method="GET">
                                 <label htmlFor="search-field" className="sr-only">
                                     Search
                                 </label>
@@ -285,7 +273,7 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                                         type="search"
                                     />
                                 </div>
-                            </form>
+                            </form> */}
                         </div>
                         <div className="flex items-center">
                             {/* Profile dropdown */}
@@ -293,11 +281,7 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                                 <div>
                                     <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
                                         <span className="sr-only">Open user menu</span>
-                                        <img
-                                            className="h-8 w-8 rounded-full"
-                                            src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                            alt=""
-                                        />
+                                        <img className="h-8 w-8 rounded-full" src={session?.user?.image ?? ''} alt="" />
                                     </Menu.Button>
                                 </div>
                                 <Transition
@@ -309,7 +293,7 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                                     leaveFrom="transform opacity-100 scale-100"
                                     leaveTo="transform opacity-0 scale-95"
                                 >
-                                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity/5 focus:outline-none">
+                                    <Menu.Items className="ring-opacity/5 absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black focus:outline-none">
                                         <div className="py-1">
                                             <Menu.Item>
                                                 {({ active }) => (

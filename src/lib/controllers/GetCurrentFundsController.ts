@@ -8,6 +8,7 @@ export class GetCurrentFundsController extends AuthenticatedBaseController {
     async get(req: NextApiRequest, res: NextApiResponse<GetCurrentFundsResponse>) {
         const session = await getSession({ req });
         const emailAddress = session?.user?.email;
+        console.log(emailAddress)
         if (emailAddress) {
             const currentFunds = await getFunds(emailAddress);
             Logger.debug({
