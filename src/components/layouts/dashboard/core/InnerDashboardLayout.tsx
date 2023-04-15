@@ -129,7 +129,7 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                             <Menu.Button className="group w-full rounded-md bg-gray-100 px-3.5 py-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-100">
                                 <span className="flex w-full items-center justify-between">
                                     <span className="flex min-w-0 items-center justify-between space-x-3">
-                                        <img className="h-10 w-10 shrink-0 rounded-full bg-gray-300" src={session?.user?.image ?? ''} alt="" />
+                                        {session?.user?.image && <img className="h-10 w-10 shrink-0 rounded-full bg-gray-300" src={session.user.image} alt="No Image Url" />}
                                         <span className="flex min-w-0 flex-1 flex-col">
                                             <span className="truncate text-sm font-medium text-gray-900">{session?.user?.name}</span>
                                             <span className="truncate text-sm text-gray-500">{session?.user?.email}</span>
@@ -193,8 +193,8 @@ export const InnerDashboardLayout = ({ session, children }: DashboardProps) => {
                                     <Menu.Item>
                                         {({ active }) => (
                                             <a
-                                                onClick={async () => await signOut({callbackUrl: `${window.location.origin}/login`})}
-                                                
+                                                onClick={async () => await signOut({ callbackUrl: `${window.location.origin}/login` })}
+
                                                 className={classNames({
                                                     classes: [active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']
                                                 })}

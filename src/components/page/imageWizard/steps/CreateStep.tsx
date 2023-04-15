@@ -42,20 +42,22 @@ export const CreateStep = () => {
 
     return (
         <div>
-            <div className="mb-2 flex w-full flex-row items-center justify-between">
-                <div>
-                    <Select
-                        options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-                        onChange={(e: any) => setValue(e.target.value)}
-                        value={value}
-                        label="Choose how many images you would like to create"
-                    />
+            <div className="mb-2 flex flex-col w-full flex-row items-center justify-between">
+                <div className="flex flex-row mb-2">
+                    <div className="flex flex-col justify-center">
+                        <span className="mb-4 text-center font-extrabold">Your prompt</span>
+                        <span className="text-center">{finalPrompt}</span>
+                    </div>
+                    <div className="w-1/2">
+                        <Select
+                            options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+                            onChange={(e: any) => setValue(e.target.value)}
+                            value={value}
+                            label="Create how many?"
+                        />
+                    </div>
                 </div>
-                <div className="flex flex-col justify-center">
-                    <span className="mb-4 text-center font-extrabold">Your prompt</span>
-                    <span className="text-center">{finalPrompt}</span>
-                </div>
-                <div>
+                <div className="w-full text-center mt-3">
                     <ButtonWithSpinner loading={loading} onClick={submitToCreateImages}>
                         Submit to create new images (3 credits)
                     </ButtonWithSpinner>

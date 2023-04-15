@@ -6,7 +6,7 @@ import { GetAllArchivedResponse } from '@/lib/controllers/GetAllArchivedImagesCo
 import { batch } from '@/lib/utils/batch';
 import { PresignedUrlWithMeta } from '@/types/sharedTypes';
 import { Checkbox, NumberInput, Pagination } from '@mantine/core';
-import { IconArrowBigTop } from '@tabler/icons';
+import { IconCircleArrowUp } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -56,7 +56,7 @@ export default function AllArchivedPage() {
         <DashboardLayout pageName="Archived Photos">
             <div className="my-4 flex h-full flex-col items-center justify-center">
                 <Pagination
-                    page={page}
+                    value={page}
                     onChange={(p) => {
                         setPage(p);
                     }}
@@ -93,7 +93,7 @@ export default function AllArchivedPage() {
                                     <PaddedImage key={meta.url} url={meta.url} />
                                     <div className="flex flex-row justify-evenly">
                                         <ButtonWithSpinner
-                                            icon={<IconArrowBigTop size={14} />}
+                                            icon={<IconCircleArrowUp size={14} />}
                                             loading={loading}
                                             onClick={() => {
                                                 setLoading(true);

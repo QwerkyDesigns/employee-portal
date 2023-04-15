@@ -4,8 +4,9 @@ import GithubProvider from 'next-auth/providers/github';
 import { prisma } from '@/lib/client/prisma';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { env } from '@/env/server.mjs';
+import { CreateUsage } from '@/lib/db/UpdateUsage';
 
-const NEW_ACCOUNT_CREDITS = 500000; // five hundred thousands == $1
+const NEW_ACCOUNT_CREDITS = 500000; // five hundred thousands tokens == $1
 
 export default NextAuth({
     session: {
@@ -28,38 +29,10 @@ export default NextAuth({
     callbacks: {
         async signIn({ user, account, profile, email, credentials }) {
             // do a check on 'updated at' columns and if it is null, then prepopulate with account setup data
-            // there is no fucking 'signUp' callback from what I can tell in the prisma adapter
-
-            let userAccount;
-            try {
-                // TODO: cookie to check if this check has already been done maybe? maybe not
-                const loadedUser = await prisma.user.findUnique({ where: { email: user.email ?? '' } });
-                userAccount = await prisma.account.findFirst({ where: { userId: loadedUser?.id }, include: { usage: true } })
-            } catch (err: any) {
-                return false;
+            // there is no fking 'signUp' callback from what I can tell in the prisma adapter
+            if (account?.usageId === null || account?.usageId === undefined) {
+                await CreateUsage(user, NEW_ACCOUNT_CREDITS);
             }
-
-            let exists = userAccount?.usage === null;
-            if (!exists) {
-                try {
-                    await prisma.usage
-                        .create({
-                            data: {
-                                availableFunds: NEW_ACCOUNT_CREDITS,
-                                Account: {
-                                    connect: {
-                                        id: userAccount?.id
-                                    }
-                                }
-                            },
-                            include: { Account: true }
-                        });
-                } catch (error: any) {
-                    console.error('Failed to store usage data:', error);
-                    return false
-                }
-            }
-
             return true;
         },
         jwt: async ({ token, user }) => {

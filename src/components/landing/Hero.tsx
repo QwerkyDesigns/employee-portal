@@ -24,7 +24,7 @@ export function Hero() {
             </p>
             <div className="mt-10 flex justify-center gap-x-6">
                 <Button href="/register" variant={'solid'} color={'slate'} className={''}>
-                    Get 100 free credits to start!
+                    Get 500,000 free credits to start! lmao
                 </Button>
             </div>
         </Container>

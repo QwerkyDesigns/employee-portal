@@ -1,5 +1,5 @@
 import { Group, Text, useMantineTheme } from '@mantine/core';
-import { IconUpload, IconPhoto, IconX } from '@tabler/icons';
+import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
 import { Dropzone, DropzoneProps, FileWithPath, MIME_TYPES } from '@mantine/dropzone';
 import frontendClient from '@/lib/client/frontendClient';
 import { SetState } from '@/types/sharedTypes';
@@ -12,6 +12,7 @@ export type PngImageDropzoneProps = Partial<DropzoneProps> & {
     setLoading: SetState<boolean>;
 };
 const timer = 'timer';
+
 export function PngImageDropzone({ setUploadedImages, setLoading, ...props }: PngImageDropzoneProps) {
     const theme = useMantineTheme();
     const [count, setCount] = useState<number>(0);
