@@ -30,35 +30,35 @@ export default NextAuth({
             // do a check on 'updated at' columns and if it is null, then prepopulate with account setup data
             // there is no fucking 'signUp' callback from what I can tell in the prisma adapter
 
-            let userAccount;
-            try {
-                // TODO: cookie to check if this check has already been done maybe? maybe not
-                const loadedUser = await prisma.user.findUnique({ where: { email: user.email ?? '' } });
-                userAccount = await prisma.account.findFirst({ where: { userId: loadedUser?.id }, include: { usage: true } })
-            } catch (err: any) {
-                return false;
-            }
+            // let userAccount;
+            // try {
+            //     // TODO: cookie to check if this check has already been done maybe? maybe not
+            //     const loadedUser = await prisma.user.findUnique({ where: { email: user.email ?? '' } });
+            //     userAccount = await prisma.account.findFirst({ where: { userId: loadedUser?.id }, include: { usage: true } })
+            // } catch (err: any) {
+            //     return false;
+            // }
 
-            let exists = userAccount?.usage === null;
-            if (!exists) {
-                try {
-                    await prisma.usage
-                        .create({
-                            data: {
-                                availableFunds: NEW_ACCOUNT_CREDITS,
-                                Account: {
-                                    connect: {
-                                        id: userAccount?.id
-                                    }
-                                }
-                            },
-                            include: { Account: true }
-                        });
-                } catch (error: any) {
-                    console.error('Failed to store usage data:', error);
-                    return false
-                }
-            }
+            // let exists = userAccount?.usage === null;
+            // if (!exists) {
+            //     try {
+            //         await prisma.usage
+            //             .create({
+            //                 data: {
+            //                     availableFunds: NEW_ACCOUNT_CREDITS,
+            //                     Account: {
+            //                         connect: {
+            //                             id: userAccount?.id
+            //                         }
+            //                     }
+            //                 },
+            //                 include: { Account: true }
+            //             });
+            //     } catch (error: any) {
+            //         console.error('Failed to store usage data:', error);
+            //         return false
+            //     }
+            // }
 
             return true;
         },
