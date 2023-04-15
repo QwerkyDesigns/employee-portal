@@ -18,10 +18,9 @@ const useStyles = createStyles((theme) => ({
         position: 'absolute',
         pointerEvents: 'none',
         paddingLeft: theme.spacing.sm,
-        paddingTop: theme.spacing.sm / 2,
+        paddingTop: parseInt(theme.spacing.sm) / 2,
         zIndex: 1
     },
-
     slider: {
         position: 'absolute',
         width: '100%',
