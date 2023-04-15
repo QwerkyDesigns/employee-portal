@@ -18,14 +18,7 @@ export const RefineStep = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const { compilePrompt, textPrompts, setTextPrompts } = useContext<ImageWizardContextType>(ImageWizardContext);
     const [n, setN] = useState<number>(1);
-    useEffect(() => {
-        if (compilePrompt && setTextPrompts) {
-            const currentPrompt = compilePrompt();
-            setTextPrompts((cur) => {
-                return { ...cur, finalPrompt: currentPrompt };
-            });
-        }
-    }, [compilePrompt, setTextPrompts]);
+
 
     const refineOnClick = async () => {
         setLoading(true);
@@ -39,9 +32,9 @@ export const RefineStep = () => {
                     .filter((x) => parseInt(x.split('.')[0]).toString() !== 'NaN')
                     .map(
                         (x) =>
-                            ({
-                                text: x
-                            } as RefinementIdea)
+                        ({
+                            text: x
+                        } as RefinementIdea)
                     );
                 setRefinementIdeas(lines);
             }
@@ -71,11 +64,11 @@ export const RefineStep = () => {
     return (
         <div className="mt-24 flex h-full flex-row">
             <div className="h-full w-1/2">
-                <TextArea
+                {textPrompts.finalPrompt && <TextArea
                     label="Here is your crafted prompt! If you would like to refine it before submitting, you can do that here"
                     value={textPrompts.finalPrompt}
                     onChange={manualUpdateFinalPrompt}
-                />
+                />}
                 <div className="flex flex-row items-center justify-between">
                     <ButtonWithSpinner className="mt-3" onClick={refineOnClick} loading={loading}>
                         Refine
