@@ -7,6 +7,7 @@ import { ImageSize } from '../enums/ImageSizes';
 import { ImageLocationDetails } from '@/types/sharedTypes';
 import { requestNewDalleImageSet } from '../externalServices/openAi/dalle/RequestNewDalleImageSet';
 import { saveDalleUrlsToS3 } from '../stores/uncategorizedCreatedImagesStore/SaveFromDalleToS3';
+import { Logger } from 'nextjs-backend-helpers';
 
 class CreateDalleImagesController extends AuthenticatedBaseController {
     constructor() {
@@ -28,12 +29,17 @@ class CreateDalleImagesController extends AuthenticatedBaseController {
         if (prompt.length > 500) {
             prompt = prompt.slice(0, 500);
         }
-
+        
+        console.log("-------------A")
         const response = await requestNewDalleImageSet(prompt, n, size);
-        const imageLocationdetails = await saveDalleUrlsToS3(response.urls, response.metaData);
-
+        console.log("-------------B")
+        const imageLocationDetails = await saveDalleUrlsToS3(response.urls, response.metaData);
+        Logger.debug({
+            message: "Failed somewhere",
+            imageLocationDetails
+        });
         return res.json({
-            details: imageLocationdetails
+            details: imageLocationDetails
         });
     }
 }

@@ -19,7 +19,6 @@ export const RefineStep = () => {
     const { compilePrompt, textPrompts, setTextPrompts } = useContext<ImageWizardContextType>(ImageWizardContext);
     const [n, setN] = useState<number>(1);
 
-
     const refineOnClick = async () => {
         setLoading(true);
         try {
@@ -48,7 +47,7 @@ export const RefineStep = () => {
     const refinedOptionOnClick = (value: string) => {
         if (setTextPrompts) {
             setTextPrompts((cur) => {
-                return { ...cur, finalPrompt: value };
+                return { ...cur, whatDoYouWantToBuild: value };
             });
         }
     };
@@ -56,7 +55,7 @@ export const RefineStep = () => {
     const manualUpdateFinalPrompt = (e: any) => {
         if (setTextPrompts) {
             setTextPrompts((cur) => {
-                return { ...cur, finalPrompt: e.target.value };
+                return { ...cur, whatDoYouWantToBuild: e.target.value };
             });
         }
     };
@@ -64,9 +63,9 @@ export const RefineStep = () => {
     return (
         <div className="mt-24 flex h-full flex-row">
             <div className="h-full w-1/2">
-                {textPrompts.finalPrompt && <TextArea
+                {textPrompts.whatDoYouWantToBuild && <TextArea
                     label="Here is your crafted prompt! If you would like to refine it before submitting, you can do that here"
-                    value={textPrompts.finalPrompt}
+                    value={textPrompts.whatDoYouWantToBuild}
                     onChange={manualUpdateFinalPrompt}
                 />}
                 <div className="flex flex-row items-center justify-between">

@@ -9,9 +9,9 @@ import writeFiles from '../s3Core/writeFiles';
 import { imageStoreBucket, uploadOptions } from './imageStoreConstants';
 import { ImageLocationDetails } from '@/types/sharedTypes';
 import { S3 } from 'aws-sdk';
+import { prisma } from '@/lib/client/prisma';
+import { GetAccount } from '@/lib/db/GetAccount';
 
-// These are a mess. Thought I'd want meta data - was trying to avoid databases -- its time to move the meta to the DB (along with file locations)
-// and simplify the heck out of this.
 export async function saveDalleUrlsToS3(urls: string[], metaData: ImageBatchMetaData, tags: S3.Tag[] = []) {
     const data: ImageLocationDetails[] = [];
 
@@ -27,17 +27,22 @@ export async function saveDalleUrlsToS3(urls: string[], metaData: ImageBatchMeta
         const tags: S3.Tag[] = [{ Key: 'DownloadDate', Value: timeStampString }];
         const imageTransfer = new ImageTransfer(imageData, imageName, contentType, tags);
 
+        console.log("------------------------C")
+        console.log("Trying to save to s3")
         const imageLocationDetails = await saveDalleImageFileToS3(imageTransfer);
+        const key = `${imageTransfer.imageName.getPrefix()}/${imageName.getFileName()}`
 
+        console.log("------------------------D")
+        console.log("Trying to save to database")
+        // await CreateImageRecord(key, metaData.prompt)
+        
+        
         data.push(imageLocationDetails);
         imageElement++;
         console.log(`Downloading ${imageElement} of ${urls.length}`);
     }
-
-    const metaFileName = `${imageSet.id}-meta.txt`;
-    const serializedMetaData = JSON.stringify(metaData);
-    const metaFilePrefix = `${ImageOrigin.Dalle}/${imageSet.id}`;
-    await SaveSerializedDataToS3(serializedMetaData, metaFileName, metaFilePrefix);
+    console.log("------------------------E")
+    console.log(data)
     return data;
 }
 
@@ -52,6 +57,24 @@ async function saveDalleImageFileToS3(imageTransfer: ImageTransfer) {
         imageTransfer.imageName.getPrefix()
     );
     return imageLocationDetails;
+}
+
+async function CreateImageRecord(storageKey: string, promptUsed: string) {
+    const account = await GetAccount();
+    await prisma.images.create({
+        data: {
+            storageKey,
+            promptUsed,
+            Account: {
+                connect: {
+                    id: account?.id
+                }
+            }
+        },
+        include: {
+            Account: true
+        }
+    })
 }
 
 async function SaveSerializedDataToS3(serializedData: string, fileName: string, prefix: string) {

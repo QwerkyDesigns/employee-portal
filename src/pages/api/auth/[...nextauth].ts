@@ -6,7 +6,6 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { env } from '@/env/server.mjs';
 import { CreateUsage } from '@/lib/db/UpdateUsage';
 
-const NEW_ACCOUNT_CREDITS = 500000; // five hundred thousands tokens == $1
 
 export default NextAuth({
     session: {
@@ -27,14 +26,29 @@ export default NextAuth({
         })
     ],
     callbacks: {
-        async signIn({ user, account, profile, email, credentials }) {
+        // async signIn({ user, account, profile, email, credentials }) {
             // do a check on 'updated at' columns and if it is null, then prepopulate with account setup data
             // there is no fking 'signUp' callback from what I can tell in the prisma adapter
-            if (account?.usageId === null || account?.usageId === undefined) {
-                await CreateUsage(user, NEW_ACCOUNT_CREDITS);
-            }
-            return true;
-        },
+
+            // console.log("====USER======")
+            // console.log(user)
+            // console.log("=====ACCOUNT=====")
+            // console.log(account)
+            // console.log("=====PROFILE=====")
+            // console.log(profile)
+            // console.log("====EMAIL======")
+            // console.log(email)
+            // console.log("====CREDENTIAL======")
+            // console.log(credentials)
+            // console.log("==========")
+
+            // if (account?.usageId === null || account?.usageId === undefined) {
+            //     console.log("====ACCOUNT USAGE NOT NUL??======")
+            //     console.log(account.usageId);
+            //     await CreateUsage(user, NEW_ACCOUNT_CREDITS);
+            // }
+            // return true;
+        // },
         jwt: async ({ token, user }) => {
             if (user) {
                 token.id = user.id;

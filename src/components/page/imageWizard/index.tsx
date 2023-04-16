@@ -235,6 +235,14 @@ export function ImageCreationWizard() {
     });
 
     const compilePrompt = () => {
+        // TODO: Proper compile
+        // const currentFinalSubmission = textPrompts.finalPrompt;
+        // console.log(currentFinalSubmission);
+        // const artist = artStyles.artist?.artistName;
+        // const artStyleName = artStyles.style;
+        // const styleWorking = `in the style of ${artist}${artStyleName.length > 0 ? ` mixed with ${artStyleName}` : ''}`;
+        // const final = (currentFinalSubmission.trim() + ' ' + styleWorking).trim();
+        // console.log(final);
         return textPrompts.whatDoYouWantToBuild;
     };
 
