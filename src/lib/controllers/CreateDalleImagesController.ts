@@ -8,8 +8,9 @@ import { ImageLocationDetails } from '@/types/sharedTypes';
 import { requestNewDalleImageSet } from '../externalServices/openAi/dalle/RequestNewDalleImageSet';
 import { saveDalleUrlsToS3 } from '../stores/uncategorizedCreatedImagesStore/SaveFromDalleToS3';
 import { Logger } from 'nextjs-backend-helpers';
-import { getServerSession } from 'next-auth';
+import { Session, getServerSession } from 'next-auth';
 import { GetAccountByEmail } from '../db/GetAccount';
+import authOptions from "@/pages/api/auth/[...nextauth]"
 
 class CreateDalleImagesController extends AuthenticatedBaseController {
     constructor() {
@@ -25,7 +26,7 @@ class CreateDalleImagesController extends AuthenticatedBaseController {
         let { prompt } = getBody<CreateDalleImagesRequest>(req);
 
         if (n < 1 || n > 10) {
-            throw new ArgumentError('You may only request up to 10 images');
+            throw new ArgumentError('You may only request between 1 and 10 images');
         }
 
         if (prompt.length > 500) {
@@ -33,8 +34,7 @@ class CreateDalleImagesController extends AuthenticatedBaseController {
         }
 
         const response = await requestNewDalleImageSet(prompt, n, size);
-
-        const session = await getServerSession();
+        const session = await getServerSession(req, res, authOptions) as Session;
         const email = session?.user?.email;
         if (email === null || email === undefined) {
             throw new Error("Could not find session");

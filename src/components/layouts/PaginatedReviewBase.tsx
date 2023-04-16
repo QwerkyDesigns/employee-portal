@@ -6,12 +6,10 @@ import { ImageOrigin } from '@/lib/enums/ImageOrigin';
 import { batch } from '@/lib/utils/batch';
 import { PresignedUrlWithMeta } from '@/types/sharedTypes';
 import { Checkbox, NumberInput, Text } from '@mantine/core';
-// import { IconArrowBigTop } from '@tabler/icons';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { DashboardLayout } from './DashboardLayout';
 import { Pagination } from '@mantine/core';
-export { getServerSideProps } from '@/lib/get-server-side-props/authentication';
 
 const DEFAULT_SHOW_NUMBER = 5;
 

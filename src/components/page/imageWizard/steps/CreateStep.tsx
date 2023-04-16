@@ -13,7 +13,7 @@ export const CreateStep = () => {
     const [value, setValue] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
     const [recentlyUploadedImages, setRecentlyUploadedImages] = useState<ImageLocationDetails[]>([]);
-    const { textPrompts, artStyles, compilePrompt } = useContext<ImageWizardContextType>(ImageWizardContext);
+    const { compilePrompt } = useContext<ImageWizardContextType>(ImageWizardContext);
     const [finalPrompt, setFinalPrompt] = useState<string>('');
 
     useEffect(() => {
