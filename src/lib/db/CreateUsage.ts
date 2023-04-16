@@ -1,4 +1,4 @@
-import { GetAccount } from "./GetAccount";
+import { Account } from "@prisma/client";
 import { prisma } from "../client/prisma";
 const NEW_ACCOUNT_CREDITS = 500000; // five hundred thousands tokens == $1
 

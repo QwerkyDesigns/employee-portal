@@ -9,7 +9,6 @@ export { getServerSideProps } from '@/lib/get-server-side-props/authentication';
 export default function ChooseTopUpMethod() {
     const onClick = async () => {
         const response = await frontendClient.post<StripeCheckoutSessionRequest, StripeCheckoutSessionResponse>('stripe/create-checkout-session');
-        console.log(response);
         const sessionId = response.session.id;
 
         const stripeClientJs = await stripeFrontend;

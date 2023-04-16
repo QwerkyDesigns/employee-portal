@@ -8,6 +8,8 @@ import { ImageLocationDetails } from '@/types/sharedTypes';
 import { requestNewDalleImageSet } from '../externalServices/openAi/dalle/RequestNewDalleImageSet';
 import { saveDalleUrlsToS3 } from '../stores/uncategorizedCreatedImagesStore/SaveFromDalleToS3';
 import { Logger } from 'nextjs-backend-helpers';
+import { getServerSession } from 'next-auth';
+import { GetAccountByEmail } from '../db/GetAccount';
 
 class CreateDalleImagesController extends AuthenticatedBaseController {
     constructor() {
@@ -29,11 +31,18 @@ class CreateDalleImagesController extends AuthenticatedBaseController {
         if (prompt.length > 500) {
             prompt = prompt.slice(0, 500);
         }
-        
-        console.log("-------------A")
+
         const response = await requestNewDalleImageSet(prompt, n, size);
-        console.log("-------------B")
-        const imageLocationDetails = await saveDalleUrlsToS3(response.urls, response.metaData);
+
+        const session = await getServerSession();
+        const email = session?.user?.email;
+        if (email === null || email === undefined) {
+            throw new Error("Could not find session");
+        }
+
+        const account = await GetAccountByEmail(email);
+
+        const imageLocationDetails = await saveDalleUrlsToS3(response.urls, response.metaData, [], account);
         Logger.debug({
             message: "Failed somewhere",
             imageLocationDetails

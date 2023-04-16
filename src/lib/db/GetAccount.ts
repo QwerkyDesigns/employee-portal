@@ -1,25 +1,7 @@
-import { GetUser } from "./GetUser";
 import { prisma } from "../client/prisma";
-import { User, Account } from "@prisma/client";
+import { Account } from "@prisma/client";
 
-export async function GetAccount(user: User | null = null): Promise<Account | null> {
-    let u = user;
-    if (!u || u === null) {
-        u = await GetUser();
-    }
-
-    if (u === null) {
-        throw new Error("User not found!")
-    }
-    return await prisma.account.findFirst({
-        where: {
-            userId: u?.id
-        }
-    });
-}
-
-
-export async function GetAccountByEmail(email: string): Promise<Account | null> {
+export async function GetAccountByEmail(email: string): Promise<Account> {
     const user = await prisma.user.findUnique({
         where: {
             email
@@ -29,9 +11,14 @@ export async function GetAccountByEmail(email: string): Promise<Account | null> 
         throw new Error("User not found: " + email)
     }
 
-    return await prisma.account.findFirst({
+    const account = await prisma.account.findFirst({
         where: {
             userId: user.id
         }
     })
+
+    if (account === null) {
+        throw new Error("Failed to retrieve account for: " + email)
+    }
+    return account;
 }

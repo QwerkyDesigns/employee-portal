@@ -8,14 +8,11 @@ export type DalleResponse = {
 };
 
 export async function requestNewDalleImageSet(prompt: string, n: number, size: ImageSize): Promise<DalleResponse> {
-    console.log("DALLE REQUEST")
     const response = await openApiClient.createImage({
         prompt: prompt,
         n: n,
         size: size
     });
-    console.log("DALLERESPONSE")
-    console.log(response)
 
     const imageUrls: string[] = [];
     response.data.data.forEach((val) => {

@@ -5,14 +5,13 @@ import { ImageTransfer } from '@/lib/models/images/ImageTransfer';
 import { HeaderKeys } from '@/lib/utils/constants';
 import { ImageBatchMetaData } from '@/types/ImageBatchmetaData';
 import writeFile from '../s3Core/writeFile';
-import writeFiles from '../s3Core/writeFiles';
 import { imageStoreBucket, uploadOptions } from './imageStoreConstants';
 import { ImageLocationDetails } from '@/types/sharedTypes';
 import { S3 } from 'aws-sdk';
-import { prisma } from '@/lib/client/prisma';
-import { GetAccount } from '@/lib/db/GetAccount';
+import { Account } from '@prisma/client';
+import { CreateImageRecord } from '@/lib/db/CreateImageRecord';
 
-export async function saveDalleUrlsToS3(urls: string[], metaData: ImageBatchMetaData, tags: S3.Tag[] = []) {
+export async function saveDalleUrlsToS3(urls: string[], metaData: ImageBatchMetaData, tags: S3.Tag[] = [], account: Account) {
     const data: ImageLocationDetails[] = [];
 
     const imageSet = new ImageSet();
@@ -27,22 +26,16 @@ export async function saveDalleUrlsToS3(urls: string[], metaData: ImageBatchMeta
         const tags: S3.Tag[] = [{ Key: 'DownloadDate', Value: timeStampString }];
         const imageTransfer = new ImageTransfer(imageData, imageName, contentType, tags);
 
-        console.log("------------------------C")
-        console.log("Trying to save to s3")
+
         const imageLocationDetails = await saveDalleImageFileToS3(imageTransfer);
         const key = `${imageTransfer.imageName.getPrefix()}/${imageName.getFileName()}`
 
-        console.log("------------------------D")
-        console.log("Trying to save to database")
-        // await CreateImageRecord(key, metaData.prompt)
-        
-        
+        await CreateImageRecord(key, metaData.prompt, account)
+
         data.push(imageLocationDetails);
         imageElement++;
         console.log(`Downloading ${imageElement} of ${urls.length}`);
     }
-    console.log("------------------------E")
-    console.log(data)
     return data;
 }
 
@@ -57,27 +50,4 @@ async function saveDalleImageFileToS3(imageTransfer: ImageTransfer) {
         imageTransfer.imageName.getPrefix()
     );
     return imageLocationDetails;
-}
-
-async function CreateImageRecord(storageKey: string, promptUsed: string) {
-    const account = await GetAccount();
-    await prisma.images.create({
-        data: {
-            storageKey,
-            promptUsed,
-            Account: {
-                connect: {
-                    id: account?.id
-                }
-            }
-        },
-        include: {
-            Account: true
-        }
-    })
-}
-
-async function SaveSerializedDataToS3(serializedData: string, fileName: string, prefix: string) {
-    const buffer = Buffer.from(serializedData, 'utf-8');
-    await writeFiles([{ name: fileName, data: buffer, contentType: 'text/*' }], uploadOptions, imageStoreBucket, prefix);
 }

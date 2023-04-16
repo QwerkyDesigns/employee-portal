@@ -1,8 +1,7 @@
-import { GetAccount } from "./GetAccount";
 import { prisma } from "../client/prisma";
+import { Account } from "@prisma/client";
 
-export async function UpdateUsage(creditsToSpend: number) {
-    const account = await GetAccount();
+export async function UpdateUsage(creditsToSpend: number, account: Account) {
     if (account?.usageId !== null) {
 
         const currentUsage = await prisma.usage.findUnique({

@@ -31,11 +31,6 @@ export const CreateStep = () => {
             size: ImageSize.large,
             prompt: finalPrompt
         });
-        console.log("--------------")
-        console.log(res)
-        console.log("--------------")
-
-
         setRecentlyUploadedImages(res.details);
         setLoading(false);
     };
