@@ -4,8 +4,9 @@ import { StatusCodes } from '../enums/StatusCodes';
 import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
 import ArgumentError from '../errors/bad-request/ArgumentError';
 import requestNewGeneratedText from '../externalServices/openAi/chatgpt/requestNewText';
-import { getServerSession } from 'next-auth';
+import { Session, getServerSession } from 'next-auth';
 import { GetAccountByEmail } from '../db/GetAccount';
+import authOptions from "@/pages/api/auth/[...nextauth]"
 
 class GenerateTextController extends AuthenticatedBaseController {
     constructor() {
@@ -19,15 +20,15 @@ class GenerateTextController extends AuthenticatedBaseController {
     }
 
     async post(req: NextApiRequest, res: NextApiResponse) {
-        const session = await getServerSession();
+        const session = await getServerSession(req, res, authOptions) as Session;
         const { prompt } = getBody<GenerateTextRequest>(req);
 
-        if (session === null || session?.user?.email === undefined) {
+        if (session === null) {
             throw new Error("Session was null")
         }
 
-        const email = session.user.email;
-        if (email === null) {
+        const email = session?.user?.email;
+        if (email === null || email === undefined) {
             throw new Error("Email was null");
         }
 
