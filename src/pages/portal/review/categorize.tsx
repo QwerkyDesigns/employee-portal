@@ -58,7 +58,6 @@ export default function CategorizePage() {
                 <ButtonWithSpinner
                     loading={loading}
                     onClick={async () => {
-                        console.log('HIT ME');
                         setLoading(true);
                         if (keys && typeof keys === 'string') {
                             const res = await frontendClient.post<CreateImageCategorizationRequest, CreateImageCategorizationResponse>(
@@ -71,7 +70,6 @@ export default function CategorizePage() {
                                         .join()
                                 }
                             );
-                            console.log(res);
                             router.push('/review/dalle');
                         }
                         setLoading(false);

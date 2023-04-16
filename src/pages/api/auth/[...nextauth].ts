@@ -4,9 +4,7 @@ import GithubProvider from 'next-auth/providers/github';
 import { prisma } from '@/lib/client/prisma';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { env } from '@/env/server.mjs';
-import { CreateUsage } from '@/lib/db/UpdateUsage';
 
-const NEW_ACCOUNT_CREDITS = 500000; // five hundred thousands tokens == $1
 
 export default NextAuth({
     session: {
@@ -27,14 +25,7 @@ export default NextAuth({
         })
     ],
     callbacks: {
-        async signIn({ user, account, profile, email, credentials }) {
-            // do a check on 'updated at' columns and if it is null, then prepopulate with account setup data
-            // there is no fking 'signUp' callback from what I can tell in the prisma adapter
-            if (account?.usageId === null || account?.usageId === undefined) {
-                await CreateUsage(user, NEW_ACCOUNT_CREDITS);
-            }
-            return true;
-        },
+
         jwt: async ({ token, user }) => {
             if (user) {
                 token.id = user.id;

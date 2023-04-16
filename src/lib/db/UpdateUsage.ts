@@ -1,9 +1,7 @@
-import { GetAccount } from "./GetAccount";
 import { prisma } from "../client/prisma";
-import { User } from "next-auth";
+import { Account } from "@prisma/client";
 
-export async function UpdateUsage(creditsToSpend: number) {
-    const account = await GetAccount();
+export async function UpdateUsage(creditsToSpend: number, account: Account) {
     if (account?.usageId !== null) {
 
         const currentUsage = await prisma.usage.findUnique({
@@ -25,21 +23,4 @@ export async function UpdateUsage(creditsToSpend: number) {
             });
         }
     }
-}
-
-export async function CreateUsage(user: User, initialCredits: number) {
-    const account = await GetAccount(user);
-    await prisma.usage.create({
-        data: {
-            availableFunds: initialCredits,
-            Account: {
-                connect: {
-                    id: account?.id
-                }
-            }
-        },
-        include: {
-            Account: true
-        }
-    })
 }

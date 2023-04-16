@@ -4,7 +4,7 @@ import TextInput from '@/components/text/TextInput';
 import frontendClient from '@/lib/client/frontendClient';
 import { ImageWizardContextType, ImageWizardContext, TextPrompts } from '@/lib/contexts/ImageWizardContext';
 import { GenerateTextRequest, GenerateTextResponse } from '@/lib/controllers/GenerateIdeasController';
-import { calculateTextGenerationCost } from '@/lib/serviceCosts/openAiCosts';
+import { calculateTextGenerationCost, extimateCreditExpenseFromText } from '@/lib/serviceCosts/openAiCosts';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 const formatPrompt = (prompt: string) => {
@@ -31,8 +31,8 @@ export const InitialStep = () => {
         const text = e.target.value;
         setHelpGenIdeasPrompt(text);
 
-        const computedCost = calculateTextGenerationCost(text);
-        setCurrentCost(computedCost);
+        const creditCost = extimateCreditExpenseFromText(text);
+        setCurrentCost(creditCost);
     };
 
     const onGenerateIdeasClick = async () => {
@@ -79,7 +79,7 @@ export const InitialStep = () => {
                     />
                     <div className="space-around mt-2 flex w-full flex-row items-center">
                         <ButtonWithSpinner onClick={onGenerateIdeasClick} className="m-2" loading={loading}>
-                            Help me generate ideas (Current Cost: ${currentCost})
+                            Help me generate ideas Est.: {currentCost}c
                         </ButtonWithSpinner>
                         <div className="w-full">
                             <label htmlFor="genIdeasPrompt" className="text-xs">

@@ -30,11 +30,9 @@ export default function Register() {
         };
 
         const response = await frontendClient.post<RegistrationRequest, RegistrationResponse>('account/register', payload);
-        console.log(response);
 
         if (response.isSuccess) {
             await signIn('credentials', {callbackUrl: `${window.location.origin}/portal`});
-            console.log("Booyah")
             //perhaps a router.push('/login'); or push to a confirmation page - where they will provide an emailed token
         }
     };

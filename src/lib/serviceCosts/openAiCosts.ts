@@ -24,3 +24,10 @@ function cleanText(text: string) {
 function countTokens(text: string[]) {
     return (text.length / 4) + 2 // <start> and <stop> are the additional 2
 }
+
+
+export function extimateCreditExpenseFromText(input: string) {
+    const clean = cleanText(input);
+    const count = countTokens(clean);
+    return count;
+}

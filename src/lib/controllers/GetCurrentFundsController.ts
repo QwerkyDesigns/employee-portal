@@ -3,19 +3,26 @@ import { getSession } from 'next-auth/react';
 import { Logger } from 'nextjs-backend-helpers';
 import { prisma } from '../client/prisma';
 import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
+import { GetAccountByEmail } from '../db/GetAccount';
+import { CreateUsage } from '../db/CreateUsage';
+
 
 export class GetCurrentFundsController extends AuthenticatedBaseController {
     async get(req: NextApiRequest, res: NextApiResponse<GetCurrentFundsResponse>) {
         const session = await getSession({ req });
         const emailAddress = session?.user?.email;
-        console.log(emailAddress)
         if (emailAddress) {
+            const account = await GetAccountByEmail(emailAddress);
+            if (account?.usageId === null || account?.usageId === undefined) {
+                await CreateUsage(account);
+            }
+
             const currentFunds = await getFunds(emailAddress);
             Logger.debug({
                 message: 'current funds',
                 currentFunds
             });
-            if (currentFunds) {
+            if (currentFunds) { 
                 return res.json({ currentFunds });
             }
             throw new Error('CurrentFunds was undefined');

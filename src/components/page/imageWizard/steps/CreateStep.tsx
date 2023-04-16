@@ -13,19 +13,14 @@ export const CreateStep = () => {
     const [value, setValue] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
     const [recentlyUploadedImages, setRecentlyUploadedImages] = useState<ImageLocationDetails[]>([]);
-    const { textPrompts, artStyles } = useContext<ImageWizardContextType>(ImageWizardContext);
+    const { compilePrompt } = useContext<ImageWizardContextType>(ImageWizardContext);
     const [finalPrompt, setFinalPrompt] = useState<string>('');
 
     useEffect(() => {
-        const currentFinalSubmission = textPrompts.finalPrompt;
-        console.log(currentFinalSubmission);
-        const artist = artStyles.artist?.artistName;
-        const artStyleName = artStyles.style;
-        const styleWorking = `in the style of ${artist}${artStyleName.length > 0 ? ` mixed with ${artStyleName}` : ''}`;
-
-        const final = (currentFinalSubmission.trim() + ' ' + styleWorking).trim();
-        console.log(final);
-        setFinalPrompt(final);
+        if (compilePrompt){
+            const finalPrompt = compilePrompt();            
+            setFinalPrompt(finalPrompt);
+        }
     }, []);
 
     const submitToCreateImages = async () => {

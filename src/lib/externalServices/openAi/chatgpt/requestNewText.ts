@@ -1,4 +1,7 @@
 import openApiClient from '@/lib/client/openApiClient';
+import { UpdateUsage } from '@/lib/db/UpdateUsage';
+import { Account } from '@prisma/client';
+import { Session } from 'next-auth';
 import { Logger } from 'nextjs-backend-helpers';
 import { CreateCompletionRequest, CreateCompletionResponseChoicesInner } from 'openai';
 
@@ -29,16 +32,26 @@ const requestDefault = {
     presence_penalty: 0.6
 };
 
-export default async function requestNewGeneratedText(prompt: string): Promise<CreateCompletionResponseChoicesInner[]> {
+export default async function requestNewGeneratedText(prompt: string, account: Account): Promise<(string | undefined)[]> {
     const createCompletionRequest: CreateCompletionRequest = { prompt, ...requestDefault };
     try {
         const response = await openApiClient.createCompletion(createCompletionRequest);
-        const data = response.data.choices as CreateCompletionResponseChoicesInner[];
-        Logger.debug({ message: data[0].text ?? '' });
-        console.log(data);
-        return data;
+        const data = response.data;
+        const choices = data.choices as CreateCompletionResponseChoicesInner[];
+        const usage = data.usage as any;
+        const totalTokens = usage.total_tokens;
+
+        await UpdateUsage(totalTokens, account)
+
+        const text: string[] = [];
+        choices.forEach(x => {
+            if (x !== undefined && x.text !== undefined && x.text !== null) {
+                text.push(x.text);
+            }
+        })
+        return text;
     } catch (err) {
         Logger.error({ message: err as string });
-        return Promise.resolve([] as CreateCompletionResponseChoicesInner[]);
+        return Promise.resolve(["FAILED WITH ERROR" + err] as string[]);
     }
 }

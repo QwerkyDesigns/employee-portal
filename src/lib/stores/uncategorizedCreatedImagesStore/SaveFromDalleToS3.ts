@@ -5,14 +5,13 @@ import { ImageTransfer } from '@/lib/models/images/ImageTransfer';
 import { HeaderKeys } from '@/lib/utils/constants';
 import { ImageBatchMetaData } from '@/types/ImageBatchmetaData';
 import writeFile from '../s3Core/writeFile';
-import writeFiles from '../s3Core/writeFiles';
 import { imageStoreBucket, uploadOptions } from './imageStoreConstants';
 import { ImageLocationDetails } from '@/types/sharedTypes';
 import { S3 } from 'aws-sdk';
+import { Account } from '@prisma/client';
+import { CreateImageRecord } from '@/lib/db/CreateImageRecord';
 
-// These are a mess. Thought I'd want meta data - was trying to avoid databases -- its time to move the meta to the DB (along with file locations)
-// and simplify the heck out of this.
-export async function saveDalleUrlsToS3(urls: string[], metaData: ImageBatchMetaData, tags: S3.Tag[] = []) {
+export async function saveDalleUrlsToS3(urls: string[], metaData: ImageBatchMetaData, tags: S3.Tag[] = [], account: Account) {
     const data: ImageLocationDetails[] = [];
 
     const imageSet = new ImageSet();
@@ -27,17 +26,16 @@ export async function saveDalleUrlsToS3(urls: string[], metaData: ImageBatchMeta
         const tags: S3.Tag[] = [{ Key: 'DownloadDate', Value: timeStampString }];
         const imageTransfer = new ImageTransfer(imageData, imageName, contentType, tags);
 
+
         const imageLocationDetails = await saveDalleImageFileToS3(imageTransfer);
+        const key = `${imageTransfer.imageName.getPrefix()}/${imageName.getFileName()}`
+
+        await CreateImageRecord(key, metaData.prompt, account)
 
         data.push(imageLocationDetails);
         imageElement++;
         console.log(`Downloading ${imageElement} of ${urls.length}`);
     }
-
-    const metaFileName = `${imageSet.id}-meta.txt`;
-    const serializedMetaData = JSON.stringify(metaData);
-    const metaFilePrefix = `${ImageOrigin.Dalle}/${imageSet.id}`;
-    await SaveSerializedDataToS3(serializedMetaData, metaFileName, metaFilePrefix);
     return data;
 }
 
@@ -52,9 +50,4 @@ async function saveDalleImageFileToS3(imageTransfer: ImageTransfer) {
         imageTransfer.imageName.getPrefix()
     );
     return imageLocationDetails;
-}
-
-async function SaveSerializedDataToS3(serializedData: string, fileName: string, prefix: string) {
-    const buffer = Buffer.from(serializedData, 'utf-8');
-    await writeFiles([{ name: fileName, data: buffer, contentType: 'text/*' }], uploadOptions, imageStoreBucket, prefix);
 }
