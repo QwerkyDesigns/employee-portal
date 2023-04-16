@@ -20,8 +20,8 @@ class GenerateTextController extends AuthenticatedBaseController {
 
     async post(req: NextApiRequest, res: NextApiResponse) {
         const session = await getServerSession();
-
         const { prompt } = getBody<GenerateTextRequest>(req);
+
         if (session === null || session?.user?.email === undefined) {
             throw new Error("Session was null")
         }
@@ -30,6 +30,7 @@ class GenerateTextController extends AuthenticatedBaseController {
         if (email === null) {
             throw new Error("Email was null");
         }
+
         const account = await GetAccountByEmail(email);
         const textChoices = await requestNewGeneratedText(prompt, account);
         return res.json({ choices: textChoices });
