@@ -6,7 +6,7 @@
         "devold": "next dev",
         "dev": "cross-env NODE_OPTIONS='--inspect' && dotenv -e .env.development -- next dev",
         "build:dev": "dotenv -e .env.development -- next build",
-        "build:prd": "dotenv -e .env.production -- next build",
+        "build:prd": "next build",
         "cibuild": "dotenv -e .env.development next build",
         "start": "dotenv -e .env.production next start",
         "lint": "npx eslint ./src/**/*.ts* --fix && npm run prettify",
