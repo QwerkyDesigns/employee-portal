@@ -89,7 +89,7 @@ resource "aws_db_instance" "database" {
   engine_version                        = "13.4"
   db_subnet_group_name                  = aws_db_subnet_group.database.name
   parameter_group_name                  = aws_db_parameter_group.database.name
-  publicly_accessible                   = false
+  publicly_accessible                   = true
   skip_final_snapshot                   = true
   auto_minor_version_upgrade            = "true"
   iops                                  = 0
