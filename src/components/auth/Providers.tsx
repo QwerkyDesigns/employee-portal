@@ -1,7 +1,7 @@
 import { CommonProviderOptions } from 'next-auth/providers';
 import { env } from '@/env/client.mjs';
 import { GithubProvider, GooogleProvider } from './CloudProviders';
-import { CredentialsProvider } from './CredentialsProvider';
+// import { CredentialsProvider } from './CredentialsProvider';
 
 
 export function Providers({ providers = [] }: { providers: CommonProviderOptions[] }) {

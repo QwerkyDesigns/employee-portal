@@ -29,6 +29,7 @@ export type WizardStep = {
     summary: string;
     status: Status;
 };
+
 const wizardSteps: WizardStep[] = [
     {
         id: 0,

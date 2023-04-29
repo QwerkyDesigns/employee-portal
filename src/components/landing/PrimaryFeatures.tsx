@@ -3,12 +3,12 @@ import Image, { StaticImageData } from 'next/image';
 import { Tab } from '@headlessui/react';
 import clsx from 'clsx';
 
-import backgroundImage from './images/background-features.jpg';
+import backgroundImage from 'images/background-features.jpg';
 
-import wizard from './images/wizard.png';
-import upload from './images/upload.png';
-import review from './images/review.png';
-import send from './images/send.png';
+import wizard from 'images/wizard.png';
+import upload from 'images/upload.png';
+import review from 'images/review.png';
+import send from 'images/send.png';
 
 import Container from '../container/Container';
 
