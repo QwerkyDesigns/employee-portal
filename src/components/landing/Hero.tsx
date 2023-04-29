@@ -23,7 +23,7 @@ export function Hero() {
                 Generating the artwork is the hard part. We&apos;ll help you with that.
             </p>
             <div className="mt-10 flex justify-center gap-x-6">
-                <Button href="/register" variant={'solid'} color={'slate'} className={''}>
+                <Button href="/login" variant={'solid'} color={'slate'} className={''}>
                     Get 500,000 free credits to start! lmao
                 </Button>
             </div>
