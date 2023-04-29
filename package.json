@@ -17,6 +17,7 @@
         "update": "rm -rf ./node_modules && npm run bootstrap && npm run db:dev:migrate ",
         "server": "dotenv -e .env.production npm start",
         "db:dev:migrate": "npx dotenv -e ./.env.development -- npx prisma migrate dev",
+        "db:dev:migrate:prod": "npx dotenv -e ./.env -- npx prisma migrate prod",
         "db:dev:reset": "npx dotenv -e ./.env.development -- npx prisma migrate reset",
         "db:dev:refresh": "npm run db:dev:reset && npm run db:dev:migrate",
         "delete_node_modules": "npm i -g rimraf && rimraf node_modules",
