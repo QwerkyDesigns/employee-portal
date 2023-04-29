@@ -63,7 +63,7 @@
         "embla-carousel-react": "^7.1.0",
         "eslint-config-next": "13.3.0",
         "focus-visible": "^5.2.0",
-        "next": "^13.3.0",
+        "next": "^13.2.4",
         "next-auth": "^4.18.10",
         "next-s3-upload": "^0.3.0",
         "nextjs-backend-helpers": "^0.0.18-9",

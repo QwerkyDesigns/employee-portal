@@ -7,7 +7,7 @@ variable "database_password" {
 variable "db_instance_class" {
   description = "The type of instance that runs the database"
   type        = string
-  default     = "db.t2.micro"
+  default     = "db.t3.micro"
 }
 
 variable "environment" {

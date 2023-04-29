@@ -1,5 +1,5 @@
 output "image_bucket" {
-  value = "${aws_s3_bucket.images.id}"
+  value = module.qwerkystudio_images_bucket.data_bucket_name
 }
 
 output "database_url" {

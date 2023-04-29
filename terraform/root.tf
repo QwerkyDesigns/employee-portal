@@ -105,33 +105,45 @@ resource "aws_db_instance" "database" {
 
 
 #  S3 BUCKETs
-resource "aws_s3_bucket" "images" {
-  bucket        = "qwerky-all-images-${var.environment}"
-  force_destroy = "false"
-  grant {
-    id          = "1db2ccca6338f55bdbf819083cdc61ff572716bf2cbbcc6299f32a0dfd3faed9"
-    permissions = ["FULL_CONTROL"]
-    type        = "CanonicalUser"
-  }
-  object_lock_enabled = "false"
-  request_payer       = "BucketOwner"
-  tags                = local.tags
-  tags_all = {
-    Product = "QwerkyStudio"
-  }
 
-  versioning {
-    enabled    = "true"
-    mfa_delete = "false"
-  }
+module "qwerkystudio_images_bucket" {
+  source                = "./data_buckets"
+  bucket_name           = "qwerkystudio-images-${lower(var.environment)}-${random_id.rand.hex}"
+  protect_from_deletion = false
+  key_alias             = "alias/qwerky_studio_${lower(var.environment)}-${random_id.rand.hex}"
+  tags                  = local.tags
 }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "images_encryption" {
-  bucket = aws_s3_bucket.images.id
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
-    }
-    bucket_key_enabled = "true"
-  }
-}
+
+
+
+# resource "aws_s3_bucket" "images" {
+#   bucket        = "qwerky-all-images-${var.environment}"
+#   force_destroy = "false"
+#   grant {
+#     id          = "1db2ccca6338f55bdbf819083cdc61ff572716bf2cbbcc6299f32a0dfd3faed9"
+#     permissions = ["FULL_CONTROL"]
+#     type        = "CanonicalUser"
+#   }
+#   object_lock_enabled = "false"
+#   request_payer       = "BucketOwner"
+#   tags                = local.tags
+#   tags_all = {
+#     Product = "QwerkyStudio"
+#   }
+
+#   versioning {
+#     enabled    = "true"
+#     mfa_delete = "false"
+#   }
+# }
+
+# resource "aws_s3_bucket_server_side_encryption_configuration" "images_encryption" {
+#   bucket = aws_s3_bucket.images.id
+#   rule {
+#     apply_server_side_encryption_by_default {
+#       sse_algorithm = "AES256"
+#     }
+#     bucket_key_enabled = "true"
+#   }
+# }

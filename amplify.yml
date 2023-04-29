@@ -5,7 +5,29 @@ frontend:
       commands:
         - npm ci
     build:
-      commands: [npm run build]
+      commands:
+        - echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env
+        - echo "GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID" >> .env
+        - echo "GITHUB_CLIENT_SECRET=$GITHUB_CLIENT_SECRET" >> .env
+        - echo "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID" >> .env
+        - echo "GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET" >> .env
+        - echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env
+        - echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env
+        - echo "NEXTAUTH_URL_INTERNAL=$NEXTAUTH_URL_INTERNAL" >> .env
+        - echo "JWT_SECRET=$JWT_SECRET" >> .env
+        - echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
+        - echo "STRIPE_DEVICE_NAME=$STRIPE_DEVICE_NAME" >> .env
+        - echo "STRIPE_API_KEY=$STRIPE_API_KEY" >> .env
+        - echo "STRIPE_WEBHOOK_SECRET=$STRIPE_WEBHOOK_SECRET" >> .env
+        - echo "DATABASE_URL=$DATABASE_URL" >> .env
+        - echo "IMAGE_STORE_BUCKET=$IMAGE_STORE_BUCKET" >> .env
+        - echo "ARCHIVE_STORE_BUCKET=$ARCHIVE_STORE_BUCKET" >> .env
+        - echo "QAWS_ACCESS_KEY_ID=$QAWS_ACCESS_KEY_ID" >> .env
+        - echo "QAWS_SECRET_ACCESS_KEY=$QAWS_SECRET_ACCESS_KEY" >> .env
+        - echo "QAWS_REGION=$QAWS_REGION" >> .env
+        - echo "NEXT_PUBLIC_IS_PROD=$NEXT_PUBLIC_IS_PROD" >> .env
+        - echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY" >> .env
+        - npm run build
   artifacts:
     baseDirectory: studio_build
     files:
