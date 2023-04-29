@@ -27,10 +27,10 @@ frontend:
         - echo "QAWS_REGION=$QAWS_REGION" >> .env
         - echo "NEXT_PUBLIC_IS_PROD=$NEXT_PUBLIC_IS_PROD" >> .env
         - echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY" >> .env
+        - npm run build
         - npm install -g prisma --unsafe-perm
         - npx prisma generate
         - npm run db:prod:migrate
-        - npm run build
         
   artifacts:
     baseDirectory: studio_build
