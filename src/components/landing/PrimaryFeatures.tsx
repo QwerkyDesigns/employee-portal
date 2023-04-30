@@ -10,27 +10,27 @@ const features: FeatureType[] = [
         title: 'Create',
         description:
             'Use our powerful image generation wizard to easily create custom graphics for your products. Whether you\'re an artist or a designer, our intuitive interface makes it easy to bring your vision to life.',
-        image: 'images/wizard.png',
+        image: '/images/wizard.png',
         imageUrl: undefined
     },
     {
         title: 'Upload',
         description:
             'Manage all of your text generation needs - from copywriting to prompt engineering. With Qwerky Studio, you can upload your own text and use our AI-powered tools to generate engaging content in seconds.',
-        image: 'images/upload.png',
+        image: '/images/upload.png',
         imageUrl: undefined
     },
     {
         title: 'Manage',
         description: 'Manage your artwork from a centralized location. Keep the images you like, archive the rest.',
-        image: 'images/review.png',
+        image: '/images/review.png',
         imageUrl: undefined
     },
     {
         title: 'Integrate',
         description:
             'Send your artwork wherever you need to - for example, your online store. With Qwerky Studio, you can easily export your designs to your online store or any other platform you choose.',
-        image: 'images/send.png',
+        image: '/images/send.png',
         imageUrl: undefined
     }
     // {
@@ -138,6 +138,8 @@ export function PrimaryFeatures() {
                                             <Image
                                                 className="w-full"
                                                 src={feature.image ?? feature.imageUrl ?? ''}
+                                                height={250}
+                                                width={250}
                                                 alt=""
                                                 priority
                                                 sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
