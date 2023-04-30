@@ -102,6 +102,7 @@ export function PrimaryFeatures() {
                                                     : 'hover:bg-white/10 lg:hover:bg-white/5'
                                             )}
                                         >
+                                            
                                             <h3>
                                                 <Tab
                                                     className={clsx(
