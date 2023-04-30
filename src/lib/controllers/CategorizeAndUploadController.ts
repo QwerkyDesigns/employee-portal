@@ -16,7 +16,7 @@ import { Session, getServerSession } from 'next-auth';
 import authOptions from "@/pages/api/auth/[...nextauth]"
 import { ImageState } from '../enums/ImageState';
 
-const tryGetPrintifyApiKey = async (emailAddress: string): Promise<string | undefined> => {
+const tryGetPrintifyApiKey = async (emailAddress: string): Promise<string | undefined | null> => {
     const user = await prisma.user.findUnique({
         where: {
             email: emailAddress
@@ -53,7 +53,7 @@ export async function categorizeFile(imageKey: string, friendlyName: string, pre
             throw new Error("Email not found - is there a session?")
         }
         const printifyApiKey = await tryGetPrintifyApiKey(email);
-        if (printifyApiKey === undefined) {
+        if (printifyApiKey === undefined || printifyApiKey === null) {
             throw new PrintifyApiKeyNotRegisteredError('Your account does not have a registered Printify Api Key. Please set one in your account settings.');
         }
         const pClient = printifyClient(printifyApiKey);
@@ -98,12 +98,6 @@ class CategorizeAndUploadController extends AuthenticatedBaseController {
             const imageKey = imageKeyList[i];
             const friendlyName = friendlyNamesList[i];
             const preSignedUrl = await createPresignedUrlForViewing(imageStoreBucket, imageKey);
-
-            // post a request to printify (need to create a printify repository)
-            // const response = await uploadImageToPrintify(friendlyName, preSignedUrl, this.printifyClient);
-            // if (response === null) throw new PrintifyError('Failed to get a response from Printify');
-            // await moveFileFromThisUncategorizedContainerTo(archiveStoreBucket, imageKey);
-
             await categorizeFile(imageKey, friendlyName, preSignedUrl, targets, session)
         }
 
