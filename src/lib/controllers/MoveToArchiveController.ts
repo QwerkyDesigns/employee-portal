@@ -3,7 +3,6 @@ import { errors, getQuery } from 'nextjs-backend-helpers';
 import { StatusCodes } from '../enums/StatusCodes';
 import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
 import ArgumentError from '../errors/bad-request/ArgumentError';
-import { moveFileFromThisUncategorizedContainerTo } from '../stores/uncategorizedCreatedImagesStore/MoveFileFromThisContainerTo';
 import { prisma } from '../client/prisma';
 import { ImageState } from '../enums/ImageState';
 
@@ -23,7 +22,7 @@ class MoveToArchiveController extends AuthenticatedBaseController {
             const imageKey = imageKeys[i]
             await prisma.images.update({
                 where: {
-                    imageKey
+                    storageKey: imageKey
                 },
                 data: {
                     imageState: ImageState.Archived.toString()

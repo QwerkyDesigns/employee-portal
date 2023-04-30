@@ -118,7 +118,6 @@ export type CreateImageCategorizationRequest = {
 };
 
 export type CreateImageCategorizationResponse = {
-    printifyResources: PrintifyImageResource[];
 };
 
 export default CategorizeAndUploadController;

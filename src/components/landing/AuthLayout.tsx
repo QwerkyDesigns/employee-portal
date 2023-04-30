@@ -1,7 +1,5 @@
 import Image from 'next/image';
 
-import backgroundImage from './images/background-auth.jpg';
-
 export function AuthLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
@@ -10,7 +8,7 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
                     <div className="mx-auto w-full max-w-md sm:px-4 md:w-96 md:max-w-sm md:px-0">{children}</div>
                 </div>
                 <div className="hidden sm:contents lg:relative lg:block lg:flex-1">
-                    <Image className="absolute inset-0 h-full w-full object-cover" src={backgroundImage} alt="" unoptimized />
+                    <Image className="absolute inset-0 h-full w-full object-cover" src={"/images/background-auth.jpg"} alt="" unoptimized />
                 </div>
             </div>
         </>

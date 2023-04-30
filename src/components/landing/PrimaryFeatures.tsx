@@ -3,13 +3,6 @@ import Image, { StaticImageData } from 'next/image';
 import { Tab } from '@headlessui/react';
 import clsx from 'clsx';
 
-import backgroundImage from 'images/background-features.jpg';
-
-import wizard from 'images/wizard.png';
-import upload from 'images/upload.png';
-import review from 'images/review.png';
-import send from 'images/send.png';
-
 import Container from '../container/Container';
 
 const features: FeatureType[] = [
@@ -17,27 +10,27 @@ const features: FeatureType[] = [
         title: 'Create',
         description:
             'Use our powerful image generation wizard to easily create custom graphics for your products. Whether you\'re an artist or a designer, our intuitive interface makes it easy to bring your vision to life.',
-        image: wizard,
+        image: 'images/wizard.png',
         imageUrl: undefined
     },
     {
         title: 'Upload',
         description:
             'Manage all of your text generation needs - from copywriting to prompt engineering. With Qwerky Studio, you can upload your own text and use our AI-powered tools to generate engaging content in seconds.',
-        image: upload,
+        image: 'images/upload.png',
         imageUrl: undefined
     },
     {
         title: 'Manage',
         description: 'Manage your artwork from a centralized location. Keep the images you like, archive the rest.',
-        image: review,
+        image: 'images/review.png',
         imageUrl: undefined
     },
     {
         title: 'Integrate',
         description:
             'Send your artwork wherever you need to - for example, your online store. With Qwerky Studio, you can easily export your designs to your online store or any other platform you choose.',
-        image: send,
+        image: 'images/send.png',
         imageUrl: undefined
     }
     // {
@@ -51,7 +44,7 @@ const features: FeatureType[] = [
 type FeatureType = {
     title: string;
     description: string;
-    image: StaticImageData | null;
+    image: string | null;
     imageUrl: string | undefined;
 };
 
@@ -77,7 +70,7 @@ export function PrimaryFeatures() {
         <section id="features" aria-label="Features for running your books" className="relative overflow-hidden bg-blue-600 pt-20 pb-28 sm:py-32">
             <Image
                 className="absolute top-1/2 left-1/2 max-w-none translate-x-[-44%] translate-y-[-42%]"
-                src={backgroundImage}
+                src={'images/background-features.jpg'}
                 alt=""
                 width={2245}
                 height={1636}
