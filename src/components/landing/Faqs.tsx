@@ -1,6 +1,5 @@
 import Image from 'next/image';
 
-import backgroundImage from './images/background-faqs.jpg';
 import Container from '../container/Container';
 
 const faqs = [
@@ -29,7 +28,7 @@ export function Faqs() {
         <section id="faq" aria-labelledby="faq-title" className="relative overflow-hidden bg-slate-50 py-20 sm:py-32">
             <Image
                 className="absolute top-0 left-1/2 max-w-none translate-x-[-30%] -translate-y-1/4"
-                src={backgroundImage}
+                src={'/images/background-faqs.jpg'}
                 alt=""
                 width={1558}
                 height={946}

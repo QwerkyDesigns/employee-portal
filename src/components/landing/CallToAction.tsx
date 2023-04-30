@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import backgroundImage from './images/background-call-to-action.jpg';
+import backgroundImage from '/images/background-call-to-action.jpg';
 import Container from '../container/Container';
 import { Button } from '../buttons/Button';
 

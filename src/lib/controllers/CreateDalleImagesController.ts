@@ -39,7 +39,6 @@ class CreateDalleImagesController extends AuthenticatedBaseController {
         if (email === null || email === undefined) {
             throw new Error("Could not find session");
         }
-
         const account = await GetAccountByEmail(email);
 
         const imageLocationDetails = await saveDalleUrlsToS3(response.urls, response.metaData, [], account);
