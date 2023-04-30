@@ -3,9 +3,10 @@ import { getQuery } from 'nextjs-backend-helpers';
 import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
 import ArgumentError from '../errors/bad-request/ArgumentError';
 import { ImageOrigin } from '../enums/ImageOrigin';
-import retrieveAllTransfers from '../stores/uncategorizedCreatedImagesStore/RetrieveAllTransfers';
+import getAllUncategorizedImages from '../stores/uncategorizedCreatedImagesStore/RetrieveAllTransfers';
 import { PresignedUrlWithMeta } from '@/types/sharedTypes';
-import { env } from '@/env/server.mjs';
+import { Session, getServerSession } from 'next-auth';
+import authOptions from "@/pages/api/auth/[...nextauth]"
 
 const parseImageOrigin = (originQueryParam: string) => {
     switch (originQueryParam) {
@@ -22,7 +23,14 @@ class GetAllUntransferredController extends AuthenticatedBaseController {
     async get(req: NextApiRequest, res: NextApiResponse<GetAllUntransferredResponse>) {
         const { origin } = getQuery<{ origin: string }>(req);
         const imageOrigin = parseImageOrigin(origin);
-        const allViewingUrls = await retrieveAllTransfers(env.IMAGE_STORE_BUCKET, imageOrigin);
+
+        const session = await getServerSession(req, res, authOptions) as Session;
+        const email = session.user?.email;
+        if (email === null || email === undefined) {
+            throw new Error("no session?")
+        }
+
+        const allViewingUrls = await getAllUncategorizedImages(email, imageOrigin);
         return res.json({ imageMetas: allViewingUrls });
     }
 }

@@ -7,21 +7,16 @@ import { PrintifyImageResource } from '../externalServices/printify/UploadImageT
 import uploadImageToPrintify from '../externalServices/printify/UploadImageToPrintify';
 import createPresignedUrlForViewing from '../stores/s3Core/createPresignedUrlForViewing';
 import { imageStoreBucket } from '../stores/uncategorizedCreatedImagesStore/imageStoreConstants';
-import { moveFileFromThisUncategorizedContainerTo } from '../stores/uncategorizedCreatedImagesStore/MoveFileFromThisContainerTo';
-import { archiveStoreBucket } from '../stores/archivedImageStore/archivedImageStoreConstants';
 import PrintifyError from '../errors/application-errors/PrintifyError';
-import { getSession } from 'next-auth/react';
 import { prisma } from '../client/prisma';
 import printifyClient from '../client/printifyClient';
 import PrintifyApiKeyNotRegisteredError from '../errors/bad-request/PrintifyApiKeyNotRegisteredError';
-import { AxiosInstance } from 'axios';
+import { ExternalServices } from '../enums/ExternalServices';
+import { Session, getServerSession } from 'next-auth';
+import authOptions from "@/pages/api/auth/[...nextauth]"
+import { ImageState } from '../enums/ImageState';
 
-// this file is a bit of a special snowflake.
-// We'll need to find a better way to deal with integration in general - and the ui will need to accomodate.
-// Imagine we've got a user that wants to send their creations to multiple places - we should support that I
-// would think. What other ideas / thoughts can you come up with?
-
-const tryGetPrintifyApi = async (emailAddress: string): Promise<string | undefined> => {
+const tryGetPrintifyApiKey = async (emailAddress: string): Promise<string | undefined> => {
     const user = await prisma.user.findUnique({
         where: {
             email: emailAddress
@@ -48,27 +43,41 @@ const tryGetPrintifyApi = async (emailAddress: string): Promise<string | undefin
     return apiKey;
 };
 
+// TODO: Manual for now :shrugs:
+export async function categorizeFile(imageKey: string, friendlyName: string, preSignedUrl: string, targets: string[], session: Session) {
+    let categorized = false;
+
+    if (targets.includes(ExternalServices.Printify.toString())) {
+        const email = session.user?.email;
+        if (email === undefined || email === null) {
+            throw new Error("Email not found - is there a session?")
+        }
+        const printifyApiKey = await tryGetPrintifyApiKey(email);
+        if (printifyApiKey === undefined) {
+            throw new PrintifyApiKeyNotRegisteredError('Your account does not have a registered Printify Api Key. Please set one in your account settings.');
+        }
+        const pClient = printifyClient(printifyApiKey);
+        const response = await uploadImageToPrintify(friendlyName, preSignedUrl, pClient);
+        if (response === null) throw new PrintifyError('Failed to get a response from Printify');
+        categorized = true;
+    }
+
+    if (categorized === true) {
+        await prisma.images.update({
+            where: {
+                storageKey: imageKey
+            },
+            data: {
+                imageState: ImageState.Sent.toString()
+            }
+        })
+    }
+}
+
 class CategorizeAndUploadController extends AuthenticatedBaseController {
-    private printifyClient: AxiosInstance = null!;
 
     constructor() {
         super();
-
-        this.before(async (req, _res, stop) => {
-            const session = await getSession({ req });
-
-            const userEmail = session?.user?.email;
-            if (userEmail) {
-                const apiKey = await tryGetPrintifyApi(userEmail);
-                if (apiKey) {
-                    this.printifyClient = printifyClient(apiKey);
-                    return;
-                }
-            }
-            stop();
-            throw new PrintifyApiKeyNotRegisteredError('Your account does not have a registered Printify Api Key. Please set one in your account settings.');
-        });
-
         this.rescue(ArgumentError, (error, request, response) => {
             response.status(StatusCodes.InvalidRequest).json(errors([error.message]));
         });
@@ -79,41 +88,33 @@ class CategorizeAndUploadController extends AuthenticatedBaseController {
     }
 
     async post(req: NextApiRequest, res: NextApiResponse<CreateImageCategorizationResponse>) {
-        const { imageKeys, productNames } = getBody<CreateImageCategorizationRequest>(req);
+        const { imageKeys, friendlyNames, targets } = getBody<CreateImageCategorizationRequest>(req);
+        const session = await getServerSession(req, res, authOptions) as Session;
 
         const imageKeyList = imageKeys.split(',');
-        const productNamesList = productNames.split(',');
-        const results: PrintifyImageResource[] = [];
+        const friendlyNamesList = friendlyNames.split(',');
 
-        // TODO: make concurrent
         for (let i = 0; i < imageKeyList.length; i++) {
             const imageKey = imageKeyList[i];
-            const productName = productNamesList[i];
+            const friendlyName = friendlyNamesList[i];
             const preSignedUrl = await createPresignedUrlForViewing(imageStoreBucket, imageKey);
 
             // post a request to printify (need to create a printify repository)
-            const response = await uploadImageToPrintify(productName, preSignedUrl, this.printifyClient);
-            if (response === null) throw new PrintifyError('Failed to get a response from Printify');
-            await moveFileFromThisUncategorizedContainerTo(archiveStoreBucket, imageKey);
-            results.push({
-                id: response.id,
-                file_name: response.file_name,
-                height: response.height,
-                width: response.width,
-                size: response.size,
-                mime_type: response.mime_type,
-                preview_url: response.preview_url,
-                upload_time: response.upload_time
-            });
+            // const response = await uploadImageToPrintify(friendlyName, preSignedUrl, this.printifyClient);
+            // if (response === null) throw new PrintifyError('Failed to get a response from Printify');
+            // await moveFileFromThisUncategorizedContainerTo(archiveStoreBucket, imageKey);
+
+            await categorizeFile(imageKey, friendlyName, preSignedUrl, targets, session)
         }
 
-        return res.json({ printifyResources: results });
+        return res.json({});
     }
 }
 
 export type CreateImageCategorizationRequest = {
     imageKeys: string;
-    productNames: string;
+    friendlyNames: string;
+    targets: string[]
 };
 
 export type CreateImageCategorizationResponse = {

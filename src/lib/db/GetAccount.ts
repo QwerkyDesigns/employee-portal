@@ -22,3 +22,5 @@ export async function GetAccountByEmail(email: string): Promise<Account> {
     }
     return account;
 }
+
+

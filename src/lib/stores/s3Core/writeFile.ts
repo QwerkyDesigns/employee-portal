@@ -10,9 +10,16 @@ export default async function writeFile(
     file: CoreFile,
     uploadOptions: S3.ManagedUpload.ManagedUploadOptions,
     bucket: string,
-    prefix: string
+    prefix?: string
 ): Promise<ImageLocationDetails> {
-    const key = `${prefix}/${file.name}`;
+
+    let key;
+    if (prefix) {
+        key = `${prefix}/${file.key}`;
+    } else {
+        key = file.key
+    }
+
     const params = {
         Bucket: bucket,
         Key: key,
@@ -31,9 +38,9 @@ export default async function writeFile(
     try {
         await s3Client.upload(params, uploadOptions, callback).promise();
         const presignedUrlForViewing = await createPresignedUrlForViewing(bucket, key);
-        return { name: file.name, presignedUrl: presignedUrlForViewing };
+        return { key: file.key, presignedUrl: presignedUrlForViewing };
     } catch (err: any) {
         console.log(err);
-        return { name: '', presignedUrl: '' };
+        return { key: '', presignedUrl: '' };
     }
 }

@@ -82,7 +82,7 @@ model StripeWebhooks {
 
 model ExternalServiceKeys {
     id             Int       @id @default(autoincrement())
-    printifyApiKey String    @unique
+    printifyApiKey String?    @unique
     Account        Account[]
 }
 
@@ -108,12 +108,14 @@ model TextRefinements {
 }
 
 model Images {
-    id          Int       @id @default(autoincrement())
-    generatorId String
-    storageKey  String    @unique
-    promptUsed  String?
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime? @updatedAt
-    Account     Account?  @relation(fields: [accountId], references: [id])
-    accountId   String?
+    id         Int       @id @default(autoincrement())
+    originId   String    @default("")
+    storageKey String    @unique
+    promptUsed String?
+    imageState String
+    sentTo     String[]  @default([])
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime? @updatedAt
+    Account    Account?  @relation(fields: [accountId], references: [id])
+    accountId  String?
 }

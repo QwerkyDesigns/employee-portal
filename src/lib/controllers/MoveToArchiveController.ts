@@ -4,7 +4,8 @@ import { StatusCodes } from '../enums/StatusCodes';
 import { AuthenticatedBaseController } from './base/AuthenticatedBaseController';
 import ArgumentError from '../errors/bad-request/ArgumentError';
 import { moveFileFromThisUncategorizedContainerTo } from '../stores/uncategorizedCreatedImagesStore/MoveFileFromThisContainerTo';
-import { archiveStoreBucket } from '../stores/archivedImageStore/archivedImageStoreConstants';
+import { prisma } from '../client/prisma';
+import { ImageState } from '../enums/ImageState';
 
 class MoveToArchiveController extends AuthenticatedBaseController {
     constructor() {
@@ -17,7 +18,19 @@ class MoveToArchiveController extends AuthenticatedBaseController {
 
     async post(req: NextApiRequest, res: NextApiResponse<MoveToArchiveResponse>) {
         const { imageKeys } = getQuery<MoveToArchiveRequest>(req);
-        await moveFileFromThisUncategorizedContainerTo(archiveStoreBucket, imageKeys);
+
+        for (let i = 0; i < imageKeys.length; i++) {
+            const imageKey = imageKeys[i]
+            await prisma.images.update({
+                where: {
+                    imageKey
+                },
+                data: {
+                    imageState: ImageState.Archived.toString()
+                }
+            })
+        }
+
         return res.json({});
     }
 }

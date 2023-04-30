@@ -15,17 +15,13 @@ export async function requestNewDalleImageSet(prompt: string, n: number, size: I
     }
     const imgReq: CreateImageRequest = { prompt, n, size }
     try {
-
         const response = await openApiClient.createImage(imgReq);
-        console.log(response)
-
         const imageUrls: string[] = [];
         response.data.data.forEach((val) => {
             if (val.url) {
                 imageUrls.push(val.url);
             }
         });
-        console.log(imageUrls)
         const batchMeta: ImageBatchMetaData = {
             prompt: prompt,
             imageSize: size,

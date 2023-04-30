@@ -17,10 +17,10 @@ export type ArtistStyleMeta = {
 };
 
 // S3 related types
-export type CoreFile = { name: string; data: any; contentType: string };
+export type CoreFile = { key: string; data: any; contentType: string };
 export type ImageLocationDetails = {
     presignedUrl: string;
-    name: string;
+    key: string;
 };
 
 export type PresignedUrlWithMeta = {
