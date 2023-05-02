@@ -9,12 +9,6 @@ on:
       - '**/*.yml'
       - '**/.gitignore'
       - 'assets/*'
-  push:
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.yml'
-      - '**/.gitignore'
-      - 'assets/'
   workflow_dispatch:
 
 jobs:
@@ -61,4 +55,6 @@ jobs:
           NODE_ENV: production
           STRIPE_DEVICE_NAME: dummy-value
           STRIPE_WEBHOOK_SECRET: dummy-value
+          NEXT_PUBLIC_IS_PROD: false
+          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: dummy-value
         run: npm run cibuild
