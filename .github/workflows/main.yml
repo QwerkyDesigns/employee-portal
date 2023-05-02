@@ -75,7 +75,6 @@ jobs:
           JWT_SECRET: dummy-value
         run: npm run cibuild
 
-
       - name: Zip studio-build
         run: zip -r studio-portal.${{ env.VERSION }}.zip ./studio_build
 
@@ -86,7 +85,7 @@ jobs:
         uses: OctopusDeploy/push-package-action@v3
         env:
           OCTOPUS_URL: ${{ secrets.SERVER }}
-          OCTOPUS_API_KEY: ${{ secrets.API_KEY }}
+          OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
           OCTOPUS_SPACE: 'Default'
         with:
           packages: |
