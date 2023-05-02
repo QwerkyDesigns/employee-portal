@@ -75,19 +75,19 @@ jobs:
           JWT_SECRET: dummy-value
         run: npm run cibuild
 
-      - name: Zip studio-build
-        run: zip -r studio-portal.${{ env.VERSION }}.zip ./studio_build
+      # - name: Zip studio-build
+      #   run: zip -r studio-portal.${{ env.VERSION }}.zip ./studio_build
 
-      - name: Zip terraform
-        run: zip -r studio-portal-terraform.${{ env.VERSION }}.zip ./terraform
+      # - name: Zip terraform
+      #   run: zip -r studio-portal-terraform.${{ env.VERSION }}.zip ./terraform
 
-      - name: Push a package to Octopus Deploy 🐙
-        uses: OctopusDeploy/push-package-action@v3
-        env:
-          OCTOPUS_URL: ${{ secrets.SERVER }}
-          OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
-          OCTOPUS_SPACE: 'Default'
-        with:
-          packages: |
-            studio-portal.${{ env.VERSION }}.zip
-            studio-portal-terraform.zip 
+      # - name: Push a package to Octopus Deploy 🐙
+      #   uses: OctopusDeploy/push-package-action@v3
+      #   env:
+      #     OCTOPUS_URL: ${{ secrets.SERVER }}
+      #     OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
+      #     OCTOPUS_SPACE: 'Default'
+      #   with:
+      #     packages: |
+      #       studio-portal.${{ env.VERSION }}.zip
+      #       studio-portal-terraform.zip 
