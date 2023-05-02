@@ -9,6 +9,12 @@ on:
       - '**/*.yml'
       - '**/.gitignore'
       - 'assets/*'
+  push:
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.yml'
+      - '**/.gitignore'
+      - 'assets/'
   workflow_dispatch:
 
 jobs:
