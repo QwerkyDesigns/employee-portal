@@ -53,6 +53,26 @@ jobs:
         run: npm ci
 
       - name: Run CI build
+        env:
+          GITHUB_CLIENT_ID: dummy-value
+          GITHUB_CLIENT_SECRET: dummy-value
+          NEXTAUTH_URL: dummy-value
+          NEXTAUTH_SECRET: dummy-value
+          NODE_ENV: production
+          STRIPE_DEVICE_NAME: dummy-value
+          STRIPE_WEBHOOK_SECRET: dummy-value
+          NEXT_PUBLIC_IS_PROD: false
+          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: dummy-value
+          GOOGLE_CLIENT_ID: dummy-value
+          GOOGLE_CLIENT_SECRET: dummy-value
+          OPENAI_API_KEY: dummy-value
+          QAWS_ACCESS_KEY_ID: dummy-value
+          QAWS_SECRET_ACCESS_KEY: dummy-value
+          QAWS_REGION: dummy-value
+          STRIPE_API_KEY: dummy-value
+          DATABASE_URL: dummy-value
+          IMAGE_STORE_BUCKET: dummy-value
+          JWT_SECRET: dummy-value
         run: npm run cibuild
 
 

@@ -63,4 +63,14 @@ jobs:
           STRIPE_WEBHOOK_SECRET: dummy-value
           NEXT_PUBLIC_IS_PROD: false
           NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: dummy-value
+          GOOGLE_CLIENT_ID: dummy-value
+          GOOGLE_CLIENT_SECRET: dummy-value
+          OPENAI_API_KEY: dummy-value
+          QAWS_ACCESS_KEY_ID: dummy-value
+          QAWS_SECRET_ACCESS_KEY: dummy-value
+          QAWS_REGION: dummy-value
+          STRIPE_API_KEY: dummy-value
+          DATABASE_URL: dummy-value
+          IMAGE_STORE_BUCKET: dummy-value
+          JWT_SECRET: dummy-value
         run: npm run cibuild
