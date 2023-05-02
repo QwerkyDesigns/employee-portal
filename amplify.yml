@@ -21,7 +21,6 @@ frontend:
         - echo "STRIPE_WEBHOOK_SECRET=$STRIPE_WEBHOOK_SECRET" >> .env
         - echo "DATABASE_URL=$DATABASE_URL" >> .env
         - echo "IMAGE_STORE_BUCKET=$IMAGE_STORE_BUCKET" >> .env
-        - echo "ARCHIVE_STORE_BUCKET=$ARCHIVE_STORE_BUCKET" >> .env
         - echo "QAWS_ACCESS_KEY_ID=$QAWS_ACCESS_KEY_ID" >> .env
         - echo "QAWS_SECRET_ACCESS_KEY=$QAWS_SECRET_ACCESS_KEY" >> .env
         - echo "QAWS_REGION=$QAWS_REGION" >> .env
